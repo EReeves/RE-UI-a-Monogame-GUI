@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MGUI.Core
 {
@@ -12,6 +13,12 @@ namespace MGUI.Core
         }
 
         private bool invalidatedBounds = true;
+
+        /// <summary>
+        /// Draw children if outside of bounds.
+        /// Disabling this introduces another draw call so best to use it only when needed.
+        /// </summary>
+        public bool DrawOverflow { get; set; } = true;
 
         public override void Invalidate()
         {
@@ -61,6 +68,17 @@ namespace MGUI.Core
                 invalidatedBounds = false;
                 return canvasBounds;
             }
+        }
+
+        public override void Draw(SpriteBatch batcher)
+        {
+            if (!DrawOverflow)
+            {
+                Canvas.RenderTools.StartCull(batcher, CanvasBounds);
+                base.Draw(batcher);
+                Canvas.RenderTools.EndCull(batcher);
+            }
+            else base.Draw(batcher);
         }
     }
 }

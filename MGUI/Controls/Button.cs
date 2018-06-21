@@ -7,10 +7,13 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MGUI.Controls
 {
+    /// <summary>
+    /// A basic button.
+    /// </summary>
     public class Button : Control
     {
         public bool Clicked { get; private set; } = false;
-        public Color ClickedTintColor { get; set; } = Color.Yellow;
+        public Color ClickedTintColor { get; set; } = Color.Goldenrod;
         public Color HoverTintColor { get; set; } = Color.DarkOliveGreen;
         private Color actualColor;
 

@@ -15,7 +15,11 @@ namespace MGUI.Core
         public Dictionary<string,(Rectangle, int[])> SourceRectangles { get; } //Also contains nine patch information if relevant.
         public Dictionary<string,SpriteFont> SpriteFonts { get; }
         public Rectangle Bounds { get; set; }
-        public string DefaultFont { get; }
+        
+        public RenderTools RenderTools { get; set; }
+
+        private string defaultFont;
+        public SpriteFont DefaultFont => SpriteFonts[defaultFont];
 
         /// <summary>
         /// The base point for all UI.
@@ -25,13 +29,15 @@ namespace MGUI.Core
         /// <param name="sourceRectangles">A Dictionary with names and source rectanges for UI textures.</param>
         /// <param name="spriteFonts">A dictionary with names for fonts and the SpriteFonts themselves</param>
         /// <param name="defaultFont">The name of the default SpriteFont to use for text</param>
-        public Canvas(Rectangle bounds, Texture2D spriteSheet, Dictionary<string, (Rectangle, int[])> sourceRectangles, Dictionary<string,SpriteFont> spriteFonts, string defaultFont)
+        public Canvas(GraphicsDevice graphics, Rectangle bounds, Texture2D spriteSheet, Dictionary<string, (Rectangle, int[])> sourceRectangles, Dictionary<string,SpriteFont> spriteFonts, string defaultFont)
         {
-            this.DefaultFont = defaultFont;
+            this.defaultFont = defaultFont;
             this.SpriteSheet = spriteSheet;
             this.SourceRectangles = sourceRectangles;
             this.Bounds = bounds;
             this.SpriteFonts = spriteFonts;
+            
+            RenderTools = new RenderTools(graphics, bounds);
         }
         
         /// <summary>
@@ -52,10 +58,14 @@ namespace MGUI.Core
         /// <param name="batcher"></param>
         public void Draw(SpriteBatch batcher)
         {
+            RenderTools.Start(batcher);
+            
             foreach (var child in Children)
             {
                 child.Draw(batcher);
             }
+            
+            batcher.End();
         }
 
         /// <summary>

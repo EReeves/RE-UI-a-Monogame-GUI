@@ -5,6 +5,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MGUI.Controls
 {
+    /// <summary>
+    /// Draggable window control.
+    /// </summary>
     public class Window : Control
     {
         public Window(Canvas canvas) : base(canvas)

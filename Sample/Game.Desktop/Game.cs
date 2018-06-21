@@ -47,11 +47,11 @@ namespace Game.Desktop
                     };
             var spriteFonts = new Dictionary<string, SpriteFont>
             {
-
+                ["arial"] = Content.Load<SpriteFont>("Arial 11")
             };
             
             //Off we go!
-            Canvas = new Canvas(screenBounds, texture, sourceRects, spriteFonts, "arial");
+            Canvas = new Canvas(GraphicsDevice, screenBounds, texture, sourceRects, spriteFonts, "arial");
 
             //Setup finished.
 
@@ -61,16 +61,33 @@ namespace Game.Desktop
             var control = new Window(Canvas)
             {
                 Bounds = new Rectangle(100, 100, 300, 200), //Relative to Canvas
-                Color = Color.DarkGray
+                Color = Color.DarkGray,
             };
 
             //Create a control to go inside it.
             var innerControl = new Button(Canvas)
             {
                 Bounds = new Rectangle(30, 30, 70, 30), //Relative to parent control
-                Color = Color.DarkBlue
+                Color = Color.DarkGreen,
+                DrawOverflow = false
             };
+            var buttonLabel = new Label(Canvas)
+            {
+                Bounds = new Rectangle(22, 6, 1, 1),
+                Color = Color.WhiteSmoke,
+                Text = "Go! aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaah"
+            };
+            innerControl.Add(buttonLabel);
+
+            var label = new Label(Canvas)
+            {
+                Bounds = new Rectangle(30, 80, 1, 1),
+                Color = Color.Black,
+                Text = "Hello World~!"
+            };
+            
             control.Add(innerControl);
+            control.Add(label);
 
 
             //Finally add the control to the canvas.
@@ -91,11 +108,8 @@ namespace Game.Desktop
         {
             GraphicsDevice.Clear(Color.DarkSlateGray);
 
-            spriteBatch.Begin();
-
             Canvas.Draw(spriteBatch);
 
-            spriteBatch.End();
             base.Draw(gameTime);
         }
 
