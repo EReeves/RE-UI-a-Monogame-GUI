@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.CodeDom;
+using System.Collections.Generic;
 using MGUI.Controls;
+using MGUI.Controls.Layout;
 using MGUI.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -63,6 +65,16 @@ namespace Game.Desktop
                 Bounds = new Rectangle(100, 100, 300, 200), //Relative to Canvas
                 Color = Color.DarkGray,
             };
+
+            var pad = new Padding(Canvas, 10);
+            
+            pad.Add(new BlankControl(Canvas)
+            {
+                Bounds =  new Rectangle(5,0,300,200),
+                Color = Color.Bisque
+            });
+            
+            control.Add(pad);
 
             //Create a control to go inside it.
             var innerControl = new Button(Canvas)
