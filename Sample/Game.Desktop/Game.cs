@@ -5,6 +5,7 @@ using MGUI.Controls.Layout;
 using MGUI.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using TexturePackerLoader;
 
 namespace Game.Desktop
 {
@@ -37,15 +38,20 @@ namespace Game.Desktop
 
         protected override void LoadContent()
         {
+            //Load textures, you can do this however you like. Textuer packer isn't free afterall.
+            TexturePackerLoader.SpriteSheetLoader loader = new SpriteSheetLoader(Content);
+            var spriteSheet = loader.Load("texture");
+            
             //GUI Setup, can be adapted to suit game's texture atlas system.
             var screenBounds = new Rectangle(0, 0, 800, 600);
-            var texture = Content.Load<Texture2D>("texture"); //Load texture atlas
+            var texture = spriteSheet.Texture; //Load texture atlas
             var sourceRects =  //Source rectangles and nine patch coordinates.
                 new
                     Dictionary<string, (Rectangle, int[])>  
                     {      //texture name              //source rect                 //nine patch, defaults to 10,10,10,10 if null.
-                        ["defaultBackground"] = (new Rectangle(0, 0, 40, 40), null),
-                        ["windowBackground"] = (new Rectangle(40, 0, 40, 40), new[] {10, 10, 10, 15})
+                        ["whiteTexture"] = (spriteSheet.Sprite("whitetexture").SourceRectangle, null),
+                        ["background"] = (spriteSheet.Sprite("background").SourceRectangle, null),
+                        ["windowBackground"] = (spriteSheet.Sprite("floatingbackground").SourceRectangle, new[] {20, 20, 20, 20})
                     };
             var spriteFonts = new Dictionary<string, SpriteFont>
             {
@@ -53,7 +59,7 @@ namespace Game.Desktop
             };
             
             //Off we go!
-            Canvas = new Canvas(GraphicsDevice, screenBounds, texture, sourceRects, spriteFonts, "arial");
+            Canvas = new Canvas(this, screenBounds, texture, sourceRects, spriteFonts, "arial");
 
             //Setup finished.
 
@@ -66,42 +72,40 @@ namespace Game.Desktop
                 Color = Color.DarkGray,
             };
 
-            var pad = new Padding(Canvas, 10);
-            
-            pad.Add(new BlankControl(Canvas)
+            var input = new InputText(Canvas)
             {
-                Bounds =  new Rectangle(5,0,300,200),
-                Color = Color.Bisque
-            });
-            
-            control.Add(pad);
+                Bounds = new Rectangle(110,30,160,30),
+                Color = Color.Black
+            };
+            control.Add(input);
 
             //Create a control to go inside it.
             var innerControl = new Button(Canvas)
             {
                 Bounds = new Rectangle(30, 30, 70, 30), //Relative to parent control
-                Color = Color.DarkGreen,
+                Color = Color.DarkSlateBlue,
                 DrawOverflow = false
             };
             var buttonLabel = new Label(Canvas)
             {
                 Bounds = new Rectangle(22, 6, 1, 1),
                 Color = Color.WhiteSmoke,
-                Text = "Go! aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaah"
+                Text = "Go!"
             };
             innerControl.Add(buttonLabel);
 
             var label = new Label(Canvas)
             {
                 Bounds = new Rectangle(30, 80, 1, 1),
-                Color = Color.Black,
+                Color = Color.WhiteSmoke,
                 Text = "Hello World~!"
             };
             
             control.Add(innerControl);
             control.Add(label);
 
-
+            innerControl.OnClick += (sender, args) => { label.Text = input.Text; };
+            input.OnReturn += (sender, s) => label.Text = s;
             //Finally add the control to the canvas.
             Canvas.Add(control);
 

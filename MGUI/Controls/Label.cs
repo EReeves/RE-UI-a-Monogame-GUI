@@ -8,14 +8,18 @@ namespace MGUI.Controls
     public class Label : Control
     {
         public string Text { get; set; } = string.Empty;
+        public SpriteFont SpriteFont { get; set; }
         
         public Label(Canvas canvas) : base(canvas)
         {
+            SpriteFont = canvas.DefaultFont;
         }
+
+
 
         public override void Draw(SpriteBatch batcher)
         {
-            batcher.DrawString(Canvas.DefaultFont, Text, CanvasBounds.Location.ToVector2(), Color);
+            batcher.DrawString(SpriteFont, Text, CanvasBounds.Location.ToVector2(), Color);
         }
     }
 }

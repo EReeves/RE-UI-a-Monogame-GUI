@@ -32,3 +32,6 @@
 /processorParam:TextureFormat=Color
 /build:texture.png
 
+#begin texture.txt
+/copy:texture.txt
+

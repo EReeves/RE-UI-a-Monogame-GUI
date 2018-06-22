@@ -19,6 +19,11 @@ namespace MGUI.Core
         /// Disabling this introduces another draw call so best to use it only when needed.
         /// </summary>
         public bool DrawOverflow { get; set; } = true;
+        
+        /// <summary>
+        /// Used to cache nine patch information.
+        /// </summary>
+        protected (Rectangle[] SourcePatches, Rectangle[] DestinationPatches) NinePatchCache { get; set; }
 
         public override void Invalidate()
         {

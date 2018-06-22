@@ -12,7 +12,7 @@ namespace MGUI.Core
     {
         public List<IControl> Children = new List<IControl>();
         public Texture2D SpriteSheet { get; }
-        public Dictionary<string,(Rectangle, int[])> SourceRectangles { get; } //Also contains nine patch information if relevant.
+        public Dictionary<string,(Rectangle sourceRect, int[] ninePatch)> SourceRectangles { get; } //Also contains nine patch information if relevant.
         public Dictionary<string,SpriteFont> SpriteFonts { get; }
         public Rectangle Bounds { get; set; }
         
@@ -29,7 +29,7 @@ namespace MGUI.Core
         /// <param name="sourceRectangles">A Dictionary with names and source rectanges for UI textures.</param>
         /// <param name="spriteFonts">A dictionary with names for fonts and the SpriteFonts themselves</param>
         /// <param name="defaultFont">The name of the default SpriteFont to use for text</param>
-        public Canvas(GraphicsDevice graphics, Rectangle bounds, Texture2D spriteSheet, Dictionary<string, (Rectangle, int[])> sourceRectangles, Dictionary<string,SpriteFont> spriteFonts, string defaultFont)
+        public Canvas(Game game, Rectangle bounds, Texture2D spriteSheet, Dictionary<string, (Rectangle, int[])> sourceRectangles, Dictionary<string,SpriteFont> spriteFonts, string defaultFont)
         {
             this.defaultFont = defaultFont;
             this.SpriteSheet = spriteSheet;
@@ -37,7 +37,9 @@ namespace MGUI.Core
             this.Bounds = bounds;
             this.SpriteFonts = spriteFonts;
             
-            RenderTools = new RenderTools(graphics, bounds);
+            RenderTools = new RenderTools(this, game.GraphicsDevice, bounds);
+            
+            Core.Utility.KeyboardInput.Initialize(game,50,10);
         }
         
         /// <summary>
@@ -46,6 +48,8 @@ namespace MGUI.Core
         /// <param name="time"></param>
         public void Update(GameTime time)
         {
+            Core.Utility.KeyboardInput.Update();
+                
             foreach (var child in Children)
             {
                 child.Update(time);

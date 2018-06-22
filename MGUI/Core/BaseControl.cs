@@ -84,7 +84,7 @@ namespace MGUI.Core
             //Offset if we have a parent or have an offset.
             var destRect = CanvasBounds;
                      
-            batcher.Draw(Canvas.SpriteSheet, destRect, Color);
+            batcher.Draw(Canvas.SpriteSheet, destRect, Canvas.SourceRectangles["whiteTexture"].sourceRect, Color);
             
             foreach (var control in Children)
             {

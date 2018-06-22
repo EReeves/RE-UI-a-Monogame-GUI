@@ -25,7 +25,7 @@ namespace MGUI.Controls
             }
         }
 
-        private int barHeight = 30;
+        private int barHeight = 20;
         public int BarHeight
         {
             get => barHeight;
@@ -44,7 +44,13 @@ namespace MGUI.Controls
                 child.Offset = new Point(0, BarHeight);
             }
             
+ 
+            
             base.Invalidate();
+            
+            //Cache nine patch
+            var texture = Canvas.SourceRectangles["windowBackground"];
+            NinePatchCache = Canvas.RenderTools.CalculateNinePatch(texture.sourceRect, CanvasBounds, texture.ninePatch);
         }
         
         public override void Layout()
@@ -111,11 +117,7 @@ namespace MGUI.Controls
         //Children draw from the bottom of the window bar.
         public override void Draw(SpriteBatch batcher)
         {
-            //Offset if we have a parent or have an offset.
-            var destRect = CanvasBounds;
-            
-            //Draw self
-            batcher.Draw(Canvas.SpriteSheet, destRect, Color);
+            Canvas.RenderTools.DrawNinePatch(batcher,Canvas.SpriteSheet,NinePatchCache.SourcePatches, NinePatchCache.DestinationPatches, Color);
             
             //Draw children minding the bar.
             foreach (var control in Children)
@@ -123,8 +125,6 @@ namespace MGUI.Controls
                 control.Draw(batcher);
             }
             
-            //Bar
-            batcher.Draw(Canvas.SpriteSheet,BarRectangle,Color.Black * 0.5f);
         }
     }
 }

@@ -17,5 +17,10 @@ namespace MGUI.Controls
         public BlankControl(Canvas canvas) : base(canvas)
         {
         }
+
+        public override void Draw(SpriteBatch batcher)
+        {
+            base.Draw(batcher);
+        }
     }
 }
