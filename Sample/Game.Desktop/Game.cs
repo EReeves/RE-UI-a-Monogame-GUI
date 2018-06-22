@@ -80,7 +80,7 @@ namespace Game.Desktop
             };
             
             var max = new Maximize(Canvas); //To Maximize layout inside window.    
-            var vertical = new VerticalLayout(Canvas);
+            var vertical = new HorizontalLayout(Canvas);
 
             var blank = new BlankControl(Canvas)
             {
