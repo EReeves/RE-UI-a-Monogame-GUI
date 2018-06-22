@@ -13,7 +13,7 @@ namespace MGUI.Controls
         public Window(Canvas canvas) : base(canvas)
         {
         }
-        
+
         //We need to invalidate the window's bar rectangle to save instantiating a new one every frame.
         
         private Rectangle bounds;
@@ -43,9 +43,8 @@ namespace MGUI.Controls
             {
                 child.Offset = new Point(0, BarHeight);
             }
-            
- 
-            
+
+
             base.Invalidate();
             
             //Cache nine patch
@@ -55,6 +54,7 @@ namespace MGUI.Controls
         
         public override void Layout()
         {
+
             Invalidate();
         }
 

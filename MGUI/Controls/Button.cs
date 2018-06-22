@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using MGUI.Controls.Layout;
 using MGUI.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,6 +17,19 @@ namespace MGUI.Controls
         public Color ClickedTintColor { get; set; } = Color.Goldenrod;
         public Color HoverTintColor { get; set; } = Color.DarkOliveGreen;
         private Color actualColor;
+        
+        public Label Label { get; set; }
+        private string text = string.Empty;
+        public string Text
+        {
+            get => text;
+            set
+            {
+                text = value;
+                if(Label!= null)
+                    Label.Text = value;            
+            }
+        }
 
         public event EventHandler OnClick;
         
@@ -29,9 +43,21 @@ namespace MGUI.Controls
             base.Update(gameTime);
         }
 
+        public override void Invalidate()
+        {
+            if (Label != null)
+                Label.Text = text;
+            base.Invalidate();
+        }
+
         public override void Layout()
         {
             actualColor = Color;
+            
+            Label = new Label(Canvas) { Text = string.Empty }; //Label to go in the button. 
+            var center = new Center(Canvas); //Center it
+            center.Add(Label);
+            Add(center);
         }
 
         public void ClickUpdate()

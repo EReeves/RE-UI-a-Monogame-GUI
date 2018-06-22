@@ -1,5 +1,6 @@
 ﻿using MGUI.Core;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MGUI.Controls.Layout
 {
@@ -25,6 +26,14 @@ namespace MGUI.Controls.Layout
             }
 
             base.Invalidate();
+        }
+
+        public override void Draw(SpriteBatch batcher)
+        {
+            foreach (var control in Children)
+            {
+                control.Draw(batcher);
+            }
         }
     }
 }

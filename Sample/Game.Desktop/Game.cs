@@ -68,9 +68,46 @@ namespace Game.Desktop
             //Just a basic control that draws a background with no extra functionality until I put some in.
             var control = new Window(Canvas)
             {
-                Bounds = new Rectangle(100, 100, 300, 200), //Relative to Canvas
+                Bounds = new Rectangle(100, 100, 300, 210), //Relative to Canvas
                 Color = Color.DarkGray,
             };
+            
+            var win = new Window(Canvas)
+            {
+                BarHeight = 15,
+                Bounds = new Rectangle(200, 100, 200, 250),
+                Color = Color.White
+            };
+            
+            var max = new Maximize(Canvas); //To Maximize layout inside window.    
+            var vertical = new VerticalLayout(Canvas);
+
+            var blank = new BlankControl(Canvas)
+            {
+                Weight = 2,
+                Color = Color.Aqua
+            };
+            vertical.Add(blank);
+            
+            var inputText = new InputText(Canvas)
+            {
+                Weight = 1,
+                Color = Color.Red
+            };
+            vertical.Add(inputText);
+            
+            var btn = new Button(Canvas)
+            {
+                Weight = 1,
+                Color = Color.Brown,
+                Text = "Go!"
+            };
+            vertical.Add(btn);
+            
+            max.Add(vertical); //Resize to the window.
+            win.Add(max); //Add to window.
+            Canvas.Add(win); //Add to canvas.
+            
 
             var input = new InputText(Canvas)
             {

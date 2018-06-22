@@ -7,7 +7,17 @@ namespace MGUI.Controls
 {
     public class Label : Control
     {
-        public string Text { get; set; } = string.Empty;
+        private string text = string.Empty;
+        public string Text
+        {
+            get => text;
+            set
+            {
+                text = value; 
+                Invalidate();
+            }
+        }
+
         public SpriteFont SpriteFont { get; set; }
         
         public Label(Canvas canvas) : base(canvas)
@@ -15,7 +25,15 @@ namespace MGUI.Controls
             SpriteFont = canvas.DefaultFont;
         }
 
-
+        public override void Invalidate()
+        {
+            var size = SpriteFont.MeasureString(Text);
+            var newB = Bounds;
+            newB.Width = (int) size.X;
+            newB.Height = (int) size.Y;
+            Bounds = newB;
+            base.Invalidate();
+        }
 
         public override void Draw(SpriteBatch batcher)
         {
