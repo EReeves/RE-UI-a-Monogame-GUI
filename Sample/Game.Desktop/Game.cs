@@ -38,7 +38,6 @@ namespace Game.Desktop
 
         protected override void LoadContent()
         {
-            
             //Load textures, you can do this however you like. Textuer packer isn't free afterall.
             TexturePackerLoader.SpriteSheetLoader loader = new SpriteSheetLoader(Content);
             var spriteSheet = loader.Load("texture");
@@ -67,7 +66,7 @@ namespace Game.Desktop
             {
                 TitleBarHeight = 15,
                 Bounds = new Rectangle(200, 100, 200, 250),
-                Color = Color.White
+                Color = Color.White,
             };
             //Give it some padding
             var paddedLayout = new PaddedLayout(window)

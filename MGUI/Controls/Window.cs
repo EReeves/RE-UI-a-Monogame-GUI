@@ -35,6 +35,8 @@ namespace MGUI.Controls
         }
         private Rectangle BarRectangle { get; set; }
 
+        public bool Draggable { get; set; } = true;
+
         public override void Invalidate()
         {
             BarRectangle = new Rectangle(CanvasBounds.X,CanvasBounds.Y,Bounds.Width,TitleBarHeight);
@@ -69,6 +71,8 @@ namespace MGUI.Controls
         //Handles mouse input/window drag.
         private void DragInput()
         {
+            if (!Draggable) return;
+            
             var mouseState = Mouse.GetState();
             var lDown = mouseState.LeftButton == ButtonState.Pressed;
             if (!lDown)
