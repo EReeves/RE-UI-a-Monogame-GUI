@@ -33,7 +33,7 @@ var screenBounds = new Rectangle(0, 0, 800, 600); //The size of your GUI, usuall
 ```
 Now the most complicated part, you need to load your source rectangles into a dictionary of type `Dictionary <string,
      (Rectangle, int[])>`
- - The `string` is the name of the texture, you can see all the defaults in the Sample, yours should match them.
+ - The `string` is the name of the texture, you can see all the defaults in the [Sample Project](/Sample/Game.Desktop/Game.cs) yours should match them.
  - The `Rectange` is the source rectangle for that texture so we know where to draw.
  - The `int[]`is an array of four integers defining the nine patch coordinates for this sprite. 
  If you don't know what a nine patch(or nine slice) sprite is, give it a Google. 
