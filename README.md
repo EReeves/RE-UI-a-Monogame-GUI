@@ -19,6 +19,8 @@ RE: Ui is designed to interface with any single texture, texture atlas system, s
 
 You'll need to provide at least one default SpriteFont, a single Texture2D, source rectangles for that texture, as well as nice patch coordinates for those textures, this will all be explained further if your aren't following along.
 
+##### If you are experienced in Monogame it might be faster for you to just check out the [Sample Project](/Sample/Game.Desktop/Game.cs)
+
 ##### The following code would all go in your Load method.
 
 First load in your textuers and source rectanges, you can do this however you like, I use TexturePacker and a library inluded in the Sample project.
