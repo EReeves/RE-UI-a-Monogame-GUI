@@ -110,4 +110,6 @@ var button = new Button(verticalLayout)
 Canvas.Invalidate(); 
 ```
 
-TODO
+TODO: skin these controls
+
+![Image of the above layout result](/layout.png)
