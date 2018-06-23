@@ -7,12 +7,13 @@
 RE: Ui is a GUI library for Monogame.
 
 ##### Design Goals
-- Simple
+- Simple.
 - Provide a UI framework rather than a messy full-featured library. 
+- Keep it "Monogame-like".
 - Easy to interface with any standard texture atlas implementation.
-- Reduce side effects where possible
-- Follow the single purpose principle where possible
-- Don't prioritize code reuse if it will lead to negative affects on the previous design principles. Better to duplicate a little code than create complex co-dependencies.
+- Reduce side effects where possible.
+- Follow the single purpose principle where possible.
+- The less interdependence between components the better.
 
 ## Set Up
 RE: Ui is designed to interface with any single texture, texture atlas system, so keep your UI textures in a single texture.

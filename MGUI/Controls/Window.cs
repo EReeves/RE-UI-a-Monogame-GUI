@@ -24,12 +24,12 @@ namespace MGUI.Controls
             }
         }
 
-        private int barHeight = 20;
-        public int BarHeight
+        private int titleBarHeight = 20;
+        public int TitleBarHeight
         {
-            get => barHeight;
+            get => titleBarHeight;
             set { 
-                barHeight = value;
+                titleBarHeight = value;
                 Invalidate();
             }
         }
@@ -37,10 +37,10 @@ namespace MGUI.Controls
 
         public override void Invalidate()
         {
-            BarRectangle = new Rectangle(CanvasBounds.X,CanvasBounds.Y,Bounds.Width,BarHeight);
+            BarRectangle = new Rectangle(CanvasBounds.X,CanvasBounds.Y,Bounds.Width,TitleBarHeight);
             foreach (var child in Children)
             {
-                child.Offset = new Point(0, BarHeight);
+                child.Offset = new Point(0, TitleBarHeight);
             }
 
             base.Invalidate();
