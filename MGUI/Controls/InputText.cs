@@ -59,11 +59,6 @@ namespace MGUI.Controls
             label.Text = text;
         }
 
-        public InputText(Canvas canvas) : base(canvas)
-        {
-            Core.Utility.KeyboardInput.CharPressed += KeyboardInputOnCharPressed;
-            Core.Utility.KeyboardInput.KeyPressed += KeyboardInputOnKeyPressed;
-        }
 
         private void KeyboardInputOnKeyPressed(object sender, KeyboardInput.KeyEventArgs e, KeyboardState ks)
         {
@@ -144,6 +139,22 @@ namespace MGUI.Controls
             if(focused)
                 Canvas.RenderTools.RenderOutline(batcher, CanvasBounds, Color.Goldenrod,2);
             label.Draw(batcher);
+        }
+
+        private void Listen()
+        {
+            Core.Utility.KeyboardInput.CharPressed += KeyboardInputOnCharPressed;
+            Core.Utility.KeyboardInput.KeyPressed += KeyboardInputOnKeyPressed;
+        }
+
+        public InputText(Canvas canvas) : base(canvas)
+        {
+            Listen();
+        }
+
+        public InputText(IControl parent) : base(parent)
+        {
+            Listen();
         }
     }
 }

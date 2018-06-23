@@ -11,6 +11,7 @@ namespace MGUI.Core
         Rectangle Bounds { get; set; }
         Rectangle CanvasBounds { get; }
         Point Offset { get; set; }
+        Canvas Canvas { get; set; }
         
         //Weight
         int Weight { get; set; }

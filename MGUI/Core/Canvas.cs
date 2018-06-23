@@ -73,13 +73,12 @@ namespace MGUI.Core
         }
 
         /// <summary>
-        /// Will relayout all children contained in an ILayout.
+        /// Will invalidate all children.
         /// </summary>
         public void Invalidate()
         {
             foreach (var child in Children)
-                if(child is ILayout layout)
-                    layout.LayoutChildren();
+                child.Invalidate();
         }
 
         /// <summary>

@@ -16,10 +16,24 @@ namespace MGUI.Controls
         public bool Clicked { get; private set; } = false;
         public Color ClickedTintColor { get; set; } = Color.Goldenrod;
         public Color HoverTintColor { get; set; } = Color.DarkOliveGreen;
-        private Color actualColor;
         
+        private Color actualColor;
+        private Color color;
+        
+        public override Color Color
+        {
+            get => color;
+            set
+            {
+                actualColor = value;
+                color = value;
+            }
+        }
+
         public Label Label { get; set; }
         private string text = string.Empty;
+
+
         public string Text
         {
             get => text;
@@ -33,9 +47,7 @@ namespace MGUI.Controls
 
         public event EventHandler OnClick;
         
-        public Button(Canvas canvas) : base(canvas)
-        {
-        }
+
 
         public override void Update(GameTime gameTime)
         {
@@ -52,10 +64,8 @@ namespace MGUI.Controls
 
         public override void Layout()
         {
-            actualColor = Color;
-            
             Label = new Label(Canvas) { Text = string.Empty }; //Label to go in the button. 
-            var center = new Center(Canvas); //Center it
+            var center = new CenteredLayout(Canvas); //Center it
             center.Add(Label);
             Add(center);
         }
@@ -69,7 +79,7 @@ namespace MGUI.Controls
             if (!mousePosRect.Intersects(CanvasBounds))
             {
                 Clicked = false;
-                Color = actualColor;
+                color = actualColor;
                 return;
             }
 
@@ -84,9 +94,17 @@ namespace MGUI.Controls
             if (!clicked)
             {
                 Clicked = false;
-                Color = actualColor;
+                color = actualColor;
             }
-            Color = clicked ? ClickedTintColor : HoverTintColor;
+            color = clicked ? ClickedTintColor : HoverTintColor;
+        }
+
+        public Button(Canvas canvas) : base(canvas)
+        {
+        }
+
+        public Button(IControl parent) : base(parent)
+        {
         }
     }
 }

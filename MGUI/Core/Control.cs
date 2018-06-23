@@ -12,6 +12,11 @@ namespace MGUI.Core
         {
         }
 
+        public Control(IControl parent) : base(parent)
+        {
+            
+        }
+
         private bool invalidatedBounds = true;
 
         /// <summary>

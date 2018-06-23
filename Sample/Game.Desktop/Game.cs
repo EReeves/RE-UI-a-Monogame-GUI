@@ -61,91 +61,44 @@ namespace Game.Desktop
             //Off we go!
             Canvas = new Canvas(this, screenBounds, texture, sourceRects, spriteFonts, "arial");
 
-            //Setup finished.
-
-            //Set up a few controls.
-
-            //Just a basic control that draws a background with no extra functionality until I put some in.
-            var control = new Window(Canvas)
-            {
-                Bounds = new Rectangle(100, 100, 300, 210), //Relative to Canvas
-                Color = Color.DarkGray,
-            };
-            
-            var win = new Window(Canvas)
+            //Window.
+            var window = new Window(Canvas)
             {
                 BarHeight = 15,
                 Bounds = new Rectangle(200, 100, 200, 250),
                 Color = Color.White
             };
+            //Give it some padding
+            var paddedLayout = new PaddedLayout(window)
+            {
+                Padding = 10
+            };
+            //Give it a layout.
+            var verticalLayout = new VerticalLayout(paddedLayout);
             
-            var max = new Maximize(Canvas); //To Maximize layout inside window.    
-            var vertical = new HorizontalLayout(Canvas);
-
-            var blank = new BlankControl(Canvas)
+            //Add controls to our layout.
+            
+            var blank = new BlankControl(verticalLayout)
             {
                 Weight = 2,
                 Color = Color.Aqua
             };
-            vertical.Add(blank);
-            
-            var inputText = new InputText(Canvas)
+            var inputText = new InputText(verticalLayout)
             {
                 Weight = 1,
                 Color = Color.Red
-            };
-            vertical.Add(inputText);
-            
-            var btn = new Button(Canvas)
+            };          
+            var button = new Button(verticalLayout)
             {
                 Weight = 1,
                 Color = Color.Brown,
                 Text = "Go!"
             };
-            vertical.Add(btn);
+           
+            //Invalidae the whole UI and we're done.
+            Canvas.Invalidate();
+
             
-            max.Add(vertical); //Resize to the window.
-            win.Add(max); //Add to window.
-            Canvas.Add(win); //Add to canvas.
-            
-
-            var input = new InputText(Canvas)
-            {
-                Bounds = new Rectangle(110,30,160,30),
-                Color = Color.Black
-            };
-            control.Add(input);
-
-            //Create a control to go inside it.
-            var innerControl = new Button(Canvas)
-            {
-                Bounds = new Rectangle(30, 30, 70, 30), //Relative to parent control
-                Color = Color.DarkSlateBlue,
-                DrawOverflow = false
-            };
-            var buttonLabel = new Label(Canvas)
-            {
-                Bounds = new Rectangle(22, 6, 1, 1),
-                Color = Color.WhiteSmoke,
-                Text = "Go!"
-            };
-            innerControl.Add(buttonLabel);
-
-            var label = new Label(Canvas)
-            {
-                Bounds = new Rectangle(30, 80, 1, 1),
-                Color = Color.WhiteSmoke,
-                Text = "Hello World~!"
-            };
-            
-            control.Add(innerControl);
-            control.Add(label);
-
-            innerControl.OnClick += (sender, args) => { label.Text = input.Text; };
-            input.OnReturn += (sender, s) => label.Text = s;
-            //Finally add the control to the canvas.
-            Canvas.Add(control);
-
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             base.LoadContent();

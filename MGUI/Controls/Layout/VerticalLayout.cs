@@ -7,11 +7,9 @@ namespace MGUI.Controls.Layout
     public class VerticalLayout : Control
     {
         public int InnerPadding { get; set; } = 10;
-        public int OuterPadding { get; set; } = 10;
+        public int OuterPadding { get; set; } = 0;
         
-        public VerticalLayout(Canvas canvas) : base(canvas)
-        {
-        }
+
 
         public override void Invalidate()
         {
@@ -35,7 +33,7 @@ namespace MGUI.Controls.Layout
                     newHeight);
                 // child.Offset = new Point(CanvasBounds.X, CanvasBounds.Y);
                 if (i+1 < Children.Count)
-                    y += OuterPadding;
+                    y += InnerPadding;
                 y += newHeight;
             }
 
@@ -49,6 +47,14 @@ namespace MGUI.Controls.Layout
             {
                 control.Draw(batcher);
             }
+        }
+
+        public VerticalLayout(Canvas canvas) : base(canvas)
+        {
+        }
+
+        public VerticalLayout(IControl parent) : base(parent)
+        {
         }
     }
 }

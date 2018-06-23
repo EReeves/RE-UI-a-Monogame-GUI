@@ -5,14 +5,13 @@ using Microsoft.Xna.Framework.Input;
 
 namespace MGUI.Controls
 {
+    /// <inheritdoc />
     /// <summary>
     /// Draggable window control.
     /// </summary>
     public class Window : Control
     {
-        public Window(Canvas canvas) : base(canvas)
-        {
-        }
+
 
         //We need to invalidate the window's bar rectangle to save instantiating a new one every frame.
         
@@ -43,7 +42,6 @@ namespace MGUI.Controls
             {
                 child.Offset = new Point(0, BarHeight);
             }
-
 
             base.Invalidate();
             
@@ -125,6 +123,14 @@ namespace MGUI.Controls
                 control.Draw(batcher);
             }
             
+        }
+
+        public Window(Canvas canvas) : base(canvas)
+        {
+        }
+
+        public Window(IControl parent) : base(parent)
+        {
         }
     }
 }

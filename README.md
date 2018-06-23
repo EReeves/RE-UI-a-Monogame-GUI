@@ -69,34 +69,45 @@ Of course feel free to use the textures and implementation included in the sampl
 ## Layout
 
 ```csharp
-var max = new Maximize(Canvas); //To Maximize layout inside window.    
-var vertical = new VerticalLayout(Canvas);
+//Off we go!
+Canvas = new Canvas(this, screenBounds, texture, sourceRects, spriteFonts, "arial");
 
-var blank = new BlankControl(Canvas)
+//Window.
+var window = new Window(Canvas)
+{
+    BarHeight = 15,
+    Bounds = new Rectangle(200, 100, 200, 250),
+    Color = Color.White
+};
+//Give it some padding
+var paddedLayout = new PaddedLayout(window)
+{
+    Padding = 10
+};
+//Give it a layout.
+var verticalLayout = new VerticalLayout(paddedLayout);
+            
+//Add controls to our layout.
+            
+var blank = new BlankControl(verticalLayout)
 {
     Weight = 2,
     Color = Color.Aqua
 };
-vertical.Add(blank);
-
-var inputText = new InputText(Canvas)
+var inputText = new InputText(verticalLayout)
 {
     Weight = 1,
     Color = Color.Red
-};
-vertical.Add(inputText);
-
-var btn = new Button(Canvas)
+};          
+var button = new Button(verticalLayout)
 {
     Weight = 1,
     Color = Color.Brown,
     Text = "Go!"
 };
-vertical.Add(btn);
-
-max.Add(vertical); //Resize to the window.
-win.Add(max); //Add to window.
-Canvas.Add(win); //Add to canvas.
+           
+//Invalidate the UI and we're done.
+Canvas.Invalidate(); 
 ```
 
 TODO

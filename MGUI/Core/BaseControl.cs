@@ -9,15 +9,16 @@ namespace MGUI.Core
     {
         public List<IControl> Children { get; set; } = new List<IControl>();
         public IControl Parent { get; set; }
-        protected readonly Canvas Canvas;
         
         /// <summary>
         /// Optional offset applied to the control, often by the parent.
         /// Shouldn't be touched unless you know what you're doing.
         /// </summary>
         public virtual Point Offset { get; set; }
-        
-        
+
+        public Canvas Canvas { get; set; }
+
+
         /// <summary>
         /// Size and location of the control, relative to parent, or canvas in the case parent == null.
         /// </summary>
@@ -47,7 +48,7 @@ namespace MGUI.Core
         /// <summary>
         /// Tint colour
         /// </summary>
-        public Color Color { get; set; } = Color.White;
+        public virtual Color Color { get; set; } = Color.White;
         
         /// <summary>
         /// Used in some layouts to determine the size or location of the control.
@@ -58,6 +59,19 @@ namespace MGUI.Core
         public BaseControl(Canvas canvas)
         {
             this.Canvas = canvas;
+            canvas.Add(this);
+        }
+        
+        /// <summary>
+        ///  Simultaneously create UI and add to parent.
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <exception cref="Exception"></exception>
+        public BaseControl(IControl parent)
+        {
+            if(parent.Canvas == null) throw new Exception("Canvas must be set on the parent control before adding to a parent");
+            Canvas = parent.Canvas;
+            parent.Add(this);
         }
 
         /// <summary>
@@ -68,6 +82,22 @@ namespace MGUI.Core
 
         //BaseControl has nothing to invalidate.
         public abstract void Invalidate();
+
+        //Resize to parent, or canvas if there is no parent.
+        protected void SizeToParent()
+        {
+            if (Parent != null)
+            {
+                var newBounds = Parent.Bounds;
+                newBounds.X = 0;
+                newBounds.Y = 0;
+                newBounds.Width -= Offset.X;
+                newBounds.Height -= Offset.Y;
+                Bounds = newBounds;
+            }
+            else
+                Bounds = Canvas.Bounds;
+        }
 
         //Called automatically by parent or canvas.
         public virtual void Update(GameTime gameTime)
