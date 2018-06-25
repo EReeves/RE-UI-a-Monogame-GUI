@@ -4,12 +4,12 @@
  * Contains references to each image within the sprite sheet.
  *
  * https://www.codeandweb.com/texturepacker
- * $TexturePacker:SmartUpdate:455f24235f61d17c2e91b4b74457a994:2e7320be42c1e4d1c8c67501c3e1b1c0:abd75b053584001b4f6fc8464b42708a$
+ * $TexturePacker:SmartUpdate:3d424ab8f781ac7f078085c27e7770ac:4516c436c946eafbc9564d31a4bbd847:abd75b053584001b4f6fc8464b42708a$
  *
  */
 namespace TexturePackerMonoGameDefinitions
 {
-	public class unsaved
+	public class texture
 	{
 		public const string Background = "background";
 		public const string Floatingbackground = "floatingbackground";

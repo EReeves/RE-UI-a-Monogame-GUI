@@ -85,9 +85,17 @@ namespace MGUI.Controls
 
         public override void Invalidate()
         {
+            if (label == null)
+            {
+                label = new Label(Canvas)
+                {
+                    Text = Text,
+                    Bounds = new Rectangle(5,0,1,1)
+                };
+            }
+            
             label.Color = textColor;
             label.Offset = new Point(CanvasBounds.X + TextPadding, CanvasBounds.Y);
-            
             
             //Centre text in bounds, or try to.
             var stringSize = label.SpriteFont.MeasureString("Hello");
@@ -101,15 +109,6 @@ namespace MGUI.Controls
             base.Invalidate();
         }
 
-        public override void Layout()
-        {
-            label = new Label(Canvas)
-            {
-                Text = Text,
-                Bounds = new Rectangle(5,0,1,1)
-            };
-            base.Layout();
-        }
 
         private void MouseInput()
         {

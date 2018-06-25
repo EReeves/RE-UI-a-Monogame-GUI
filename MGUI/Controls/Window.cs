@@ -9,7 +9,7 @@ namespace MGUI.Controls
     /// <summary>
     /// Draggable window control.
     /// </summary>
-    public class Window : Control
+    public class Window : PaddedControl
     {
 
 
@@ -50,12 +50,6 @@ namespace MGUI.Controls
             //Cache nine patch
             var texture = Canvas.SourceRectangles["windowBackground"];
             NinePatchCache = Canvas.RenderTools.CalculateNinePatch(texture.sourceRect, CanvasBounds, texture.ninePatch);
-        }
-        
-        public override void Layout()
-        {
-
-            Invalidate();
         }
 
         public override void Update(GameTime gameTime)

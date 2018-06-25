@@ -77,8 +77,11 @@ namespace MGUI.Core
         /// </summary>
         public void Invalidate()
         {
-            foreach (var child in Children)
+            for (var i = 0; i < Children.Count; i++)
+            {
+                var child = Children[i];
                 child.Invalidate();
+            }
         }
 
         /// <summary>
@@ -89,8 +92,7 @@ namespace MGUI.Core
         {
             control.Parent = null;
             Children.Add(control);
-            
-            control.Layout();
+
         }
 
         /// <summary>

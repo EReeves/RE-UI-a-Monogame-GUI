@@ -57,17 +57,16 @@ namespace MGUI.Controls
 
         public override void Invalidate()
         {
-            if (Label != null)
-                Label.Text = text;
+            if (Label == null)
+            {
+                Label = new Label(Canvas) { Text = string.Empty }; //Label to go in the button. 
+                var center = new CenteredLayout(Canvas); //Center it
+                center.Add(Label);
+                Add(center);
+            }
+     
+            Label.Text = text;
             base.Invalidate();
-        }
-
-        public override void Layout()
-        {
-            Label = new Label(Canvas) { Text = string.Empty }; //Label to go in the button. 
-            var center = new CenteredLayout(Canvas); //Center it
-            center.Add(Label);
-            Add(center);
         }
 
         public void ClickUpdate()

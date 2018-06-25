@@ -9,11 +9,6 @@ namespace MGUI.Controls
     /// </summary>
     public class BlankControl : Control
     {
-        public override void Layout()
-        {
-            
-        }
-
 
         public override void Draw(SpriteBatch batcher)
         {

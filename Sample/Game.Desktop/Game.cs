@@ -64,17 +64,18 @@ namespace Game.Desktop
             //Window.
             var window = new Window(Canvas)
             {
-                TitleBarHeight = 15,
+                TitleBarHeight = 20,
                 Bounds = new Rectangle(200, 100, 200, 250),
                 Color = Color.White,
+                PaddingExplicit = new int[] {10,6,10,13}
             };
             //Give it some padding
             var paddedLayout = new PaddedLayout(window)
             {
-                Padding = 10
+                PaddingExplicit = new int[] {10,6,10,13}
             };
             //Give it a layout.
-            var verticalLayout = new VerticalLayout(paddedLayout);
+            var verticalLayout = new VerticalLayout(window);
             
             //Add controls to our layout.
             

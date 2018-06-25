@@ -39,11 +39,6 @@ namespace MGUI.Core
             }
         }
 
-        public override void Layout()
-        {
-            
-        }
-
         private Point offset = Point.Zero;
         public override Point Offset
         {

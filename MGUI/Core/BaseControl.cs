@@ -74,12 +74,6 @@ namespace MGUI.Core
             parent.Add(this);
         }
 
-        /// <summary>
-        /// Called after control is added to a parent.
-        /// Set up and sub controls can go in here.
-        /// </summary>
-        public abstract void Layout();
-
         //BaseControl has nothing to invalidate.
         public abstract void Invalidate();
 
@@ -123,17 +117,14 @@ namespace MGUI.Core
         }
 
         //Add a child control   
-        public void Add(IControl control)
+        public virtual void Add(IControl control)
         {
             control.Parent = this;
             Children.Add(control);
-            
-            //Layout will 
-            control.Layout();
         }
         
         //Remove a child control
-        public void Remove(IControl control)
+        public virtual void Remove(IControl control)
         {
             control.Parent = null;
             Children.Remove(control);

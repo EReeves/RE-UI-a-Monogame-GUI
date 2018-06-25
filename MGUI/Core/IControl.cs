@@ -15,10 +15,7 @@ namespace MGUI.Core
         
         //Weight
         int Weight { get; set; }
-        
-        //Layout
-        void Layout();
-        
+      
         //Invalidate
         void Invalidate();
        

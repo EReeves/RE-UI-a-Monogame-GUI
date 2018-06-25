@@ -13,6 +13,7 @@ namespace MGUI.Controls.Layout
 
         public override void Invalidate()
         {
+
             var weightSum = 0;
             foreach (var child in Children)
             {
