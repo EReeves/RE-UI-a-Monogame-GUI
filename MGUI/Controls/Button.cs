@@ -66,6 +66,10 @@ namespace MGUI.Controls
             }
      
             Label.Text = text;
+
+            NinePatchCache = Canvas.RenderTools.CalculateNinePatch(Canvas.SourceRectangles["buttonup"].sourceRect, CanvasBounds,
+                Canvas.SourceRectangles["buttonup"].ninePatch);
+            
             base.Invalidate();
         }
 
@@ -96,6 +100,13 @@ namespace MGUI.Controls
                 color = actualColor;
             }
             color = clicked ? ClickedTintColor : HoverTintColor;
+        }
+
+        public override void Draw(SpriteBatch batcher)
+        {
+            Canvas.RenderTools.DrawNinePatch(batcher, Canvas.SpriteSheet, NinePatchCache.SourcePatches, NinePatchCache.DestinationPatches, Color);
+
+            base.Draw(batcher);
         }
 
         public Button(Canvas canvas) : base(canvas)

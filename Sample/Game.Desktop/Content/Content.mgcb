@@ -35,3 +35,6 @@
 #begin texture.txt
 /copy:texture.txt
 
+#begin simkai.ttf
+/copy:simkai.ttf
+

@@ -4,10 +4,12 @@
 # To learn how to import these sprites into your MonoGame project visit:
 # https://www.codeandweb.com/texturepacker/monogame
 #
-# Sprite sheet: texture.png (200 x 124)
-# $TexturePacker:SmartUpdate:3d424ab8f781ac7f078085c27e7770ac:4516c436c946eafbc9564d31a4bbd847:abd75b053584001b4f6fc8464b42708a$
+# Sprite sheet: texture.png (500 x 504)
+# $TexturePacker:SmartUpdate:71905c81cfe9f4282071bb6d82af0834:3f246df81148e7ced812a746ea00e6df:abd75b053584001b4f6fc8464b42708a$
 #
 
-background;0;131;1;68;62;70;63;0.5;0.49193548387096775
-floatingbackground;0;1;1;128;122;128;128;0.5;0.5
-whitetexture;0;131;65;2;2;2;2;0.5;0.5
+background;0;213;381;68;62;70;63;0.5;0.49193548387096775
+buttonup;0;131;381;80;74;80;74;0.5;0.5
+Corgi;0;1;1;495;378;495;378;0.5;0.5
+floatingbackground;0;1;381;128;122;128;128;0.5;0.5
+whitetexture;0;283;381;2;2;2;2;0.5;0.5

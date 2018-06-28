@@ -134,6 +134,8 @@ namespace MGUI.Controls
 
         public override void Draw(SpriteBatch batcher)
         {
+            batcher.Draw(Canvas.SpriteSheet, CanvasBounds, Canvas.SourceRectangles["whiteTexture"].sourceRect, Color);
+
             base.Draw(batcher);
             if(focused)
                 Canvas.RenderTools.RenderOutline(batcher, CanvasBounds, Color.Goldenrod,2);

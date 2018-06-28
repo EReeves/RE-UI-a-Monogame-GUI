@@ -1,5 +1,4 @@
-﻿using System.CodeDom;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using MGUI.Controls;
 using MGUI.Controls.Layout;
 using MGUI.Core;
@@ -14,9 +13,10 @@ namespace Game.Desktop
         private readonly GraphicsDeviceManager graphics;
 
         //MGUI
-        private Canvas Canvas;
+        private Canvas canvas;
         private SpriteBatch spriteBatch;
-        private RasterizerState uIRasterizerState;
+        private Texture2D texture;
+        private Dictionary<string, SpriteFont> spriteFonts;
 
         public Game()
         {
@@ -39,89 +39,97 @@ namespace Game.Desktop
         protected override void LoadContent()
         {
             //Load textures, you can do this however you like. Textuer packer isn't free afterall.
-            TexturePackerLoader.SpriteSheetLoader loader = new SpriteSheetLoader(Content);
+            var loader = new SpriteSheetLoader(Content);
             var spriteSheet = loader.Load("texture");
-            
+
             //GUI Setup, can be adapted to suit game's texture atlas system.
             var screenBounds = new Rectangle(0, 0, 800, 600);
-            var texture = spriteSheet.Texture; //Load texture atlas
-            var sourceRects =  //Source rectangles and nine patch coordinates.
+            texture = spriteSheet.Texture; //Load texture atlas
+            var sourceRects = //Source rectangles and nine patch coordinates.
                 new
-                    Dictionary<string, (Rectangle, int[])>  
-                    {      //texture name              //source rect                 //nine patch, defaults to 10,10,10,10 if null.
+                    Dictionary<string, (Rectangle, int[])>
+                    {
+                        //texture name              //source rect                 //nine patch, defaults to 10,10,10,10 if null.
                         ["whiteTexture"] = (spriteSheet.Sprite("whitetexture").SourceRectangle, null),
                         ["background"] = (spriteSheet.Sprite("background").SourceRectangle, null),
-                        ["windowBackground"] = (spriteSheet.Sprite("floatingbackground").SourceRectangle, new[] {20, 20, 20, 20})
+                        ["windowBackground"] = (spriteSheet.Sprite("floatingbackground").SourceRectangle,
+                            new[] {20, 20, 20, 20}),
+                        ["corgi"] = (spriteSheet.Sprite("Corgi").SourceRectangle, null),
+                        ["buttonup"] = (spriteSheet.Sprite("buttonup").SourceRectangle, new[] {20, 20, 20, 30}),
                     };
-            var spriteFonts = new Dictionary<string, SpriteFont>
+            spriteFonts = new Dictionary<string, SpriteFont>
             {
                 ["arial"] = Content.Load<SpriteFont>("Arial 11")
             };
-            
+
             //Off we go!
-            Canvas = new Canvas(this, screenBounds, texture, sourceRects, spriteFonts, "arial");
+            canvas = new Canvas(this, screenBounds, texture, sourceRects, spriteFonts, "arial");
 
             //Window.
-            var window = new Window(Canvas)
+            var window = new Window(canvas)
             {
                 TitleBarHeight = 20,
-                Bounds = new Rectangle(200, 100, 200, 250),
+                Bounds = new Rectangle(200, 100, 250, 350),
                 Color = Color.White,
-                PaddingExplicit = new int[] {10,6,10,13}
+                PaddingExplicit = new[] {10, 6, 10, 13}
             };
             //Give it some padding
             var paddedLayout = new PaddedLayout(window)
             {
-                PaddingExplicit = new int[] {10,6,10,13}
+                PaddingExplicit = new[] {15, 11, 15, 18}
             };
             //Give it a layout.
             var verticalLayout = new VerticalLayout(window);
-            
+
             //Add controls to our layout.
-            
-            var blank = new BlankControl(verticalLayout)
+
+            var blank = new Image(verticalLayout)
             {
-                Weight = 2,
-                Color = Color.Aqua
+                Weight = 3,
+                Texture = "corgi"
             };
             var inputText = new InputText(verticalLayout)
             {
                 Weight = 1,
                 Color = Color.Red
-            };          
+            };
             var button = new Button(verticalLayout)
             {
                 Weight = 1,
-                Color = Color.Brown,
-                Text = "Go!"
+                Text = "Go!",
+                Color = Color.White
             };
-           
-            //Invalidae the whole UI and we're done.
-            Canvas.Invalidate();
 
-            
+            //Invalidae the whole UI and we're done.
+            canvas.Invalidate();
+
+
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
 
             base.LoadContent();
         }
 
         protected override void Update(GameTime gameTime)
         {
-            Canvas.Update(gameTime);
+            canvas.Update(gameTime);
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.DarkSlateGray);
-
-            Canvas.Draw(spriteBatch);
+            
+            canvas.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }
 
         protected override void UnloadContent()
         {
+            spriteFonts["arial"].Texture.Dispose();
+            texture.Dispose();
+            
             base.UnloadContent();
         }
     }

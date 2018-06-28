@@ -7,11 +7,13 @@ namespace MGUI.Controls
     /// <summary>
     /// A blank control for drawing or debugging purposes.
     /// </summary>
-    public class BlankControl : Control
+    public class BlankControl : PaddedControl
     {
 
         public override void Draw(SpriteBatch batcher)
         {
+            batcher.Draw(Canvas.SpriteSheet, CanvasBounds, Canvas.SourceRectangles["whiteTexture"].sourceRect, Color);
+
             base.Draw(batcher);
         }
 
@@ -22,5 +24,6 @@ namespace MGUI.Controls
         public BlankControl(IControl parent) : base(parent)
         {
         }
+
     }
 }

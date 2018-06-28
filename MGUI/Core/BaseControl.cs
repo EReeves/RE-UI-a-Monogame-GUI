@@ -105,11 +105,6 @@ namespace MGUI.Core
         //Called automatically by parent or canvas.
         public virtual void Draw(SpriteBatch batcher)
         {
-            //Offset if we have a parent or have an offset.
-            var destRect = CanvasBounds;
-                     
-            batcher.Draw(Canvas.SpriteSheet, destRect, Canvas.SourceRectangles["whiteTexture"].sourceRect, Color);
-            
             foreach (var control in Children)
             {
                 control.Draw(batcher);
