@@ -39,7 +39,7 @@ namespace MGUI.Core
             
             RenderTools = new RenderTools(this, game.GraphicsDevice, bounds);
             
-            Core.Utility.KeyboardInput.Initialize(game,50,10);
+            Core.Utility.KeyboardInput.Initialize(game,350,10);
         }
         
         /// <summary>

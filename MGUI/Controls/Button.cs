@@ -14,11 +14,12 @@ namespace MGUI.Controls
     public class Button : Control
     {
         public bool Clicked { get; private set; } = false;
-        public Color ClickedTintColor { get; set; } = Color.Goldenrod;
-        public Color HoverTintColor { get; set; } = Color.DarkOliveGreen;
+        public Color ClickedTintColor { get; set; } = new Color(180,180,180);
+        public Color HoverTintColor { get; set; } = Color.White;
         
         private Color actualColor;
-        private Color color;
+        private Color color = new Color(200,200,200);
+        private (Rectangle[] SourcePatches, Rectangle[] DestinationPatches) NinePatchCacheButtonDown;
         
         public override Color Color
         {
@@ -29,6 +30,12 @@ namespace MGUI.Controls
                 color = value;
             }
         }
+
+        /// <summary>
+        /// This offset will be applied to the label text when the button is pressed.
+        /// For example, by default the button gets smaller as it is depressed, so the label needs to move down or it looks weird.
+        /// </summary>
+        public int ButtonClickYOffset { get; set; } = 5;
 
         public Label Label { get; set; }
         private string text = string.Empty;
@@ -57,6 +64,8 @@ namespace MGUI.Controls
 
         public override void Invalidate()
         {
+            actualColor = color;
+            
             if (Label == null)
             {
                 Label = new Label(Canvas) { Text = string.Empty }; //Label to go in the button. 
@@ -69,6 +78,9 @@ namespace MGUI.Controls
 
             NinePatchCache = Canvas.RenderTools.CalculateNinePatch(Canvas.SourceRectangles["buttonup"].sourceRect, CanvasBounds,
                 Canvas.SourceRectangles["buttonup"].ninePatch);
+            
+            NinePatchCacheButtonDown = Canvas.RenderTools.CalculateNinePatch(Canvas.SourceRectangles["buttondown"].sourceRect, CanvasBounds,
+                Canvas.SourceRectangles["buttondown"].ninePatch);
             
             base.Invalidate();
         }
@@ -104,9 +116,16 @@ namespace MGUI.Controls
 
         public override void Draw(SpriteBatch batcher)
         {
-            Canvas.RenderTools.DrawNinePatch(batcher, Canvas.SpriteSheet, NinePatchCache.SourcePatches, NinePatchCache.DestinationPatches, Color);
+            var ninePatch = Clicked ? NinePatchCacheButtonDown : NinePatchCache;
+            Canvas.RenderTools.DrawNinePatch(batcher, Canvas.SpriteSheet, ninePatch.SourcePatches, NinePatchCache.DestinationPatches, Color);
 
-            base.Draw(batcher);
+            var offset = Clicked ? ButtonClickYOffset : 0;
+            var original = Label.Offset;
+            original.Y += offset;
+            Label.Offset = original;
+            Label.Draw(batcher);
+            original.Y -= offset;
+            Label.Offset = original;
         }
 
         public Button(Canvas canvas) : base(canvas)

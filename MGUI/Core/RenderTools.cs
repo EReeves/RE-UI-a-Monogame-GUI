@@ -59,10 +59,10 @@ namespace MGUI.Core
         {
             var pointTexture = canvas.SpriteSheet;
             var source = canvas.SourceRectangles["whiteTexture"].sourceRect;
-            batcher.Draw(pointTexture, new Rectangle(rectangle.X, rectangle.Y, lineWidth, rectangle.Height + lineWidth), source, color);
-            batcher.Draw(pointTexture, new Rectangle(rectangle.X, rectangle.Y, rectangle.Width + lineWidth, lineWidth), source, color);
-            batcher.Draw(pointTexture, new Rectangle(rectangle.X + rectangle.Width, rectangle.Y, lineWidth, rectangle.Height + lineWidth), source, color);
-            batcher.Draw(pointTexture, new Rectangle(rectangle.X, rectangle.Y + rectangle.Height, rectangle.Width + lineWidth, lineWidth), source, color);
+            batcher.Draw(pointTexture, new Rectangle(rectangle.X, rectangle.Y, lineWidth, rectangle.Height), source, color);
+            batcher.Draw(pointTexture, new Rectangle(rectangle.X, rectangle.Y, rectangle.Width-lineWidth, lineWidth), source, color);
+            batcher.Draw(pointTexture, new Rectangle(rectangle.X + rectangle.Width-lineWidth, rectangle.Y, lineWidth, rectangle.Height), source, color);
+            batcher.Draw(pointTexture, new Rectangle(rectangle.X, rectangle.Y + rectangle.Height - lineWidth, rectangle.Width- lineWidth, lineWidth), source, color);
         }
 
         public (Rectangle[] sourcePatches, Rectangle[] destPatches) CalculateNinePatch(Rectangle sourceRect, Rectangle destRect, int[] ninePatchCoords)

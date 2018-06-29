@@ -107,6 +107,10 @@ namespace MGUI.Controls
             SetLabelText(Text);         
             
             base.Invalidate();
+            
+            
+            NinePatchCache = Canvas.RenderTools.CalculateNinePatch(Canvas.SourceRectangles["recessed"].sourceRect, CanvasBounds,
+                Canvas.SourceRectangles["recessed"].ninePatch);
         }
 
 
@@ -134,7 +138,7 @@ namespace MGUI.Controls
 
         public override void Draw(SpriteBatch batcher)
         {
-            batcher.Draw(Canvas.SpriteSheet, CanvasBounds, Canvas.SourceRectangles["whiteTexture"].sourceRect, Color);
+            Canvas.RenderTools.DrawNinePatch(batcher, Canvas.SpriteSheet, NinePatchCache.SourcePatches, NinePatchCache.DestinationPatches, Color);
 
             base.Draw(batcher);
             if(focused)

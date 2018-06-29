@@ -188,6 +188,19 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">UI/Corgi.jpg</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>124,95,247,189</rect>
+                <key>scale9Paddings</key>
+                <rect>124,95,247,189</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">UI/background.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -198,6 +211,19 @@
                 <rect>18,16,35,31</rect>
                 <key>scale9Paddings</key>
                 <rect>18,16,35,31</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">UI/buttonup.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>20,19,40,37</rect>
+                <key>scale9Paddings</key>
+                <rect>20,19,40,37</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

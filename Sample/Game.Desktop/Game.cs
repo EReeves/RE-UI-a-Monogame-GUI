@@ -56,6 +56,8 @@ namespace Game.Desktop
                             new[] {20, 20, 20, 20}),
                         ["corgi"] = (spriteSheet.Sprite("Corgi").SourceRectangle, null),
                         ["buttonup"] = (spriteSheet.Sprite("buttonup").SourceRectangle, new[] {20, 20, 20, 30}),
+                        ["buttondown"] = (spriteSheet.Sprite("buttondown").SourceRectangle, null),
+                        ["recessed"] = (spriteSheet.Sprite("recessed").SourceRectangle, null)
                     };
             spriteFonts = new Dictionary<string, SpriteFont>
             {
@@ -71,13 +73,9 @@ namespace Game.Desktop
                 TitleBarHeight = 20,
                 Bounds = new Rectangle(200, 100, 250, 350),
                 Color = Color.White,
-                PaddingExplicit = new[] {10, 6, 10, 13}
+                PaddingExplicit = new[] {12, 16, 12, 15}
             };
-            //Give it some padding
-            var paddedLayout = new PaddedLayout(window)
-            {
-                PaddingExplicit = new[] {15, 11, 15, 18}
-            };
+
             //Give it a layout.
             var verticalLayout = new VerticalLayout(window);
 
@@ -91,13 +89,11 @@ namespace Game.Desktop
             var inputText = new InputText(verticalLayout)
             {
                 Weight = 1,
-                Color = Color.Red
             };
             var button = new Button(verticalLayout)
             {
                 Weight = 1,
                 Text = "Go!",
-                Color = Color.White
             };
 
             //Invalidae the whole UI and we're done.
