@@ -73,7 +73,7 @@ namespace Game.Desktop
                 TitleBarHeight = 20,
                 Bounds = new Rectangle(200, 100, 250, 350),
                 Color = Color.White,
-                PaddingExplicit = new[] {12, 16, 12, 15}
+                PaddingExplicit = new[] {12, 16, 12, 15} 
             };
 
             //Give it a layout.

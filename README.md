@@ -71,44 +71,40 @@ Of course feel free to use the textures and implementation included in the sampl
 
 ```csharp
 //Off we go!
-Canvas = new Canvas(this, screenBounds, texture, sourceRects, spriteFonts, "arial");
+canvas = new Canvas(this, screenBounds, texture, sourceRects, spriteFonts, "arial");
 
 //Window.
-var window = new Window(Canvas)
+var window = new Window(canvas)
 {
-    BarHeight = 15,
-    Bounds = new Rectangle(200, 100, 200, 250),
-    Color = Color.White
+    TitleBarHeight = 20,
+    Bounds = new Rectangle(200, 100, 250, 350),
+    Color = Color.White,
+    PaddingExplicit = new[] {12, 16, 12, 15}
 };
-//Give it some padding
-var paddedLayout = new PaddedLayout(window)
-{
-    Padding = 10
-};
+
 //Give it a layout.
-var verticalLayout = new VerticalLayout(paddedLayout);
-            
+var verticalLayout = new VerticalLayout(window);
+
 //Add controls to our layout.
-            
-var blank = new BlankControl(verticalLayout)
+
+var blank = new Image(verticalLayout)
 {
-    Weight = 2,
-    Color = Color.Aqua
+    Weight = 3,
+    Texture = "corgi"
 };
 var inputText = new InputText(verticalLayout)
 {
     Weight = 1,
-    Color = Color.Red
-};          
+};
 var button = new Button(verticalLayout)
 {
     Weight = 1,
-    Color = Color.Brown,
-    Text = "Go!"
+    Text = "Go!",
 };
-           
-//Invalidate the UI and we're done.
-Canvas.Invalidate(); 
+
+//Invalidae the whole UI and we're done.
+canvas.Invalidate();
+
 ```
 
 TODO: skin these controls
