@@ -5,13 +5,15 @@
 # https://www.codeandweb.com/texturepacker/monogame
 #
 # Sprite sheet: texture.png (500 x 512)
-# $TexturePacker:SmartUpdate:c9d0aa82be6c5ff3a804f54fcae61f8a:76b7d8228aafee70719b16adc4581084:abd75b053584001b4f6fc8464b42708a$
+# $TexturePacker:SmartUpdate:c59074c73fa4cfe9a4bf5251d7889a74:b37a93bfdbcb9cbb1eae31fd95611961:abd75b053584001b4f6fc8464b42708a$
 #
 
 background;0;381;382;70;63;70;63;0.5;0.5
 buttondown;0;132;382;80;75;80;75;0.5;0.5
 buttonup;0;215;382;80;74;80;74;0.5;0.5
+checkbox;0;454;382;30;30;30;30;0.5;0.5
+checkboxclicked;0;454;415;30;30;30;30;0.5;0.5
 Corgi;0;1;1;495;378;495;378;0.5;0.5
 floatingbackground;0;1;382;128;128;128;128;0.5;0.5
 recessed;0;298;382;80;70;80;70;0.5;0.5
-whitetexture;0;454;382;2;2;2;2;0.5;0.5
+whitetexture;0;487;382;2;2;2;2;0.5;0.5

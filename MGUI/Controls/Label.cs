@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MGUI.Controls
 {
-    public class Label : Control
+    public class Label : PaddedControl
     {
         private string text = string.Empty;
         public string Text
@@ -38,6 +38,11 @@ namespace MGUI.Controls
         public override void Draw(SpriteBatch batcher)
         {
             batcher.DrawString(SpriteFont, Text, CanvasBounds.Location.ToVector2(), Color);
+        }
+        
+        public Label(IControl parent) : base(parent)
+        {
+            SpriteFont = Canvas.DefaultFont;
         }
     }
 }

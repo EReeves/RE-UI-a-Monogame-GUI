@@ -7,11 +7,10 @@ namespace MGUI.Controls.Layout
     public class HorizontalLayout : Control
     {
         public int InnerPadding { get; set; } = 10;
-        public int OuterPadding { get; set; } = 10;
+        public int OuterPadding { get; set; } = 0;
+        public int SidePadding { get; set; } = 0;
         
-        public HorizontalLayout(Canvas canvas) : base(canvas)
-        {
-        }
+
 
         public override void Invalidate()
         {
@@ -20,13 +19,15 @@ namespace MGUI.Controls.Layout
             {
                 weightSum += child.Weight;
             }
+            
+         
 
             var width = Bounds.Width;
             width -= (Children.Count - 1) * InnerPadding; //inner padding
-            width -= OuterPadding * 2; //Outer padding
+            width -= SidePadding * 2; //Outer padding
             var widthPerWeight = width / weightSum;
 
-            var x = OuterPadding;
+            var x = SidePadding;
             for (var i = 0; i < Children.Count; i++)
             {
                 var child = Children[i];
@@ -35,12 +36,19 @@ namespace MGUI.Controls.Layout
                     Bounds.Height - OuterPadding * 2);
                 // child.Offset = new Point(CanvasBounds.X, CanvasBounds.Y);
                 if (i+1 < Children.Count)
-                    x += OuterPadding;
+                    x += SidePadding;
                 x += newWidth;
             }
-
-
+            
             base.Invalidate();
+
+            //Some children might have resized to smaller children. Center them.
+            foreach (var child in Children)
+            {
+                var h = Bounds.Height - child.Bounds.Height;
+            
+                child.Bounds = new Rectangle(child.Bounds.X,h/2,child.Bounds.Width,child.Bounds.Height);
+            }
         }
 
         public override void Draw(SpriteBatch batcher)
@@ -49,6 +57,14 @@ namespace MGUI.Controls.Layout
             {
                 control.Draw(batcher);
             }
+        }
+
+        public HorizontalLayout(Canvas canvas) : base(canvas)
+        {
+        }
+
+        public HorizontalLayout(IControl parent) : base(parent)
+        {
         }
     }
 }

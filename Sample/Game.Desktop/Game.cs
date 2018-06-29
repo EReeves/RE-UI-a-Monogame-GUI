@@ -57,7 +57,9 @@ namespace Game.Desktop
                         ["corgi"] = (spriteSheet.Sprite("Corgi").SourceRectangle, null),
                         ["buttonup"] = (spriteSheet.Sprite("buttonup").SourceRectangle, new[] {20, 20, 20, 30}),
                         ["buttondown"] = (spriteSheet.Sprite("buttondown").SourceRectangle, null),
-                        ["recessed"] = (spriteSheet.Sprite("recessed").SourceRectangle, null)
+                        ["recessed"] = (spriteSheet.Sprite("recessed").SourceRectangle, null),
+                        ["checkbox"] = (spriteSheet.Sprite("checkbox").SourceRectangle, null),
+                        ["checkboxclicked"] = (spriteSheet.Sprite("checkboxclicked").SourceRectangle, null)
                     };
             spriteFonts = new Dictionary<string, SpriteFont>
             {
@@ -71,7 +73,7 @@ namespace Game.Desktop
             var window = new Window(canvas)
             {
                 TitleBarHeight = 20,
-                Bounds = new Rectangle(200, 100, 250, 350),
+                Bounds = new Rectangle(200, 100, 250, 400),
                 Color = Color.White,
                 PaddingExplicit = new[] {12, 16, 12, 15} 
             };
@@ -83,8 +85,38 @@ namespace Game.Desktop
 
             var blank = new Image(verticalLayout)
             {
-                Weight = 3,
+                Weight = 4,
                 Texture = "corgi"
+            };
+            var horizontalLayout = new HorizontalLayout(verticalLayout)
+            {
+               // OuterPadding =  50,
+                Weight = 1
+            };
+            var checkbox = new Checkbox(horizontalLayout)
+            {
+               Weight = 1,
+     
+            };
+            var label = new Label(horizontalLayout)
+            {
+                Weight = 4,
+                Text = "Checkbox", 
+            };
+            var horizontalLayout2 = new HorizontalLayout(verticalLayout)
+            {
+                SidePadding = 30,
+                Weight = 1
+            };
+            var checkbox2= new Checkbox(horizontalLayout2)
+            {
+                Weight = 1,
+     
+            };
+            var label2 = new Label(horizontalLayout2)
+            {
+                Weight = 1,
+                Text = "Checkbox", 
             };
             var inputText = new InputText(verticalLayout)
             {
@@ -94,6 +126,7 @@ namespace Game.Desktop
             {
                 Weight = 1,
                 Text = "Go!",
+                ToggleButton = true
             };
 
             //Invalidae the whole UI and we're done.

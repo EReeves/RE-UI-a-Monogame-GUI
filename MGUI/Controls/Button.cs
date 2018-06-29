@@ -11,15 +11,23 @@ namespace MGUI.Controls
     /// <summary>
     /// A basic button.
     /// </summary>
-    public class Button : Control
+    public class Button : PaddedControl
     {
         public bool Clicked { get; private set; } = false;
+        private bool ClickedPrevious { get; set; } = false;
         public Color ClickedTintColor { get; set; } = new Color(180,180,180);
         public Color HoverTintColor { get; set; } = Color.White;
+
+        protected Color actualColor;
+        protected Color color = new Color(200,200,200);
         
-        private Color actualColor;
-        private Color color = new Color(200,200,200);
+        //Textures
         private (Rectangle[] SourcePatches, Rectangle[] DestinationPatches) NinePatchCacheButtonDown;
+        public string ButtonUpTexture { get; set; } = "buttonup";
+        public string ButtonDownTexture { get; set; } = "buttondown";
+
+        public bool ToggleButton { get; set; } = false;
+        
         
         public override Color Color
         {
@@ -70,6 +78,7 @@ namespace MGUI.Controls
             {
                 Label = new Label(Canvas) { Text = string.Empty }; //Label to go in the button. 
                 var center = new CenteredLayout(Canvas); //Center it
+                center.ShouldSizeToParent = true;
                 center.Add(Label);
                 Add(center);
             }
@@ -84,34 +93,31 @@ namespace MGUI.Controls
             
             base.Invalidate();
         }
-
+        
         public void ClickUpdate()
         {
             var mouseState = Mouse.GetState();
             var pos = mouseState.Position;
             var mousePosRect = new Rectangle(pos.X,pos.Y,1,1);
-            
-            if (!mousePosRect.Intersects(CanvasBounds))
-            {
-                Clicked = false;
-                color = actualColor;
-                return;
-            }
 
-            var clicked = mouseState.LeftButton == ButtonState.Pressed;
-            if (!Clicked && clicked) //State not clicked, but clicked.
+            if (mousePosRect.Intersects(CanvasBounds))
             {
-                OnClick?.Invoke(this, EventArgs.Empty);
-                Clicked = true;
-                return;
-            }
+                var clicked = mouseState.LeftButton == ButtonState.Pressed;
 
-            if (!clicked)
-            {
-                Clicked = false;
-                color = actualColor;
+                if (clicked && ToggleButton && !ClickedPrevious)
+                {
+                    Clicked = !Clicked;
+                }
+
+                if (clicked && !ToggleButton)
+                    Clicked = true;
+                
+                ClickedPrevious = clicked;
+
+                color = Clicked ? ClickedTintColor : HoverTintColor;
             }
-            color = clicked ? ClickedTintColor : HoverTintColor;
+            else
+                color = actualColor;
         }
 
         public override void Draw(SpriteBatch batcher)

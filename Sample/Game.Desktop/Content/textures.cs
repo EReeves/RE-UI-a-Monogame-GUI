@@ -4,7 +4,7 @@
  * Contains references to each image within the sprite sheet.
  *
  * https://www.codeandweb.com/texturepacker
- * $TexturePacker:SmartUpdate:c9d0aa82be6c5ff3a804f54fcae61f8a:76b7d8228aafee70719b16adc4581084:abd75b053584001b4f6fc8464b42708a$
+ * $TexturePacker:SmartUpdate:c59074c73fa4cfe9a4bf5251d7889a74:b37a93bfdbcb9cbb1eae31fd95611961:abd75b053584001b4f6fc8464b42708a$
  *
  */
 namespace TexturePackerMonoGameDefinitions
@@ -14,6 +14,8 @@ namespace TexturePackerMonoGameDefinitions
 		public const string Background = "background";
 		public const string Buttondown = "buttondown";
 		public const string Buttonup = "buttonup";
+		public const string Checkbox = "checkbox";
+		public const string Checkboxclicked = "checkboxclicked";
 		public const string Corgi = "Corgi";
 		public const string Floatingbackground = "floatingbackground";
 		public const string Recessed = "recessed";

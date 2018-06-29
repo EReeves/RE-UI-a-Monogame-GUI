@@ -8,9 +8,7 @@ namespace MGUI.Controls.Layout
     public class CenteredLayout : Control
     {
         
-        public CenteredLayout(Canvas canvas) : base(canvas)
-        {
-        }
+        
 
         public override void Draw(SpriteBatch batcher)
         {
@@ -22,7 +20,8 @@ namespace MGUI.Controls.Layout
 
         public override void Invalidate()
         {
-            SizeToParent();
+            if(ShouldSizeToParent)
+                SizeToParent();
 
             foreach (var child in Children)
             {
@@ -33,6 +32,16 @@ namespace MGUI.Controls.Layout
             }
 
             base.Invalidate();
+        }
+
+        public bool ShouldSizeToParent { get; set; } = false;
+
+        public CenteredLayout(Canvas canvas) : base(canvas)
+        {
+        }
+
+        public CenteredLayout(IControl parent) : base(parent)
+        {
         }
     }
 }

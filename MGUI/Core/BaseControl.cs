@@ -78,7 +78,7 @@ namespace MGUI.Core
         public abstract void Invalidate();
 
         //Resize to parent, or canvas if there is no parent.
-        protected void SizeToParent()
+        public void SizeToParent()
         {
             if (Parent != null)
             {
