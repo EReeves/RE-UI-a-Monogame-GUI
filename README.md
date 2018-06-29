@@ -65,7 +65,7 @@ Canvas = new Canvas(this, screenBounds, texture, sourceRects, spriteFonts, "aria
 ```
 ##### Now we are ready to start laying out our UI.
 
-Of course feel free to use the textures and implementation included in the sample project, just bear in mind it uses ![TexturePacker](https://www.codeandweb.com/texturepacker) which isn't a free software, so if you want to add more textures without buying TexturePacker(It's great software), you'll need to manually edit the texture data file.
+Of course feel free to use the textures and implementation included in the sample project, just bear in mind it uses [TexturePacker](https://www.codeandweb.com/texturepacker) which isn't a free software, so if you want to add more textures without buying TexturePacker(It's great software), you'll need to manually edit the texture data file.
 
 ## Layout
 
