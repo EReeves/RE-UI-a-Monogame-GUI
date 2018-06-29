@@ -60,12 +60,12 @@ var spriteFonts = new Dictionary <string, SpriteFont>
 ```
 Lastly, put it all together and create a Canvas, `this` is a `Game` object. Also notice the last parameter `arial` should be whatever you named your font in the last step.
 ```csharp
-    //Off we go!
-    Canvas = new Canvas(this, screenBounds, texture, sourceRects, spriteFonts, "arial");
+//Off we go!
+Canvas = new Canvas(this, screenBounds, texture, sourceRects, spriteFonts, "arial");
 ```
 ##### Now we are ready to start laying out our UI.
 
-Of course feel free to use the textures and implementation included in the sample project, just bear in mind it uses TexturePacker which isn't a free software, so if you want to add more textures without buying TexturePacker(It's great software), you'll need to manually edit the texture data file.
+Of course feel free to use the textures and implementation included in the sample project, just bear in mind it uses ![TexturePacker](https://www.codeandweb.com/texturepacker) which isn't a free software, so if you want to add more textures without buying TexturePacker(It's great software), you'll need to manually edit the texture data file.
 
 ## Layout
 
@@ -107,6 +107,8 @@ canvas.Invalidate();
 
 ```
 
-TODO: skin these controls
-
 ![Image of the above layout result](/layout.png)
+
+
+
+TODO: Extending and custom controls
