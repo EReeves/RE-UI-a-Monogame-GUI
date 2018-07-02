@@ -33,10 +33,10 @@ namespace MGUI.Controls.Layout
                 var child = Children[i];
                 var newWidth = widthPerWeight * child.Weight;
                 child.Bounds = new Rectangle(x, OuterPadding, newWidth,
-                    Bounds.Height - OuterPadding * 2);
+                    Bounds.Height - (OuterPadding * 2));
                 // child.Offset = new Point(CanvasBounds.X, CanvasBounds.Y);
                 if (i+1 < Children.Count)
-                    x += SidePadding;
+                    x += InnerPadding;
                 x += newWidth;
             }
             
@@ -45,7 +45,7 @@ namespace MGUI.Controls.Layout
             //Some children might have resized to smaller children. Center them.
             foreach (var child in Children)
             {
-                var h = Bounds.Height - child.Bounds.Height;
+                var h = CanvasBounds.Height - child.CanvasBounds.Height;
             
                 child.Bounds = new Rectangle(child.Bounds.X,h/2,child.Bounds.Width,child.Bounds.Height);
             }

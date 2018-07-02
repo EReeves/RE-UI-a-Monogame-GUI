@@ -26,7 +26,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -44,9 +44,9 @@
      id="namedview5080"
      showgrid="true"
      inkscape:snap-path-clip="false"
-     inkscape:zoom="9.8994949"
-     inkscape:cx="206.97611"
-     inkscape:cy="160.66345"
+     inkscape:zoom="3.5"
+     inkscape:cx="115.54754"
+     inkscape:cy="247.76425"
      inkscape:window-x="0"
      inkscape:window-y="20"
      inkscape:window-maximized="1"
@@ -174,6 +174,105 @@
      y="270"
      ry="2.1428571"
      inkscape:export-filename="/home/evan/dev/MGUI/MonogameGUI/Sample/Game.Desktop/Content/UI/buttonup.png"
+     inkscape:export-xdpi="96"
+     inkscape:export-ydpi="96" />
+  <rect
+     style="isolation:isolate;fill:#917c6f;fill-opacity:1;stroke:none;stroke-opacity:1"
+     id="rect5895-3"
+     width="80"
+     height="70"
+     x="240.42857"
+     y="273.57144"
+     ry="2.1428571"
+     inkscape:export-filename="/home/evan/dev/MGUI/MonogameGUI/Sample/Game.Desktop/Content/UI/buttondown.png"
+     inkscape:export-xdpi="96"
+     inkscape:export-ydpi="96" />
+  <rect
+     style="fill:none;fill-opacity:1;stroke:none;stroke-opacity:1"
+     id="rect4561"
+     width="80"
+     height="30"
+     x="245"
+     y="270"
+     ry="2.1428599"
+     inkscape:export-filename="/home/evan/dev/MGUI/MonogameGUI/Sample/Game.Desktop/Content/UI/buttondown.png"
+     inkscape:export-xdpi="96"
+     inkscape:export-ydpi="96" />
+  <rect
+     style="isolation:isolate;fill:#917c6f;fill-opacity:1;stroke:none;stroke-opacity:1"
+     id="rect5895-3-6"
+     width="80"
+     height="70"
+     x="44.999996"
+     y="270"
+     ry="2.1428571"
+     inkscape:export-filename="/home/evan/dev/MGUI/MonogameGUI/Sample/Game.Desktop/Content/UI/recessed.png"
+     inkscape:export-xdpi="96"
+     inkscape:export-ydpi="96" />
+  <rect
+     style="fill:#1a1414;fill-opacity:1;stroke:none;stroke-width:0.93622446;stroke-opacity:1"
+     id="rect4696"
+     width="74.897957"
+     height="65.535713"
+     x="47.551022"
+     y="272.23215"
+     ry="2.0061979"
+     inkscape:export-filename="/home/evan/dev/MGUI/MonogameGUI/Sample/Game.Desktop/Content/UI/recessed.png"
+     inkscape:export-xdpi="96"
+     inkscape:export-ydpi="96" />
+  <rect
+     style="fill:#917c6f;fill-opacity:1;stroke:none;stroke-opacity:1"
+     id="rect4716"
+     width="30"
+     height="30"
+     x="45"
+     y="210"
+     ry="2.1428599"
+     inkscape:export-filename="/home/evan/dev/MGUI/MonogameGUI/Sample/Game.Desktop/Content/UI/checkboxclicked.png"
+     inkscape:export-xdpi="96"
+     inkscape:export-ydpi="96" />
+  <rect
+     style="fill:#241c1c;fill-opacity:1;stroke:none;stroke-width:1.28571427;stroke-opacity:1"
+     id="rect4720"
+     width="25.714285"
+     height="25.714285"
+     x="47.142857"
+     y="212.14285"
+     ry="2.7551057"
+     inkscape:export-filename="/home/evan/dev/MGUI/MonogameGUI/Sample/Game.Desktop/Content/UI/checkboxclicked.png"
+     inkscape:export-xdpi="96"
+     inkscape:export-ydpi="96" />
+  <rect
+     style="fill:#ffd42a;fill-opacity:1;stroke:none;stroke-opacity:1"
+     id="rect4718"
+     width="20"
+     height="20"
+     x="50"
+     y="215"
+     ry="10"
+     inkscape:export-filename="/home/evan/dev/MGUI/MonogameGUI/Sample/Game.Desktop/Content/UI/checkboxclicked.png"
+     inkscape:export-xdpi="96"
+     inkscape:export-ydpi="96" />
+  <rect
+     style="isolation:isolate;fill:#917c6f;fill-opacity:1;stroke:none;stroke-opacity:1"
+     id="rect4716-3"
+     width="30"
+     height="30"
+     x="85"
+     y="210"
+     ry="2.1428599"
+     inkscape:export-filename="/home/evan/dev/MGUI/MonogameGUI/Sample/Game.Desktop/Content/UI/checkbox.png"
+     inkscape:export-xdpi="96"
+     inkscape:export-ydpi="96" />
+  <rect
+     style="isolation:isolate;fill:#241c1c;fill-opacity:1;stroke:none;stroke-width:1.28571427;stroke-opacity:1"
+     id="rect4720-6"
+     width="25.714285"
+     height="25.714285"
+     x="87.142853"
+     y="212.14285"
+     ry="2.7551057"
+     inkscape:export-filename="/home/evan/dev/MGUI/MonogameGUI/Sample/Game.Desktop/Content/UI/checkbox.png"
      inkscape:export-xdpi="96"
      inkscape:export-ydpi="96" />
 </svg>

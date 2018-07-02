@@ -28,7 +28,7 @@ namespace MGUI.Controls.Layout
 
         public override void Invalidate()
         {
-            Bounds = Parent != null ? new Rectangle(0, 0, Parent.Bounds.Width - Offset.X, Parent.Bounds.Height - Offset.Y) : Canvas.Bounds;
+            Bounds = Parent != null ? new Rectangle(Bounds.X, Bounds.Y, Parent.Bounds.Width - Offset.X, Parent.Bounds.Height - Offset.Y) : Canvas.Bounds;
 
             AddPadding();
             base.Invalidate();
@@ -39,7 +39,13 @@ namespace MGUI.Controls.Layout
         {
             SizeToParent();
             //Also make children this big.
-            foreach (var control in Children) control.Bounds = Bounds;
+            foreach (var control in Children)
+            {
+                var bounds = control.Bounds;
+                bounds.Width = Bounds.Width;
+                bounds.Height = Bounds.Height;
+                control.Bounds = bounds;
+            }
             
             //Then add padding.
             var pad = PaddingExplicit;

@@ -33,6 +33,7 @@ namespace MGUI.Core
         public override void Invalidate()
         {
             invalidatedBounds = true;
+
             foreach (var child in Children)
             {
                 child.Invalidate();

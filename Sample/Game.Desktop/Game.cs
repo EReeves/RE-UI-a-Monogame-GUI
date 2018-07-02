@@ -55,7 +55,7 @@ namespace Game.Desktop
                         ["windowBackground"] = (spriteSheet.Sprite("floatingbackground").SourceRectangle,
                             new[] {20, 20, 20, 20}),
                         ["corgi"] = (spriteSheet.Sprite("Corgi").SourceRectangle, null),
-                        ["buttonup"] = (spriteSheet.Sprite("buttonup").SourceRectangle, new[] {20, 20, 20, 30}),
+                        ["buttonup"] = (spriteSheet.Sprite("buttonup").SourceRectangle, new[] {10, 10, 10, 10}),
                         ["buttondown"] = (spriteSheet.Sprite("buttondown").SourceRectangle, null),
                         ["recessed"] = (spriteSheet.Sprite("recessed").SourceRectangle, null),
                         ["checkbox"] = (spriteSheet.Sprite("checkbox").SourceRectangle, null),
@@ -66,6 +66,8 @@ namespace Game.Desktop
                 ["arial"] = Content.Load<SpriteFont>("Arial 11")
             };
 
+            var windowPadding = new[] {12, 16, 12, 15};
+
             //Off we go!
             canvas = new Canvas(this, screenBounds, texture, sourceRects, spriteFonts, "arial");
 
@@ -73,9 +75,9 @@ namespace Game.Desktop
             var window = new Window(canvas)
             {
                 TitleBarHeight = 20,
-                Bounds = new Rectangle(200, 100, 250, 400),
+                Bounds = new Rectangle(100, 100, 250, 400),
                 Color = Color.White,
-                PaddingExplicit = new[] {12, 16, 12, 15} 
+                PaddingExplicit = windowPadding
             };
 
             //Give it a layout.
@@ -96,7 +98,7 @@ namespace Game.Desktop
             var checkbox = new Checkbox(horizontalLayout)
             {
                Weight = 1,
-     
+               Clicked = true
             };
             var label = new Label(horizontalLayout)
             {
@@ -105,7 +107,7 @@ namespace Game.Desktop
             };
             var horizontalLayout2 = new HorizontalLayout(verticalLayout)
             {
-                SidePadding = 30,
+                SidePadding = 10,
                 Weight = 1
             };
             var checkbox2= new Checkbox(horizontalLayout2)
@@ -115,7 +117,7 @@ namespace Game.Desktop
             };
             var label2 = new Label(horizontalLayout2)
             {
-                Weight = 1,
+                Weight = 4,
                 Text = "Checkbox", 
             };
             var inputText = new InputText(verticalLayout)
@@ -126,8 +128,40 @@ namespace Game.Desktop
             {
                 Weight = 1,
                 Text = "Go!",
-                ToggleButton = true
             };
+
+            
+            
+            
+            var multilineWindpw = new Window(canvas)
+            {
+                Bounds = new Rectangle(400,100,300,200),
+                TitleBarHeight = 20,
+                PaddingExplicit = windowPadding
+            };
+            var mlabel = new MultiLabel(multilineWindpw);
+            
+            var h = new HorizontalLayout(multilineWindpw)
+            {
+                Bounds = new Rectangle(0, multilineWindpw.Bounds.Height - 80, multilineWindpw.Bounds.Width,80),
+                InnerPadding = 10,
+                SidePadding = 0
+            };
+            var i = new InputText(h)
+            {
+                Weight = 3
+            };
+            var b = new Button(h)
+            {
+                Weight = 1,
+                Text = "Send"
+            };
+            
+            mlabel.Text.Add("Multiline text");
+            mlabel.Text.Add("Hello there");
+            mlabel.Text.Add("Hello there");
+            mlabel.Text.Add("Hello there");
+            mlabel.Text.Add("Hello there");
 
             //Invalidae the whole UI and we're done.
             canvas.Invalidate();

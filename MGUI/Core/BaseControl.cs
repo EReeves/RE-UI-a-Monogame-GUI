@@ -76,6 +76,8 @@ namespace MGUI.Core
 
         //BaseControl has nothing to invalidate.
         public abstract void Invalidate();
+        
+
 
         //Resize to parent, or canvas if there is no parent.
         public void SizeToParent()

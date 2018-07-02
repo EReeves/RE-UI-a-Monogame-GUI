@@ -20,9 +20,7 @@ namespace MGUI.Controls.Layout
 
         public override void Invalidate()
         {
-            if(ShouldSizeToParent)
-                SizeToParent();
-
+ 
             foreach (var child in Children)
             {
                 var height = Bounds.Height - child.Bounds.Height;
@@ -34,7 +32,6 @@ namespace MGUI.Controls.Layout
             base.Invalidate();
         }
 
-        public bool ShouldSizeToParent { get; set; } = false;
 
         public CenteredLayout(Canvas canvas) : base(canvas)
         {

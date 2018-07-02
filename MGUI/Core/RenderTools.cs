@@ -68,7 +68,7 @@ namespace MGUI.Core
         public (Rectangle[] sourcePatches, Rectangle[] destPatches) CalculateNinePatch(Rectangle sourceRect, Rectangle destRect, int[] ninePatchCoords)
         {          
             if (ninePatchCoords == null)
-                ninePatchCoords = new int[]{20,20,20,20};
+                ninePatchCoords = new int[]{12,12,12,12};
             
             var sourcePatches = CreatePatches(sourceRect, ninePatchCoords);
             var destinationPatches = CreatePatches(destRect, ninePatchCoords);

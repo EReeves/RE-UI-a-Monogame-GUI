@@ -13,7 +13,7 @@ namespace MGUI.Controls
     /// </summary>
     public class Button : PaddedControl
     {
-        public bool Clicked { get; private set; } = false;
+        public bool Clicked { get; set; } = false;
         private bool ClickedPrevious { get; set; } = false;
         public Color ClickedTintColor { get; set; } = new Color(180,180,180);
         public Color HoverTintColor { get; set; } = Color.White;
@@ -78,7 +78,6 @@ namespace MGUI.Controls
             {
                 Label = new Label(Canvas) { Text = string.Empty }; //Label to go in the button. 
                 var center = new CenteredLayout(Canvas); //Center it
-                center.ShouldSizeToParent = true;
                 center.Add(Label);
                 Add(center);
             }
@@ -111,6 +110,8 @@ namespace MGUI.Controls
 
                 if (clicked && !ToggleButton)
                     Clicked = true;
+                else if(!clicked && !ToggleButton)
+                    Clicked = false;
                 
                 ClickedPrevious = clicked;
 
