@@ -8,7 +8,8 @@ namespace MGUI.Core
         private readonly Canvas canvas;
         private readonly GraphicsDevice graphics;
         private readonly Rectangle canvasBounds;
-        private RasterizerState rasterizerState;
+        //Off by default, could mess with rendering of a lot of games.
+        public readonly RasterizerState RasterizerState = new RasterizerState { ScissorTestEnable = false };
         private RasterizerState rasterizerStateNoScissor;
         
         //So drawing can be customized.
@@ -20,12 +21,13 @@ namespace MGUI.Core
         public Effect Effect { get; set; } = null;
         public Matrix? Transform { get; set; }
         
+        
         public RenderTools(Canvas canvas, GraphicsDevice graphics, Rectangle canvasBounds)
         {
             this.canvas = canvas;
             this.graphics = graphics;
             this.canvasBounds = canvasBounds;
-            rasterizerState = new RasterizerState { ScissorTestEnable = false };
+
 
             graphics.ScissorRectangle = canvasBounds;
         }
@@ -33,14 +35,14 @@ namespace MGUI.Core
         public void Start(SpriteBatch batcher)
         {
             batcher.GraphicsDevice.ScissorRectangle = canvasBounds;
-            batcher.Begin(SpriteSortMode, BlendState, SamplerState, DepthStencilState, rasterizerState, Effect, Transform);
+            batcher.Begin(SpriteSortMode, BlendState, SamplerState, DepthStencilState, RasterizerState, Effect, Transform);
         }
 
         public void StartCull(SpriteBatch batcher, Rectangle bounds)
         {
             batcher.End();
             batcher.GraphicsDevice.ScissorRectangle = bounds;
-            batcher.Begin(SpriteSortMode, BlendState, SamplerState, DepthStencilState, rasterizerState, Effect, Transform);
+            batcher.Begin(SpriteSortMode, BlendState, SamplerState, DepthStencilState, RasterizerState, Effect, Transform);
         }
 
         public void EndCull(SpriteBatch batcher)
