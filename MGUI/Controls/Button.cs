@@ -103,9 +103,12 @@ namespace MGUI.Controls
             {
                 var clicked = mouseState.LeftButton == ButtonState.Pressed;
 
-                if (clicked && ToggleButton && !ClickedPrevious)
+                if (clicked && !ClickedPrevious)
                 {
-                    Clicked = !Clicked;
+                    if(ToggleButton)
+                        Clicked = !Clicked;
+                    
+                    OnClick?.Invoke(this, EventArgs.Empty);
                 }
 
                 if (clicked && !ToggleButton)

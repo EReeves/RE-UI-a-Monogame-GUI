@@ -18,13 +18,14 @@ namespace MGUI.Core
         public SamplerState SamplerState { get; set; } = null;
         public DepthStencilState DepthStencilState { get; set; } = null;
         public Effect Effect { get; set; } = null;
+        public Matrix? Transform { get; set; }
         
         public RenderTools(Canvas canvas, GraphicsDevice graphics, Rectangle canvasBounds)
         {
             this.canvas = canvas;
             this.graphics = graphics;
             this.canvasBounds = canvasBounds;
-            rasterizerState = new RasterizerState { ScissorTestEnable = true };
+            rasterizerState = new RasterizerState { ScissorTestEnable = false };
 
             graphics.ScissorRectangle = canvasBounds;
         }
@@ -32,14 +33,14 @@ namespace MGUI.Core
         public void Start(SpriteBatch batcher)
         {
             batcher.GraphicsDevice.ScissorRectangle = canvasBounds;
-            batcher.Begin(SpriteSortMode, BlendState, SamplerState, DepthStencilState, rasterizerState, Effect);
+            batcher.Begin(SpriteSortMode, BlendState, SamplerState, DepthStencilState, rasterizerState, Effect, Transform);
         }
 
         public void StartCull(SpriteBatch batcher, Rectangle bounds)
         {
             batcher.End();
             batcher.GraphicsDevice.ScissorRectangle = bounds;
-            batcher.Begin(SpriteSortMode, BlendState, SamplerState, DepthStencilState, rasterizerState, Effect);
+            batcher.Begin(SpriteSortMode, BlendState, SamplerState, DepthStencilState, rasterizerState, Effect, Transform);
         }
 
         public void EndCull(SpriteBatch batcher)
