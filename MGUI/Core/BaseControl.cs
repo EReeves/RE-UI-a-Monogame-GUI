@@ -9,12 +9,7 @@ namespace MGUI.Core
     {
         public List<IControl> Children { get; set; } = new List<IControl>();
         public IControl Parent { get; set; }
-        
-        /// <summary>
-        /// Optional offset applied to the control, often by the parent.
-        /// Shouldn't be touched unless you know what you're doing.
-        /// </summary>
-        public virtual Point Offset { get; set; }
+       
 
         public Canvas Canvas { get; set; }
 
@@ -32,8 +27,7 @@ namespace MGUI.Core
             get
             {
                 var rect = Bounds;
-                rect.X += Offset.X;
-                rect.Y += Offset.Y;
+      
                 
                 if (Parent == null) return rect;
                 
@@ -84,16 +78,34 @@ namespace MGUI.Core
         {
             if (Parent != null)
             {
+                var newBounds = Bounds;
+                newBounds.Width = Parent.Bounds.Width;
+                newBounds.Height = Parent.Bounds.Height;
+                Bounds = newBounds;
+            }
+            else
+            {
+                var newBounds = Bounds;
+                newBounds.Width = Canvas.Bounds.Width;
+                newBounds.Height = Canvas.Bounds.Height;
+                Bounds = newBounds;
+            }
+        }
+
+        /*
+        //Resizes to parent and also positions to parent (0,0)
+        public void SizeAndPositionToParent()
+        {
+            if (Parent != null)
+            {
                 var newBounds = Parent.Bounds;
                 newBounds.X = 0;
                 newBounds.Y = 0;
-                newBounds.Width -= Offset.X;
-                newBounds.Height -= Offset.Y;
                 Bounds = newBounds;
             }
             else
                 Bounds = Canvas.Bounds;
-        }
+        }*/
 
         //Called automatically by parent or canvas.
         public virtual void Update(GameTime gameTime)

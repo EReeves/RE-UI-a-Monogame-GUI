@@ -28,7 +28,7 @@ namespace MGUI.Controls.Layout
 
         public override void Invalidate()
         {
-            Bounds = Parent != null ? new Rectangle(Bounds.X, Bounds.Y, Parent.Bounds.Width - Offset.X, Parent.Bounds.Height - Offset.Y) : Canvas.Bounds;
+            Bounds = Parent != null ? new Rectangle(Bounds.X, Bounds.Y, Parent.Bounds.Width, Parent.Bounds.Height) : Canvas.Bounds;
 
             AddPadding();
             base.Invalidate();
@@ -38,13 +38,16 @@ namespace MGUI.Controls.Layout
         private void AddPadding()
         {
             SizeToParent();
+            
             //Also make children this big.
             foreach (var control in Children)
             {
                 var bounds = control.Bounds;
                 bounds.Width = Bounds.Width;
                 bounds.Height = Bounds.Height;
+                bounds.Location = Point.Zero;
                 control.Bounds = bounds;
+                
             }
             
             //Then add padding.
@@ -54,28 +57,24 @@ namespace MGUI.Controls.Layout
             var padr = pad[2];
             var padb = pad[3];
             var offset = new Point(padl, padu);
+            var sizeOffset = new Point(padr, padb);
+            sizeOffset += offset; //we also have to take the left padding off the right/bottom.
             
             foreach (var child in Children)
             {
+                /*
                 //Left padding.
                 if (child.Bounds.X < padl)
                     offset.X = padl - child.Bounds.X;
                 
                 //Top padding.
                 if (child.Bounds.Y < allSidePadding)
-                    offset.Y = padu - child.Bounds.Y;
-                
-                //Apply top and left.
-                child.Offset = offset;
-                
-                //Far right padding.
+                    offset.Y = padu - child.Bounds.Y;*/
+
                 var bounds = child.Bounds;
-                if (child.CanvasBounds.Right > CanvasBounds.Right - padr)
-                    bounds.Width -= (child.CanvasBounds.Right - (CanvasBounds.Right-padr));
+                bounds.Location += offset;
+                bounds.Size -= sizeOffset;
                 
-                //Far left.
-                if (child.CanvasBounds.Bottom > CanvasBounds.Bottom - padb)
-                    bounds.Height -= (child.CanvasBounds.Bottom - (CanvasBounds.Bottom-padb));
 
                 child.Bounds = bounds;
             }           

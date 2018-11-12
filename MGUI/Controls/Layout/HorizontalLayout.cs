@@ -7,8 +7,10 @@ namespace MGUI.Controls.Layout
     public class HorizontalLayout : Control
     {
         public int InnerPadding { get; set; } = 10;
-        public int OuterPadding { get; set; } = 0;
-        public int SidePadding { get; set; } = 0;
+        private int OuterPadding { get; set; } = 0;
+        private int SidePadding { get; set; } = 0;
+
+
         
 
 
@@ -53,6 +55,8 @@ namespace MGUI.Controls.Layout
 
         public override void Draw(SpriteBatch batcher)
         {
+            if(Hide) return;
+            ;
             foreach (var control in Children)
             {
                 control.Draw(batcher);

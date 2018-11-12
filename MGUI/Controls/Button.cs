@@ -76,10 +76,11 @@ namespace MGUI.Controls
             
             if (Label == null)
             {
-                Label = new Label(Canvas) { Text = string.Empty }; //Label to go in the button. 
-                var center = new CenteredLayout(Canvas); //Center it
-                center.Add(Label);
-                Add(center);
+                Label = new Label(this)
+                {
+                    Text = string.Empty,
+                    Anchor = Label.TextAnchor.Center
+                }; //Label to go in the button. 
             }
      
             Label.Text = text;
@@ -130,12 +131,9 @@ namespace MGUI.Controls
             Canvas.RenderTools.DrawNinePatch(batcher, Canvas.SpriteSheet, ninePatch.SourcePatches, NinePatchCache.DestinationPatches, Color);
 
             var offset = Clicked ? ButtonClickYOffset : 0;
-            var original = Label.Offset;
-            original.Y += offset;
-            Label.Offset = original;
-            Label.Draw(batcher);
-            original.Y -= offset;
-            Label.Offset = original;
+            //todoo move button for click
+            
+            base.Draw(batcher);
         }
 
         public Button(Canvas canvas) : base(canvas)

@@ -16,6 +16,8 @@ namespace MGUI.Core
         {
             
         }
+        
+        public bool Hide { get; set; } = false;
 
         private bool invalidatedBounds = true;
 
@@ -38,17 +40,6 @@ namespace MGUI.Core
             {
                 child.Invalidate();
             }
-        }
-
-        private Point offset = Point.Zero;
-        public override Point Offset
-        {
-            get
-            {
-                invalidatedBounds = true;
-                return offset;
-            }
-            set => offset = value;
         }
 
         private Rectangle bounds;
@@ -78,6 +69,8 @@ namespace MGUI.Core
 
         public override void Draw(SpriteBatch batcher)
         {
+            if(Hide) return;
+            ;
             if (!DrawOverflow)
             {
                 Canvas.RenderTools.StartCull(batcher, CanvasBounds);

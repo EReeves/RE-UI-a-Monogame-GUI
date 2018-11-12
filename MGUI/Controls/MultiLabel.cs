@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using MGUI.Core;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace MGUI.Controls
 {
@@ -7,6 +8,7 @@ namespace MGUI.Controls
     {
         public List<string> Text = new List<string>();
         private List<Label> labels = new List<Label>();
+        public SpriteFont SpriteFont { get; set; } = null;
 
         public int LineSpacing { get; set; }= 2;
         
@@ -30,13 +32,18 @@ namespace MGUI.Controls
                     labels.Add(new Label(this));
 
                 var label = labels[count];
+                label.Anchor = Label.TextAnchor.Manual;
                 label.Text = text;
-                label.Invalidate();
+
+                if (SpriteFont != null)
+                    label.SpriteFont = SpriteFont;
+                
                 var bounds = label.Bounds;
                 bounds.Y = y;
                 label.Bounds = bounds;
                 y += bounds.Height;
                 y += LineSpacing;
+                label.Invalidate();
 
                 count++;
             }

@@ -10,7 +10,6 @@ namespace MGUI.Core
         IControl Parent { get; set; }
         Rectangle Bounds { get; set; }
         Rectangle CanvasBounds { get; }
-        Point Offset { get; set; }
         Canvas Canvas { get; set; }
         
         //Weight

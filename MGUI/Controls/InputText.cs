@@ -27,7 +27,7 @@ namespace MGUI.Controls
         private Label label;
         private Color textColor = Color.White;
         private bool focused = false;
-        public int TextPadding { get; set; } = 5;
+        public Point TextOffset { get; set; } =  new Point(4,0);
 
         public event EventHandler<string> OnReturn;
 
@@ -50,7 +50,7 @@ namespace MGUI.Controls
             var size = label.SpriteFont.MeasureString(text);
             if (size.X > Bounds.Width)
             {
-                while (label.SpriteFont.MeasureString(text).X > Bounds.Width - (TextPadding*2))
+                while (label.SpriteFont.MeasureString(text).X > Bounds.Width - (TextOffset.X))
                 {
                     text = text.Substring(1);
                 }
@@ -87,24 +87,18 @@ namespace MGUI.Controls
         {
             if (label == null)
             {
-                label = new Label(Canvas)
+                label = new Label(this)
                 {
                     Text = Text,
-                    Bounds = new Rectangle(5,0,1,1)
+                    Anchor = Label.TextAnchor.CenterLeft,
+                    Bounds = new Rectangle(TextOffset.X,TextOffset.Y,1,1)
                 };
             }
             
             label.Color = textColor;
-            label.Offset = new Point(CanvasBounds.X + TextPadding, CanvasBounds.Y);
             
-            //Centre text in bounds, or try to.
-            var stringSize = label.SpriteFont.MeasureString("Hello");
-            var difference = Bounds.Height - stringSize.Y;
-            var offset = label.Offset;
-            offset.Y += (int)(difference / 2);
-            label.Offset = offset;
-            
-            SetLabelText(Text);         
+            if(Text.Length != 0)
+                SetLabelText(Text);         
             
             base.Invalidate();
             

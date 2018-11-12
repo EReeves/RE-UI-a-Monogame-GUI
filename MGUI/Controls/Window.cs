@@ -33,19 +33,26 @@ namespace MGUI.Controls
                 Invalidate();
             }
         }
-        private Rectangle BarRectangle { get; set; }
+        private Rectangle? BarRectangle { get; set; }
 
         public bool Draggable { get; set; } = true;
 
         public override void Invalidate()
         {
-            BarRectangle = new Rectangle(CanvasBounds.X,CanvasBounds.Y,Bounds.Width,TitleBarHeight);
-            foreach (var child in Children)
-            {
-                child.Offset = new Point(0, TitleBarHeight);
-            }
-
+            PaddingExplicit[1] += TitleBarHeight;
+            
             base.Invalidate();
+            
+            PaddingExplicit[1] -= TitleBarHeight;
+            
+            if (TitleBarHeight == 0)
+            {
+                BarRectangle = null;
+            }
+            else
+            {
+                BarRectangle = new Rectangle(CanvasBounds.X, CanvasBounds.Y, Bounds.Width, TitleBarHeight);
+            }
             
             //Cache nine patch
             var texture = Canvas.SourceRectangles["windowBackground"];
@@ -65,6 +72,8 @@ namespace MGUI.Controls
         //Handles mouse input/window drag.
         private void DragInput()
         {
+            if (BarRectangle == null) return;
+            
             if (!Draggable) return;
             
             var mouseState = Mouse.GetState();
@@ -80,7 +89,7 @@ namespace MGUI.Controls
             
             if (!lMouseDown)
             {
-                if (!mouseRect.Intersects(BarRectangle)) return; //Drag on the bar only.
+                if (!mouseRect.Intersects(BarRectangle.Value)) return; //Drag on the bar only.
                 //First pressed
                 lastPosition = mouseState.Position;
                 lMouseDown = true;

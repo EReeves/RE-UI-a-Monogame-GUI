@@ -79,14 +79,26 @@ namespace MGUI.Core
             return (sourcePatches, destinationPatches);
         }
 
-        public void DrawNinePatch(SpriteBatch batcher, Texture2D texture, Rectangle[] sourcePatches, Rectangle[] destinationPatches, Color color)
+        public void DrawNinePatch(SpriteBatch batcher, Texture2D texture, Rectangle[] sourcePatches, Rectangle[] destinationPatches, Color color, Vector2? scale = null, Point? offset = null)
         {
             for (var i = 0; i < sourcePatches.Length; i++)
             {
+                var dest = destinationPatches[i];
+                if (scale != null)
+                {
+                    dest.Size = (dest.Size.ToVector2() * scale.Value).ToPoint();
+                }
+
+                if (offset != null)
+                {
+                    dest.Location = dest.Location + offset.Value;
+                }
+                
                 batcher.Draw(texture, sourceRectangle: sourcePatches[i],
-                    destinationRectangle: destinationPatches[i], color: color);
+                    destinationRectangle: dest, color: color);
             }
         }
+        
         
         //Thanks to Monogame.Extended, helps speed things up.
         private Rectangle[] CreatePatches(Rectangle rectangle, int[] pad)
