@@ -12,7 +12,7 @@ namespace MGUI.Controls
     {
         public string Texture { get; set; }
         private Rectangle sourceRect;
-        
+
         public Image(Canvas canvas) : base(canvas)
         {
         }
@@ -23,18 +23,18 @@ namespace MGUI.Controls
 
         public override void Invalidate()
         {
-            if(Texture == null)
+            if (Texture == null)
                 throw new Exception("Texture property must be set on an Image control.");
 
             sourceRect = Canvas.SourceRectangles[Texture].sourceRect;
-            
+
             base.Invalidate();
         }
 
         public override void Draw(SpriteBatch batcher)
         {
-            batcher.Draw(Canvas.SpriteSheet,CanvasBounds, sourceRect, Color);
-            
+            batcher.Draw(Canvas.SpriteSheet, CanvasBounds, sourceRect, Color);
+
             base.Draw(batcher);
         }
     }

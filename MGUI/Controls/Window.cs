@@ -14,12 +14,14 @@ namespace MGUI.Controls
 
 
         //We need to invalidate the window's bar rectangle to save instantiating a new one every frame.
-        
+
         private Rectangle bounds;
         public override Rectangle Bounds
         {
             get => bounds;
-            set { bounds = value;
+            set
+            {
+                bounds = value;
                 Invalidate();
             }
         }
@@ -28,7 +30,8 @@ namespace MGUI.Controls
         public int TitleBarHeight
         {
             get => titleBarHeight;
-            set { 
+            set
+            {
                 titleBarHeight = value;
                 Invalidate();
             }
@@ -40,11 +43,11 @@ namespace MGUI.Controls
         public override void Invalidate()
         {
             PaddingExplicit[1] += TitleBarHeight;
-            
+
             base.Invalidate();
-            
+
             PaddingExplicit[1] -= TitleBarHeight;
-            
+
             if (TitleBarHeight == 0)
             {
                 BarRectangle = null;
@@ -53,10 +56,10 @@ namespace MGUI.Controls
             {
                 BarRectangle = new Rectangle(CanvasBounds.X, CanvasBounds.Y, Bounds.Width, TitleBarHeight);
             }
-            
+
             //Cache nine patch
-            var texture = Canvas.SourceRectangles["windowBackground"];
-            NinePatchCache = Canvas.RenderTools.CalculateNinePatch(texture.sourceRect, CanvasBounds, texture.ninePatch);
+            var (sourceRect, ninePatch) = Canvas.SourceRectangles["windowBackground"];
+            NinePatchCache = RenderTools.CalculateNinePatch(sourceRect, CanvasBounds, ninePatch);
         }
 
         public override void Update(GameTime gameTime)
@@ -68,14 +71,14 @@ namespace MGUI.Controls
         //Window drag input state.
         private bool lMouseDown;
         private Point lastPosition;
-        
+
         //Handles mouse input/window drag.
         private void DragInput()
         {
             if (BarRectangle == null) return;
-            
+
             if (!Draggable) return;
-            
+
             var mouseState = Mouse.GetState();
             var lDown = mouseState.LeftButton == ButtonState.Pressed;
             if (!lDown)
@@ -83,10 +86,10 @@ namespace MGUI.Controls
                 lMouseDown = false;
                 return;
             }
-            
-            var mouseRect = new Rectangle(mouseState.X,mouseState.Y,1,1);
 
-            
+            var mouseRect = new Rectangle(mouseState.X, mouseState.Y, 1, 1);
+
+
             if (!lMouseDown)
             {
                 if (!mouseRect.Intersects(BarRectangle.Value)) return; //Drag on the bar only.
@@ -102,7 +105,7 @@ namespace MGUI.Controls
             newRect.X += difference.X;
             newRect.Y += difference.Y;
 
-           //Clamp to Canvas bounds.
+            //Clamp to Canvas bounds.
             if (window.X > newRect.X)
                 newRect.X = window.X;
             if (newRect.Right > window.Width)
@@ -112,9 +115,9 @@ namespace MGUI.Controls
             if (newRect.Y < window.Y)
                 newRect.Y = window.Y;
 
-            
+
             Bounds = newRect;
-            
+
             Invalidate();
             //Reset state
             lastPosition = mouseState.Position;
@@ -122,14 +125,14 @@ namespace MGUI.Controls
         //Children draw from the bottom of the window bar.
         public override void Draw(SpriteBatch batcher)
         {
-            Canvas.RenderTools.DrawNinePatch(batcher,Canvas.SpriteSheet,NinePatchCache.SourcePatches, NinePatchCache.DestinationPatches, Color);
-            
+            RenderTools.DrawNinePatch(batcher, Canvas.SpriteSheet, NinePatchCache.SourcePatches, NinePatchCache.DestinationPatches, Color);
+
             //Draw children minding the bar.
             foreach (var control in Children)
             {
                 control.Draw(batcher);
             }
-            
+
         }
 
         public Window(Canvas canvas) : base(canvas)

@@ -6,12 +6,12 @@ namespace MGUI.Controls
 {
     public class MultiLabel : PaddedControl
     {
-        public List<string> Text = new List<string>();
-        private List<Label> labels = new List<Label>();
+        public List<string> Text = new();
+        private readonly List<Label> labels = new();
         public SpriteFont SpriteFont { get; set; } = null;
 
-        public int LineSpacing { get; set; }= 2;
-        
+        public int LineSpacing { get; set; } = 2;
+
         public MultiLabel(Canvas canvas) : base(canvas)
         {
         }
@@ -37,7 +37,7 @@ namespace MGUI.Controls
 
                 if (SpriteFont != null)
                     label.SpriteFont = SpriteFont;
-                
+
                 var bounds = label.Bounds;
                 bounds.Y = y;
                 label.Bounds = bounds;
@@ -48,7 +48,7 @@ namespace MGUI.Controls
                 count++;
             }
 
-            
+
             base.Invalidate();
         }
     }

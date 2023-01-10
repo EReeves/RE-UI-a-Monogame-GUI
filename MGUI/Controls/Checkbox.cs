@@ -17,7 +17,7 @@ namespace MGUI.Controls
         {
             actualColor = color;
             ToggleButton = true;
-            var sourceRec =  Canvas.SourceRectangles["checkbox"].sourceRect;
+            var sourceRec = Canvas.SourceRectangles["checkbox"].sourceRect;
             var newBounds = Bounds;
             newBounds.Width = sourceRec.Width;
             newBounds.Height = sourceRec.Height;
@@ -29,7 +29,7 @@ namespace MGUI.Controls
             var source = Clicked
                 ? Canvas.SourceRectangles["checkboxclicked"].sourceRect
                 : Canvas.SourceRectangles["checkbox"].sourceRect;
-            batcher.Draw(Canvas.SpriteSheet,CanvasBounds,source,Color);
+            batcher.Draw(Canvas.SpriteSheet, CanvasBounds, source, Color);
         }
     }
 }

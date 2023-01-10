@@ -13,7 +13,7 @@ namespace MGUI.Controls
             get => text;
             set
             {
-                text = value; 
+                text = value;
                 Invalidate();
             }
         }
@@ -32,7 +32,7 @@ namespace MGUI.Controls
         }
 
         public TextAnchor Anchor { get; set; } = TextAnchor.LeftTop;
-        
+
         public Label(Canvas canvas) : base(canvas)
         {
             SpriteFont = canvas.DefaultFont;
@@ -40,15 +40,15 @@ namespace MGUI.Controls
 
         public override void Invalidate()
         {
-            
+
             var size = string.IsNullOrEmpty(Text) ? Vector2.One : SpriteFont.MeasureString(Text);
 
             var preResizeBounds = Bounds;
-            
+
             this.SizeToParent();
-            
+
             base.Invalidate();
-            
+
 
             switch (Anchor)
             {
@@ -58,7 +58,7 @@ namespace MGUI.Controls
                 case TextAnchor.CenterTop:
                     ActualDrawLocation = CanvasBounds.Location.ToVector2();
                     var leftOverWidth = CanvasBounds.Width - size.X;
-                    ActualDrawLocation += new Vector2(leftOverWidth/2,0);
+                    ActualDrawLocation += new Vector2(leftOverWidth / 2, 0);
                     ActualDrawLocation = ActualDrawLocation.ToPoint().ToVector2();
                     break;
                 case TextAnchor.Center:
@@ -66,14 +66,14 @@ namespace MGUI.Controls
                     var half = leftover.ToVector2() / 2;
                     ActualDrawLocation = CanvasBounds.Location.ToVector2() + half.ToPoint().ToVector2();
                     break;
-                case TextAnchor.LeftBottom:                   
+                case TextAnchor.LeftBottom:
                     var leftoverHeight = CanvasBounds.Size - size.ToPoint();
                     ActualDrawLocation = CanvasBounds.Location.ToVector2() + leftoverHeight.ToVector2();
                     break;
                 case TextAnchor.CenterLeft:
                     ActualDrawLocation = CanvasBounds.Location.ToVector2();
                     var leftOverHeight = CanvasBounds.Height - size.Y;
-                    ActualDrawLocation += new Vector2(0,leftOverHeight/2);
+                    ActualDrawLocation += new Vector2(0, leftOverHeight / 2);
                     ActualDrawLocation = ActualDrawLocation.ToPoint().ToVector2();
                     break;
                 case TextAnchor.Manual:
@@ -95,7 +95,7 @@ namespace MGUI.Controls
             if (Text == null) return;
             batcher.DrawString(SpriteFont, Text, newLoc, Color);
         }
-        
+
         public Label(IControl parent) : base(parent)
         {
             SpriteFont = Canvas.DefaultFont;

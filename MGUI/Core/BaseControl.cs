@@ -9,7 +9,7 @@ namespace MGUI.Core
     {
         public List<IControl> Children { get; set; } = new List<IControl>();
         public IControl Parent { get; set; }
-       
+
 
         public Canvas Canvas { get; set; }
 
@@ -27,10 +27,10 @@ namespace MGUI.Core
             get
             {
                 var rect = Bounds;
-      
-                
+
+
                 if (Parent == null) return rect;
-                
+
                 //Need to offset for parent.
                 rect.X += Parent.CanvasBounds.X;
                 rect.Y += Parent.CanvasBounds.Y;
@@ -43,19 +43,19 @@ namespace MGUI.Core
         /// Tint colour
         /// </summary>
         public virtual Color Color { get; set; } = Color.White;
-        
+
         /// <summary>
         /// Used in some layouts to determine the size or location of the control.
         /// </summary>
         public int Weight { get; set; } = 1;
 
-      
+
         public BaseControl(Canvas canvas)
         {
             this.Canvas = canvas;
             canvas.Add(this);
         }
-        
+
         /// <summary>
         ///  Simultaneously create UI and add to parent.
         /// </summary>
@@ -63,14 +63,14 @@ namespace MGUI.Core
         /// <exception cref="Exception"></exception>
         public BaseControl(IControl parent)
         {
-            if(parent.Canvas == null) throw new Exception("Canvas must be set on the parent control before adding to a parent");
+            if (parent.Canvas == null) throw new Exception("Canvas must be set on the parent control before adding to a parent");
             Canvas = parent.Canvas;
             parent.Add(this);
         }
 
         //BaseControl has nothing to invalidate.
         public abstract void Invalidate();
-        
+
 
 
         //Resize to parent, or canvas if there is no parent.
@@ -131,7 +131,7 @@ namespace MGUI.Core
             control.Parent = this;
             Children.Add(control);
         }
-        
+
         //Remove a child control
         public virtual void Remove(IControl control)
         {

@@ -15,20 +15,20 @@ namespace MGUI.Controls
     {
         public bool Clicked { get; set; } = false;
         private bool ClickedPrevious { get; set; } = false;
-        public Color ClickedTintColor { get; set; } = new Color(180,180,180);
+        public Color ClickedTintColor { get; set; } = new Color(180, 180, 180);
         public Color HoverTintColor { get; set; } = Color.White;
 
         protected Color actualColor;
-        protected Color color = new Color(200,200,200);
-        
+        protected Color color = new(200, 200, 200);
+
         //Textures
         private (Rectangle[] SourcePatches, Rectangle[] DestinationPatches) NinePatchCacheButtonDown;
         public string ButtonUpTexture { get; set; } = "buttonup";
         public string ButtonDownTexture { get; set; } = "buttondown";
 
         public bool ToggleButton { get; set; } = false;
-        
-        
+
+
         public override Color Color
         {
             get => color;
@@ -55,13 +55,13 @@ namespace MGUI.Controls
             set
             {
                 text = value;
-                if(Label!= null)
-                    Label.Text = value;            
+                if (Label != null)
+                    Label.Text = value;
             }
         }
 
         public event EventHandler OnClick;
-        
+
 
 
         public override void Update(GameTime gameTime)
@@ -73,32 +73,29 @@ namespace MGUI.Controls
         public override void Invalidate()
         {
             actualColor = color;
-            
-            if (Label == null)
+
+            Label ??= new Label(this)
             {
-                Label = new Label(this)
-                {
-                    Text = string.Empty,
-                    Anchor = Label.TextAnchor.Center
-                }; //Label to go in the button. 
-            }
-     
+                Text = string.Empty,
+                Anchor = Label.TextAnchor.Center
+            }; //Label to go in the button. 
+
             Label.Text = text;
 
-            NinePatchCache = Canvas.RenderTools.CalculateNinePatch(Canvas.SourceRectangles["buttonup"].sourceRect, CanvasBounds,
+            NinePatchCache = RenderTools.CalculateNinePatch(Canvas.SourceRectangles["buttonup"].sourceRect, CanvasBounds,
                 Canvas.SourceRectangles["buttonup"].ninePatch);
-            
-            NinePatchCacheButtonDown = Canvas.RenderTools.CalculateNinePatch(Canvas.SourceRectangles["buttondown"].sourceRect, CanvasBounds,
+
+            NinePatchCacheButtonDown = RenderTools.CalculateNinePatch(Canvas.SourceRectangles["buttondown"].sourceRect, CanvasBounds,
                 Canvas.SourceRectangles["buttondown"].ninePatch);
-            
+
             base.Invalidate();
         }
-        
+
         public void ClickUpdate()
         {
             var mouseState = Mouse.GetState();
             var pos = mouseState.Position;
-            var mousePosRect = new Rectangle(pos.X,pos.Y,1,1);
+            var mousePosRect = new Rectangle(pos.X, pos.Y, 1, 1);
 
             if (mousePosRect.Intersects(CanvasBounds))
             {
@@ -106,17 +103,17 @@ namespace MGUI.Controls
 
                 if (clicked && !ClickedPrevious)
                 {
-                    if(ToggleButton)
+                    if (ToggleButton)
                         Clicked = !Clicked;
-                    
+
                     OnClick?.Invoke(this, EventArgs.Empty);
                 }
 
                 if (clicked && !ToggleButton)
                     Clicked = true;
-                else if(!clicked && !ToggleButton)
+                else if (!clicked && !ToggleButton)
                     Clicked = false;
-                
+
                 ClickedPrevious = clicked;
 
                 color = Clicked ? ClickedTintColor : HoverTintColor;
@@ -127,12 +124,14 @@ namespace MGUI.Controls
 
         public override void Draw(SpriteBatch batcher)
         {
+#pragma warning disable IDE0042 //warning fix is breaking
             var ninePatch = Clicked ? NinePatchCacheButtonDown : NinePatchCache;
-            Canvas.RenderTools.DrawNinePatch(batcher, Canvas.SpriteSheet, ninePatch.SourcePatches, NinePatchCache.DestinationPatches, Color);
+            RenderTools.DrawNinePatch(batcher, Canvas.SpriteSheet, ninePatch.SourcePatches, NinePatchCache.DestinationPatches, Color);
+#pragma warning restore IDE0042
 
-            var offset = Clicked ? ButtonClickYOffset : 0;
+            var _ = Clicked ? ButtonClickYOffset : 0;
             //todoo move button for click
-            
+
             base.Draw(batcher);
         }
 

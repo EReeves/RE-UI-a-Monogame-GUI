@@ -10,15 +10,15 @@ namespace MGUI.Core
     /// </summary>
     public class Canvas
     {
-        public List<IControl> Children = new List<IControl>();
+        public List<IControl> Children = new();
         public Texture2D SpriteSheet { get; }
-        public Dictionary<string,(Rectangle sourceRect, int[] ninePatch)> SourceRectangles { get; } //Also contains nine patch information if relevant.
-        public Dictionary<string,SpriteFont> SpriteFonts { get; }
+        public Dictionary<string, (Rectangle sourceRect, int[] ninePatch)> SourceRectangles { get; } //Also contains nine patch information if relevant.
+        public Dictionary<string, SpriteFont> SpriteFonts { get; }
         public Rectangle Bounds { get; set; }
-        
+
         public RenderTools RenderTools { get; set; }
 
-        private string defaultFont;
+        private readonly string defaultFont;
         public SpriteFont DefaultFont => SpriteFonts[defaultFont];
 
         /// <summary>
@@ -29,19 +29,19 @@ namespace MGUI.Core
         /// <param name="sourceRectangles">A Dictionary with names and source rectanges for UI textures.</param>
         /// <param name="spriteFonts">A dictionary with names for fonts and the SpriteFonts themselves</param>
         /// <param name="defaultFont">The name of the default SpriteFont to use for text</param>
-        public Canvas(Game game, Rectangle bounds, Texture2D spriteSheet, Dictionary<string, (Rectangle, int[])> sourceRectangles, Dictionary<string,SpriteFont> spriteFonts, string defaultFont)
+        public Canvas(Game game, Rectangle bounds, Texture2D spriteSheet, Dictionary<string, (Rectangle, int[])> sourceRectangles, Dictionary<string, SpriteFont> spriteFonts, string defaultFont)
         {
             this.defaultFont = defaultFont;
             this.SpriteSheet = spriteSheet;
             this.SourceRectangles = sourceRectangles;
             this.Bounds = bounds;
             this.SpriteFonts = spriteFonts;
-            
+
             RenderTools = new RenderTools(this, game.GraphicsDevice, bounds);
-            
-            Core.Utility.KeyboardInput.Initialize(game,350,10);
+
+            Core.Utility.KeyboardInput.Initialize(game, 350, 10);
         }
-        
+
         /// <summary>
         /// Updates all children in the canvas recursively.
         /// </summary>
@@ -49,7 +49,7 @@ namespace MGUI.Core
         public void Update(GameTime time)
         {
             Core.Utility.KeyboardInput.Update();
-                
+
             foreach (var child in Children)
             {
                 child.Update(time);
@@ -63,12 +63,12 @@ namespace MGUI.Core
         public void Draw(SpriteBatch batcher)
         {
             RenderTools.Start(batcher);
-            
+
             foreach (var child in Children)
             {
                 child.Draw(batcher);
             }
-            
+
             batcher.End();
         }
 

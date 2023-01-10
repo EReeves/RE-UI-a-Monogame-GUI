@@ -7,8 +7,8 @@ namespace MGUI.Controls.Layout
 {
     public class CenteredLayout : Control
     {
-        
-        
+
+
 
         public override void Draw(SpriteBatch batcher)
         {
@@ -20,13 +20,13 @@ namespace MGUI.Controls.Layout
 
         public override void Invalidate()
         {
- 
+
             foreach (var child in Children)
             {
                 var height = Bounds.Height - child.Bounds.Height;
                 var width = Bounds.Width - child.Bounds.Width;
-            
-                child.Bounds = new Rectangle(width/2,height/2,child.Bounds.Width,child.Bounds.Height);
+
+                child.Bounds = new Rectangle(width / 2, height / 2, child.Bounds.Width, child.Bounds.Height);
             }
 
             base.Invalidate();

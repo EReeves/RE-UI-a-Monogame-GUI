@@ -11,17 +11,17 @@ namespace MGUI.Core
         Rectangle Bounds { get; set; }
         Rectangle CanvasBounds { get; }
         Canvas Canvas { get; set; }
-        
+
         //Weight
         int Weight { get; set; }
-      
+
         //Invalidate
         void Invalidate();
-       
+
         //Add/Remove      
         void Add(IControl control);
         void Remove(IControl control);
-        
+
         //Update/Draw
         void Update(GameTime gameTime);
         void Draw(SpriteBatch batcher);

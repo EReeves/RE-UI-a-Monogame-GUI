@@ -14,9 +14,9 @@ namespace MGUI.Core
 
         public Control(IControl parent) : base(parent)
         {
-            
+
         }
-        
+
         public bool Hide { get; set; } = false;
 
         private bool invalidatedBounds = true;
@@ -26,7 +26,7 @@ namespace MGUI.Core
         /// Disabling this introduces another draw call so best to use it only when needed.
         /// </summary>
         public bool DrawOverflow { get; set; } = true;
-        
+
         /// <summary>
         /// Used to cache nine patch information.
         /// </summary>
@@ -69,7 +69,7 @@ namespace MGUI.Core
 
         public override void Draw(SpriteBatch batcher)
         {
-            if(Hide) return;
+            if (Hide) return;
             ;
             if (!DrawOverflow)
             {

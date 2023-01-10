@@ -74,7 +74,7 @@ namespace MGUI.Core.Utility
 
         public delegate void KeyEventHandler(object sender, KeyEventArgs e, KeyboardState ks);
 
-        public static readonly char[] SPECIAL_CHARACTERS = {'\a', '\b', '\n', '\r', '\f', '\t', '\v'};
+        public static readonly char[] SPECIAL_CHARACTERS = { '\a', '\b', '\n', '\r', '\f', '\t', '\v' };
 
         private static Game game;
 
@@ -144,7 +144,7 @@ namespace MGUI.Core.Utility
         {
             KeyboardState keyState = Keyboard.GetState();
 
-            foreach (Keys key in (Keys[]) Enum.GetValues(typeof(Keys)))
+            foreach (Keys key in (Keys[])Enum.GetValues(typeof(Keys)))
             {
                 if (JustPressed(keyState, key))
                 {

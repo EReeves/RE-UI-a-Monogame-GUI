@@ -6,12 +6,11 @@ namespace MGUI.Core
     public class RenderTools
     {
         private readonly Canvas canvas;
-        private readonly GraphicsDevice graphics;
         private readonly Rectangle canvasBounds;
         //Off by default, could mess with rendering of a lot of games.
-        public readonly RasterizerState RasterizerState = new RasterizerState { ScissorTestEnable = false };
-        private RasterizerState rasterizerStateNoScissor;
-        
+        public readonly RasterizerState RasterizerState = new() { ScissorTestEnable = false };
+
+
         //So drawing can be customized.
 
         public SpriteSortMode SpriteSortMode { get; set; } = SpriteSortMode.Deferred;
@@ -20,14 +19,12 @@ namespace MGUI.Core
         public DepthStencilState DepthStencilState { get; set; } = null;
         public Effect Effect { get; set; } = null;
         public Matrix? Transform { get; set; }
-        
-        
+
+
         public RenderTools(Canvas canvas, GraphicsDevice graphics, Rectangle canvasBounds)
         {
             this.canvas = canvas;
-            this.graphics = graphics;
             this.canvasBounds = canvasBounds;
-
 
             graphics.ScissorRectangle = canvasBounds;
         }
@@ -63,23 +60,22 @@ namespace MGUI.Core
             var pointTexture = canvas.SpriteSheet;
             var source = canvas.SourceRectangles["whiteTexture"].sourceRect;
             batcher.Draw(pointTexture, new Rectangle(rectangle.X, rectangle.Y, lineWidth, rectangle.Height), source, color);
-            batcher.Draw(pointTexture, new Rectangle(rectangle.X, rectangle.Y, rectangle.Width-lineWidth, lineWidth), source, color);
-            batcher.Draw(pointTexture, new Rectangle(rectangle.X + rectangle.Width-lineWidth, rectangle.Y, lineWidth, rectangle.Height), source, color);
-            batcher.Draw(pointTexture, new Rectangle(rectangle.X, rectangle.Y + rectangle.Height - lineWidth, rectangle.Width- lineWidth, lineWidth), source, color);
+            batcher.Draw(pointTexture, new Rectangle(rectangle.X, rectangle.Y, rectangle.Width - lineWidth, lineWidth), source, color);
+            batcher.Draw(pointTexture, new Rectangle(rectangle.X + rectangle.Width - lineWidth, rectangle.Y, lineWidth, rectangle.Height), source, color);
+            batcher.Draw(pointTexture, new Rectangle(rectangle.X, rectangle.Y + rectangle.Height - lineWidth, rectangle.Width - lineWidth, lineWidth), source, color);
         }
 
-        public (Rectangle[] sourcePatches, Rectangle[] destPatches) CalculateNinePatch(Rectangle sourceRect, Rectangle destRect, int[] ninePatchCoords)
-        {          
-            if (ninePatchCoords == null)
-                ninePatchCoords = new int[]{12,12,12,12};
-            
+        public static (Rectangle[] sourcePatches, Rectangle[] destPatches) CalculateNinePatch(Rectangle sourceRect, Rectangle destRect, int[] ninePatchCoords)
+        {
+            ninePatchCoords ??= new int[] { 12, 12, 12, 12 };
+
             var sourcePatches = CreatePatches(sourceRect, ninePatchCoords);
             var destinationPatches = CreatePatches(destRect, ninePatchCoords);
 
             return (sourcePatches, destinationPatches);
         }
 
-        public void DrawNinePatch(SpriteBatch batcher, Texture2D texture, Rectangle[] sourcePatches, Rectangle[] destinationPatches, Color color, Vector2? scale = null, Point? offset = null)
+        public static void DrawNinePatch(SpriteBatch batcher, Texture2D texture, Rectangle[] sourcePatches, Rectangle[] destinationPatches, Color color, Vector2? scale = null, Point? offset = null)
         {
             for (var i = 0; i < sourcePatches.Length; i++)
             {
@@ -91,24 +87,24 @@ namespace MGUI.Core
 
                 if (offset != null)
                 {
-                    dest.Location = dest.Location + offset.Value;
+                    dest.Location += offset.Value;
                 }
-                
+
                 batcher.Draw(texture, sourceRectangle: sourcePatches[i],
                     destinationRectangle: dest, color: color);
             }
         }
-        
-        
+
+
         //Thanks to Monogame.Extended, helps speed things up.
-        private Rectangle[] CreatePatches(Rectangle rectangle, int[] pad)
+        private static Rectangle[] CreatePatches(Rectangle rectangle, int[] pad)
         {
             var leftPadding = pad[0];
             var topPadding = pad[1];
             var rightPadding = pad[2];
             var bottomPadding = pad[3];
-            
-            
+
+
             var x = rectangle.X;
             var y = rectangle.Y;
             var w = rectangle.Width;

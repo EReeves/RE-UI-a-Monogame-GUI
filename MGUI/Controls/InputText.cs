@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Color = Microsoft.Xna.Framework.Color;
-using KeyboardInput =  MGUI.Core.Utility.KeyboardInput;
+using KeyboardInput = MGUI.Core.Utility.KeyboardInput;
 
 namespace MGUI.Controls
 {
@@ -19,7 +19,7 @@ namespace MGUI.Controls
             set
             {
                 text = value;
-                if(label!=null)
+                if (label != null)
                     SetLabelText(value);
             }
         }
@@ -27,7 +27,7 @@ namespace MGUI.Controls
         private Label label;
         private Color textColor = Color.White;
         private bool focused = false;
-        public Point TextOffset { get; set; } =  new Point(4,0);
+        public Point TextOffset { get; set; } = new Point(4, 0);
 
         public event EventHandler<string> OnReturn;
 
@@ -44,15 +44,15 @@ namespace MGUI.Controls
 
         private void SetLabelText(string text)
         {
-            if(focused)
+            if (focused)
                 text += "|";
-            
+
             var size = label.SpriteFont.MeasureString(text);
             if (size.X > Bounds.Width)
             {
                 while (label.SpriteFont.MeasureString(text).X > Bounds.Width - (TextOffset.X))
                 {
-                    text = text.Substring(1);
+                    text = text[1..];
                 }
             }
 
@@ -66,11 +66,11 @@ namespace MGUI.Controls
             switch (e.KeyCode)
             {
                 case Keys.Back when Text.Length >= 1:
-                    Text = Text.Substring(0, Text.Length - 1);
+                    Text = Text[..^1];
                     break;
                 case Keys.Enter:
                     OnReturn?.Invoke(this, Text);
-                    Text = string.Empty;;
+                    Text = string.Empty; ;
                     focused = false;
                     break;
             }
@@ -85,25 +85,22 @@ namespace MGUI.Controls
 
         public override void Invalidate()
         {
-            if (label == null)
+            label ??= new Label(this)
             {
-                label = new Label(this)
-                {
-                    Text = Text,
-                    Anchor = Label.TextAnchor.CenterLeft,
-                    Bounds = new Rectangle(TextOffset.X,TextOffset.Y,1,1)
-                };
-            }
-            
+                Text = Text,
+                Anchor = Label.TextAnchor.CenterLeft,
+                Bounds = new Rectangle(TextOffset.X, TextOffset.Y, 1, 1)
+            };
+
             label.Color = textColor;
-            
-            if(Text.Length != 0)
-                SetLabelText(Text);         
-            
+
+            if (Text.Length != 0)
+                SetLabelText(Text);
+
             base.Invalidate();
-            
-            
-            NinePatchCache = Canvas.RenderTools.CalculateNinePatch(Canvas.SourceRectangles["recessed"].sourceRect, CanvasBounds,
+
+
+            NinePatchCache = RenderTools.CalculateNinePatch(Canvas.SourceRectangles["recessed"].sourceRect, CanvasBounds,
                 Canvas.SourceRectangles["recessed"].ninePatch);
         }
 
@@ -112,7 +109,7 @@ namespace MGUI.Controls
         {
             var mouseState = Mouse.GetState();
             if (mouseState.LeftButton != ButtonState.Pressed) return;
-            var mouseRect = new Rectangle(mouseState.X,mouseState.Y,1,1);
+            var mouseRect = new Rectangle(mouseState.X, mouseState.Y, 1, 1);
             var f = mouseRect.Intersects(CanvasBounds);
             if (f == !focused)
             {
@@ -132,11 +129,11 @@ namespace MGUI.Controls
 
         public override void Draw(SpriteBatch batcher)
         {
-            Canvas.RenderTools.DrawNinePatch(batcher, Canvas.SpriteSheet, NinePatchCache.SourcePatches, NinePatchCache.DestinationPatches, Color);
+            RenderTools.DrawNinePatch(batcher, Canvas.SpriteSheet, NinePatchCache.SourcePatches, NinePatchCache.DestinationPatches, Color);
 
             base.Draw(batcher);
-            if(focused)
-                Canvas.RenderTools.RenderOutline(batcher, CanvasBounds, Color.Goldenrod,2);
+            if (focused)
+                Canvas.RenderTools.RenderOutline(batcher, CanvasBounds, Color.Goldenrod, 2);
             label.Draw(batcher);
         }
 

@@ -8,7 +8,7 @@ namespace MGUI.Controls.Layout
     {
         public int InnerPadding { get; set; } = 10;
         public int OuterPadding { get; set; } = 0;
-        
+
 
 
         public override void Invalidate()
@@ -33,7 +33,7 @@ namespace MGUI.Controls.Layout
                 child.Bounds = new Rectangle(OuterPadding, y, Bounds.Width - OuterPadding * 2,
                     newHeight);
                 // child.Offset = new Point(CanvasBounds.X, CanvasBounds.Y);
-                if (i+1 < Children.Count)
+                if (i + 1 < Children.Count)
                     y += InnerPadding;
                 y += newHeight;
             }

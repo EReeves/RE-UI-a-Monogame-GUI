@@ -1,72 +1,53 @@
-# Currently a WIP
---------------------
-
-
 # RE: Ui
 
-RE: Ui is a GUI library for Monogame.
+RE: Ui is a simple user interface library for MonoGame.
 
-##### Design Goals
-- Simple.
-- Provide a UI framework rather than a messy full-featured library. 
-- Keep it "Monogame-like".
-- Easy to interface with any standard texture atlas implementation.
-- Reduce side effects where possible.
-- Follow the single purpose principle where possible.
-- The less interdependence between components the better.
+## Design Goals
+- Simple
+- Easy for MonoGame developers to grasp ("MonoGame-like")
+- Easy to interface with any texture atlas implementation
+- Extensible
 
-## Set Up
-RE: Ui is designed to interface with any single-texture, texture atlas system, so keep your UI textures in a single texture.
+Updates to RE: Ui may break your code until a stable version is established.   
 
-You'll need to provide at least one default SpriteFont, a single Texture2D, source rectangles for that texture, as well as nice patch coordinates for those textures. Don't worry if I've lost you, this will be shown in code below.
+## Quickstart
 
-##### If you are experienced in Monogame it might be faster for you to just check out the [Sample Project](/Sample/Game.Desktop/Game.cs)
-
-##### The following code would all go in your Load method.
-
-First load in your textures and source rectanges, you can do this however you like, I use TexturePacker and a small library (which is included in the Sample project).
+1. Load in your textures and source rectanges, you can do this however you like. I use TexturePacker and a small library (which you can find in the [Sample Project](/Sample/Game.Desktop/Game.cs)).
 ```csharp 
 TexturePackerLoader.SpriteSheetLoader loader = new SpriteSheetLoader(Content);
 var spriteSheet = loader.Load("texture");
 var texture = spriteSheet.Texture;
 ```
-We need a Rectangle to define our UI bounds. This is usually just the size of the window.
+2. Create a Rectangle to define the bounds for your UI. For most purposes, this is just the size of your MonoGame Window.
 ```csharp
 var screenBounds = new Rectangle(0, 0, 800, 600); //The size of your GUI. This is usually just the window size.
 ```
-Now comes the most complicated part. You need to load your source rectangles into a dictionary of type `Dictionary <string,
-     (Rectangle, int[])>` where:
- - The `string` is the name of a ui element. You can see all the defaults in the [Sample Project](/Sample/Game.Desktop/Game.cs). Yours should match them.
- - The `Rectange` is the source rectangle for that texture, so we know what to draw from your texture atlas.
- - The `int[]`is an array of four integers defining the nine patch coordinates for this sprite. 
- If you don't know what a nine patch(or nine slice) sprite is, you should Google it. 
- You can leave this null and it'll choose a default of `20,20,20,20`. These are in order from `Left`, `Top`, `Right` and `Bottom`.
+3. Load your source rectangles into a dictionary of type `Dictionary <string, (Rectangle, int[]?)>` where:
+- `string` is a label for the texture. See the [Sample Project](/Sample/Game.Desktop/Game.cs) for all defaults.
+ - `Rectange` is the source rectangle for that texture.
+ - `int[]`is an optional array of nine patch coordinates, in the order `Left`, `Top`, `Right` and `Bottom`. `null` defaults to `20,20,20,20`.
 ```csharp
-var windowSpliceCoordinates = new[] {20,30,20,20}; //30 on the top to leave room for the window's top bar.
-
 var sourceRects = new Dictionary <string, (Rectangle, int[])>
 {
     ["whiteTexture"] = (spriteSheet.Sprite("whitetexture").SourceRectangle, null),
     ["background"] = (spriteSheet.Sprite("background").SourceRectangle, null),
-    ["windowBackground"] = (spriteSheet.Sprite("floatingbackground").SourceRectangle, windowSpliceCoordinates)
+    ["windowBackground"] = (spriteSheet.Sprite("floatingbackground").SourceRectangle, new[] {20,30,20,20})
 };
 ```
-Nearly done with the setup. You need to put at least one SpriteFont into a dictionary. One of these will be your default font. Name it whatever you like, but you'll need it in the next step.
+4. Place your SpriteFonts into a dictionary.
 ```csharp
 var spriteFonts = new Dictionary <string, SpriteFont> 
 {
     ["arial"] = Content.Load<SpriteFont>("Arial 11")
 };
 ```
-Lastly, put it all together and create a Canvas. `this` here is a `Game` object. Also notice the last parameter `arial` should be whatever you named your default font in the last step.
+5. Create a Canvas. 
+ - `this` is your MonoGame `Game` object. TODO: Remove. It shouldn't need the entire Game object.
+ - `arial` is the name of your default font, as defined in the last step.
 ```csharp
 //Off we go!
 Canvas = new Canvas(this, screenBounds, texture, sourceRects, spriteFonts, "arial");
 ```
-##### Now we are ready to start laying out our UI.
-
-Of course, feel free to use the textures and implementation included in the sample project, just bear in mind it uses [TexturePacker](https://www.codeandweb.com/texturepacker) which isn't a free software, so if you want to add more textures without buying TexturePacker(It's great software), you'll need to find another way to define your source rectangles, or manually edit the texture data file.
-
 ## Layout
 
 ```csharp
@@ -85,7 +66,7 @@ var window = new Window(canvas)
 //Give it a layout.
 var verticalLayout = new VerticalLayout(window);
 
-//Add controls to our layout.
+//Add controls to our layout. Constructors define the parent control. TODO: Replace with a parent method. Why did I do this?
 
 var blank = new Image(verticalLayout)
 {
@@ -102,7 +83,7 @@ var button = new Button(verticalLayout)
     Text = "Go!",
 };
 
-//Invalidate the whole UI and we're done.
+//Invalidate the UI, and we're done.
 canvas.Invalidate();
 
 ```
@@ -111,4 +92,4 @@ canvas.Invalidate();
 
 
 
-TODO: Extending and custom controls
+## TODO: Extending and custom controls

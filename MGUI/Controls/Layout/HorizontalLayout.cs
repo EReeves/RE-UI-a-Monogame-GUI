@@ -11,7 +11,7 @@ namespace MGUI.Controls.Layout
         private int SidePadding { get; set; } = 0;
 
 
-        
+
 
 
         public override void Invalidate()
@@ -21,8 +21,8 @@ namespace MGUI.Controls.Layout
             {
                 weightSum += child.Weight;
             }
-            
-         
+
+
 
             var width = Bounds.Width;
             width -= (Children.Count - 1) * InnerPadding; //inner padding
@@ -37,25 +37,25 @@ namespace MGUI.Controls.Layout
                 child.Bounds = new Rectangle(x, OuterPadding, newWidth,
                     Bounds.Height - (OuterPadding * 2));
                 // child.Offset = new Point(CanvasBounds.X, CanvasBounds.Y);
-                if (i+1 < Children.Count)
+                if (i + 1 < Children.Count)
                     x += InnerPadding;
                 x += newWidth;
             }
-            
+
             base.Invalidate();
 
             //Some children might have resized to smaller children. Center them.
             foreach (var child in Children)
             {
                 var h = CanvasBounds.Height - child.CanvasBounds.Height;
-            
-                child.Bounds = new Rectangle(child.Bounds.X,h/2,child.Bounds.Width,child.Bounds.Height);
+
+                child.Bounds = new Rectangle(child.Bounds.X, h / 2, child.Bounds.Width, child.Bounds.Height);
             }
         }
 
         public override void Draw(SpriteBatch batcher)
         {
-            if(Hide) return;
+            if (Hide) return;
             ;
             foreach (var control in Children)
             {

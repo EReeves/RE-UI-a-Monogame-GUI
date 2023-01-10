@@ -13,8 +13,8 @@ namespace MGUI.Controls.Layout
             get => allSidePadding;
             set
             {
-                allSidePadding = value; 
-                PaddingExplicit = new int[] {value, value, value, value};
+                allSidePadding = value;
+                PaddingExplicit = new int[] { value, value, value, value };
             }
         }
 
@@ -23,7 +23,7 @@ namespace MGUI.Controls.Layout
         /// Starts on the left going clockewize, 4 integers.
         /// </summary>
         /// <returns></returns>
-        public int[] PaddingExplicit { get; set; } = {0, 0, 0, 0};
+        public int[] PaddingExplicit { get; set; } = { 0, 0, 0, 0 };
 
 
         public override void Invalidate()
@@ -38,7 +38,7 @@ namespace MGUI.Controls.Layout
         private void AddPadding()
         {
             SizeToParent();
-            
+
             //Also make children this big.
             foreach (var control in Children)
             {
@@ -47,9 +47,9 @@ namespace MGUI.Controls.Layout
                 bounds.Height = Bounds.Height;
                 bounds.Location = Point.Zero;
                 control.Bounds = bounds;
-                
+
             }
-            
+
             //Then add padding.
             var pad = PaddingExplicit;
             var padl = pad[0];
@@ -59,7 +59,7 @@ namespace MGUI.Controls.Layout
             var offset = new Point(padl, padu);
             var sizeOffset = new Point(padr, padb);
             sizeOffset += offset; //we also have to take the left padding off the right/bottom.
-            
+
             foreach (var child in Children)
             {
                 /*
@@ -74,10 +74,10 @@ namespace MGUI.Controls.Layout
                 var bounds = child.Bounds;
                 bounds.Location += offset;
                 bounds.Size -= sizeOffset;
-                
+
 
                 child.Bounds = bounds;
-            }           
+            }
         }
 
         public override void Draw(SpriteBatch batcher)

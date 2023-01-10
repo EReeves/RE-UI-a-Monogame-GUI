@@ -5,27 +5,27 @@ namespace MGUI.Controls
 {
     public class PaddedControl : Control
     {
-        private PaddedLayout paddedLayout;
-        
-        private int allSidePadding = 0;        
+        private readonly PaddedLayout paddedLayout;
+
+        private int allSidePadding = 0;
         //Set padding on all sides to one value.
         public int Padding
         {
             get => allSidePadding;
             set
             {
-                allSidePadding = value; 
-                PaddingExplicit = new int[] {value, value, value, value};
+                allSidePadding = value;
+                PaddingExplicit = new int[] { value, value, value, value };
             }
         }
-        
+
         /// <summary>
         /// Set padding per side,
         /// Starts on the left going clockewize, 4 integers.
         /// </summary>
         /// <returns></returns>
-        public int[] PaddingExplicit { get; set; }  = {0, 0, 0, 0};
-        
+        public int[] PaddingExplicit { get; set; } = { 0, 0, 0, 0 };
+
         public PaddedControl(Canvas canvas) : base(canvas)
         {
             paddedLayout = new PaddedLayout(this);
