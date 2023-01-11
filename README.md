@@ -1,16 +1,16 @@
-# RE: Ui
+# What Is RE: Ui?
 
-RE: Ui is a simple user interface library for MonoGame.
+RE: Ui is a simple user interface library that aims to give MonoGame developers a quick and extensible foundation for their UI implementation. 
 
-## Design Goals
+# Design Goals
 - Simple
 - Easy for MonoGame developers to grasp ("MonoGame-like")
 - Easy to interface with any texture atlas implementation
 - Extensible
 
-Updates to RE: Ui may break your code until a stable version is established.   
+Updates to RE: Ui may break your code until a stable version is established. I originally wrote this 4 years ago so it'll undergo some updates.
 
-## Quickstart
+#  Quickstart
 
 1. Load in your textures and source rectanges, you can do this however you like. I use TexturePacker and a small library (which you can find in the [Sample Project](/Sample/Game.Desktop/Game.cs)).
 ```csharp 
@@ -48,7 +48,7 @@ var spriteFonts = new Dictionary <string, SpriteFont>
 //Off we go!
 Canvas = new Canvas(this, screenBounds, texture, sourceRects, spriteFonts, "arial");
 ```
-## Layout
+# Layout
 
 ```csharp
 //Off we go!
@@ -92,4 +92,5 @@ canvas.Invalidate();
 
 
 
-## TODO: Extending and custom controls
+# Extending and Custom Controls
+Stay tuned or contribute

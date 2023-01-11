@@ -70,7 +70,7 @@ namespace MGUI.Core
         public override void Draw(SpriteBatch batcher)
         {
             if (Hide) return;
-            ;
+            
             if (!DrawOverflow)
             {
                 Canvas.RenderTools.StartCull(batcher, CanvasBounds);
