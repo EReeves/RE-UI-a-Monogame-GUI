@@ -43,7 +43,7 @@ namespace MGUI.Controls.Layout
             //Some children might have resized to smaller children. Center them.
             foreach (var child in Children)
             {
-                var h = CanvasBounds.Height - child.CanvasBounds.Height;
+                var h = GlobalBounds.Height - child.GlobalBounds.Height;
 
                 child.Bounds = new Rectangle(child.Bounds.X, h / 2, child.Bounds.Width, child.Bounds.Height);
             }

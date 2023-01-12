@@ -82,10 +82,10 @@ namespace MGUI.Controls
 
             Label.Text = text;
 
-            NinePatchCache = RenderTools.CalculateNinePatch(Canvas.SourceRectangles["buttonup"].sourceRect, CanvasBounds,
+            NinePatchCache = RenderTools.CalculateNinePatch(Canvas.SourceRectangles["buttonup"].sourceRect, GlobalBounds,
                 Canvas.SourceRectangles["buttonup"].ninePatch);
 
-            NinePatchCacheButtonDown = RenderTools.CalculateNinePatch(Canvas.SourceRectangles["buttondown"].sourceRect, CanvasBounds,
+            NinePatchCacheButtonDown = RenderTools.CalculateNinePatch(Canvas.SourceRectangles["buttondown"].sourceRect, GlobalBounds,
                 Canvas.SourceRectangles["buttondown"].ninePatch);
 
             base.Invalidate();
@@ -97,7 +97,7 @@ namespace MGUI.Controls
             var pos = mouseState.Position;
             var mousePosRect = new Rectangle(pos.X, pos.Y, 1, 1);
 
-            if (mousePosRect.Intersects(CanvasBounds))
+            if (mousePosRect.Intersects(GlobalBounds))
             {
                 var clicked = mouseState.LeftButton == ButtonState.Pressed;
 

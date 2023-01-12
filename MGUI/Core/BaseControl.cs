@@ -8,9 +8,7 @@ namespace MGUI.Core
     public abstract class BaseControl : IControl
     {
         public List<IControl> Children { get; set; } = new List<IControl>();
-        public IControl Parent { get; set; }
-
-
+        public IControl? Parent { get; set; }
         public Canvas Canvas { get; set; }
 
 
@@ -22,18 +20,16 @@ namespace MGUI.Core
         /// <summary>
         /// The bounds in canvas space.
         /// </summary>
-        public virtual Rectangle CanvasBounds
+        public virtual Rectangle GlobalBounds
         {
             get
             {
+                if (Parent == null) return Bounds;
+
+                //Global is just an offset from parent.
                 var rect = Bounds;
-
-
-                if (Parent == null) return rect;
-
-                //Need to offset for parent.
-                rect.X += Parent.CanvasBounds.X;
-                rect.Y += Parent.CanvasBounds.Y;
+                rect.X += Parent.GlobalBounds.X;
+                rect.Y += Parent.GlobalBounds.Y;
 
                 return rect;
             }
@@ -60,18 +56,14 @@ namespace MGUI.Core
         ///  Simultaneously create UI and add to parent.
         /// </summary>
         /// <param name="parent"></param>
-        /// <exception cref="Exception"></exception>
         public BaseControl(IControl parent)
         {
-            if (parent.Canvas == null) throw new Exception("Canvas must be set on the parent control before adding to a parent");
             Canvas = parent.Canvas;
             parent.Add(this);
         }
 
         //BaseControl has nothing to invalidate.
         public abstract void Invalidate();
-
-
 
         //Resize to parent, or canvas if there is no parent.
         public void SizeToParent()
@@ -92,40 +84,13 @@ namespace MGUI.Core
             }
         }
 
-        /*
-        //Resizes to parent and also positions to parent (0,0)
-        public void SizeAndPositionToParent()
-        {
-            if (Parent != null)
-            {
-                var newBounds = Parent.Bounds;
-                newBounds.X = 0;
-                newBounds.Y = 0;
-                Bounds = newBounds;
-            }
-            else
-                Bounds = Canvas.Bounds;
-        }*/
+        //Called automatically by parent or canvas.
+        public virtual void Update(GameTime gameTime) => Children.ForEach(x => x.Update(gameTime));
 
         //Called automatically by parent or canvas.
-        public virtual void Update(GameTime gameTime)
-        {
-            foreach (var control in Children)
-            {
-                control.Update(gameTime);
-            }
-        }
+        public virtual void Draw(SpriteBatch spriteBatch) => Children.ForEach(x => x.Draw(spriteBatch));
 
-        //Called automatically by parent or canvas.
-        public virtual void Draw(SpriteBatch batcher)
-        {
-            foreach (var control in Children)
-            {
-                control.Draw(batcher);
-            }
-        }
-
-        //Add a child control   
+        //Add a child control
         public virtual void Add(IControl control)
         {
             control.Parent = this;

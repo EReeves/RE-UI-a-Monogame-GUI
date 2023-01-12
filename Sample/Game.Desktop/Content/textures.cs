@@ -9,16 +9,16 @@
  */
 namespace TexturePackerMonoGameDefinitions
 {
-	public class texture
-	{
-		public const string Background = "background";
-		public const string Buttondown = "buttondown";
-		public const string Buttonup = "buttonup";
-		public const string Checkbox = "checkbox";
-		public const string Checkboxclicked = "checkboxclicked";
-		public const string Corgi = "Corgi";
-		public const string Floatingbackground = "floatingbackground";
-		public const string Recessed = "recessed";
-		public const string Whitetexture = "whitetexture";
-	}
+    public class texture
+    {
+        public const string Background = "background";
+        public const string Buttondown = "buttondown";
+        public const string Buttonup = "buttonup";
+        public const string Checkbox = "checkbox";
+        public const string Checkboxclicked = "checkboxclicked";
+        public const string Corgi = "Corgi";
+        public const string Floatingbackground = "floatingbackground";
+        public const string Recessed = "recessed";
+        public const string Whitetexture = "whitetexture";
+    }
 }

@@ -48,25 +48,25 @@ namespace Game.Desktop
             var sourceRects = //Source rectangles and nine patch coordinates.
                 new
                     Dictionary<string, (Rectangle, int[]?)>
-                    {
-                        //texture name              //source rect                 //nine patch, defaults to 10,10,10,10 if null.
-                        ["whiteTexture"] = (spriteSheet.Sprite("whitetexture").SourceRectangle, null),
-                        ["background"] = (spriteSheet.Sprite("background").SourceRectangle, null),
-                        ["windowBackground"] = (spriteSheet.Sprite("floatingbackground").SourceRectangle,
-                            new[] {20, 20, 20, 20}),
-                        ["corgi"] = (spriteSheet.Sprite("Corgi").SourceRectangle, null),
-                        ["buttonup"] = (spriteSheet.Sprite("buttonup").SourceRectangle, new[] {10, 10, 10, 10}),
-                        ["buttondown"] = (spriteSheet.Sprite("buttondown").SourceRectangle, null),
-                        ["recessed"] = (spriteSheet.Sprite("recessed").SourceRectangle, null),
-                        ["checkbox"] = (spriteSheet.Sprite("checkbox").SourceRectangle, null),
-                        ["checkboxclicked"] = (spriteSheet.Sprite("checkboxclicked").SourceRectangle, null)
-                    };
+                {
+                    //texture name              //source rect                 //nine patch, defaults to 10,10,10,10 if null.
+                    ["whiteTexture"] = (spriteSheet.Sprite("whitetexture").SourceRectangle, null),
+                    ["background"] = (spriteSheet.Sprite("background").SourceRectangle, null),
+                    ["windowBackground"] = (spriteSheet.Sprite("floatingbackground").SourceRectangle,
+                            new[] { 20, 20, 20, 20 }),
+                    ["corgi"] = (spriteSheet.Sprite("Corgi").SourceRectangle, null),
+                    ["buttonup"] = (spriteSheet.Sprite("buttonup").SourceRectangle, new[] { 10, 10, 10, 10 }),
+                    ["buttondown"] = (spriteSheet.Sprite("buttondown").SourceRectangle, null),
+                    ["recessed"] = (spriteSheet.Sprite("recessed").SourceRectangle, null),
+                    ["checkbox"] = (spriteSheet.Sprite("checkbox").SourceRectangle, null),
+                    ["checkboxclicked"] = (spriteSheet.Sprite("checkboxclicked").SourceRectangle, null)
+                };
             spriteFonts = new Dictionary<string, SpriteFont>
             {
                 ["arial"] = Content.Load<SpriteFont>("Arial 11")
             };
 
-            var windowPadding = new[] {12, 16, 12, 15};
+            var windowPadding = new[] { 12, 16, 12, 15 };
 
             //Off we go!
             canvas = new Canvas(this, screenBounds, texture, sourceRects, spriteFonts, "arial");
@@ -92,32 +92,32 @@ namespace Game.Desktop
             };
             var horizontalLayout = new HorizontalLayout(verticalLayout)
             {
-               // OuterPadding =  50,
+                // OuterPadding =  50,
                 Weight = 1
             };
             var checkbox = new Checkbox(horizontalLayout)
             {
-               Weight = 1,
-               Clicked = true
+                Weight = 1,
+                Clicked = true
             };
             var label = new Label(horizontalLayout)
             {
                 Weight = 4,
-                Text = "Checkbox", 
+                Text = "Checkbox",
             };
             var horizontalLayout2 = new HorizontalLayout(verticalLayout)
             {
                 Weight = 1
             };
-            var checkbox2= new Checkbox(horizontalLayout2)
+            var checkbox2 = new Checkbox(horizontalLayout2)
             {
                 Weight = 1,
-     
+
             };
             var label2 = new Label(horizontalLayout2)
             {
                 Weight = 4,
-                Text = "Checkbox", 
+                Text = "Checkbox",
             };
             var inputText = new InputText(verticalLayout)
             {
@@ -129,20 +129,20 @@ namespace Game.Desktop
                 Text = "Go!",
             };
 
-            
-            
-            
-            var multilineWindpw = new Window(canvas)
+
+
+
+            var multilineWindow = new Window(canvas)
             {
-                Bounds = new Rectangle(400,100,300,200),
+                Bounds = new Rectangle(400, 100, 300, 200),
                 TitleBarHeight = 20,
                 PaddingExplicit = windowPadding
             };
-            var mlabel = new MultiLabel(multilineWindpw);
-            
-            var h = new HorizontalLayout(multilineWindpw)
+            var mlabel = new MultiLabel(multilineWindow);
+
+            var h = new HorizontalLayout(multilineWindow)
             {
-                Bounds = new Rectangle(0, multilineWindpw.Bounds.Height - 80, multilineWindpw.Bounds.Width,80),
+                Bounds = new Rectangle(0, multilineWindow.Bounds.Height - 80, multilineWindow.Bounds.Width, 80),
                 InnerPadding = 10
             };
             var i = new InputText(h)
@@ -154,7 +154,7 @@ namespace Game.Desktop
                 Weight = 1,
                 Text = "Send"
             };
-            
+
             mlabel.Text.Add("Multiline text");
             mlabel.Text.Add("Hello there");
             mlabel.Text.Add("Hello there");
@@ -190,7 +190,7 @@ namespace Game.Desktop
         {
             spriteFonts?["arial"]?.Texture.Dispose();
             texture?.Dispose();
-            
+
             base.UnloadContent();
         }
     }

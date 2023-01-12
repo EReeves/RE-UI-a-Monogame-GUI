@@ -25,6 +25,8 @@
 // For more information, please refer to <http://unlicense.org>
 // ***************************************************************************
 
+#nullable disable
+
 using System;
 using System.Linq;
 using Microsoft.Xna.Framework;

@@ -12,7 +12,7 @@ namespace MGUI.Controls
 
         public override void Draw(SpriteBatch batcher)
         {
-            batcher.Draw(Canvas.SpriteSheet, CanvasBounds, Canvas.SourceRectangles["whiteTexture"].sourceRect, Color);
+            batcher.Draw(Canvas.SpriteSheet, GlobalBounds, Canvas.SourceRectangles["whiteTexture"].sourceRect, Color);
 
             base.Draw(batcher);
         }

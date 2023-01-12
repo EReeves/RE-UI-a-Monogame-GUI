@@ -24,8 +24,10 @@ namespace MGUI.Controls
             }
         }
 
-        private Label label;
-        private Color textColor = Color.White;
+        //Used to set label
+        private Label? label;
+        private Color labelColor = Color.White;
+
         private bool focused = false;
         public Point TextOffset { get; set; } = new Point(4, 0);
 
@@ -33,10 +35,10 @@ namespace MGUI.Controls
 
         public Color TextColor
         {
-            get => textColor;
+            get => labelColor;
             set
             {
-                textColor = value;
+                labelColor = value;
                 if (label != null)
                     label.Color = value;
             }
@@ -47,7 +49,7 @@ namespace MGUI.Controls
             if (focused)
                 text += "|";
 
-            var size = label.SpriteFont.MeasureString(text);
+            var size = label!.SpriteFont.MeasureString(text);
             if (size.X > Bounds.Width)
             {
                 while (label.SpriteFont.MeasureString(text).X > Bounds.Width - (TextOffset.X))
@@ -92,7 +94,7 @@ namespace MGUI.Controls
                 Bounds = new Rectangle(TextOffset.X, TextOffset.Y, 1, 1)
             };
 
-            label.Color = textColor;
+            label.Color = labelColor;
 
             if (Text.Length != 0)
                 SetLabelText(Text);
@@ -100,7 +102,7 @@ namespace MGUI.Controls
             base.Invalidate();
 
 
-            NinePatchCache = RenderTools.CalculateNinePatch(Canvas.SourceRectangles["recessed"].sourceRect, CanvasBounds,
+            NinePatchCache = RenderTools.CalculateNinePatch(Canvas.SourceRectangles["recessed"].sourceRect, GlobalBounds,
                 Canvas.SourceRectangles["recessed"].ninePatch);
         }
 
@@ -110,7 +112,7 @@ namespace MGUI.Controls
             var mouseState = Mouse.GetState();
             if (mouseState.LeftButton != ButtonState.Pressed) return;
             var mouseRect = new Rectangle(mouseState.X, mouseState.Y, 1, 1);
-            var f = mouseRect.Intersects(CanvasBounds);
+            var f = mouseRect.Intersects(GlobalBounds);
             if (f == !focused)
             {
                 focused = f;
@@ -133,7 +135,7 @@ namespace MGUI.Controls
 
             base.Draw(batcher);
             if (focused)
-                Canvas.RenderTools.RenderOutline(batcher, CanvasBounds, Color.Goldenrod, 2);
+                Canvas.RenderTools.RenderOutline(batcher, GlobalBounds, Color.Goldenrod, 2);
             label.Draw(batcher);
         }
 

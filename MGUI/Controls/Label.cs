@@ -53,26 +53,26 @@ namespace MGUI.Controls
             switch (Anchor)
             {
                 case TextAnchor.LeftTop:
-                    ActualDrawLocation = CanvasBounds.Location.ToVector2();
+                    ActualDrawLocation = GlobalBounds.Location.ToVector2();
                     break;
                 case TextAnchor.CenterTop:
-                    ActualDrawLocation = CanvasBounds.Location.ToVector2();
-                    var leftOverWidth = CanvasBounds.Width - size.X;
+                    ActualDrawLocation = GlobalBounds.Location.ToVector2();
+                    var leftOverWidth = GlobalBounds.Width - size.X;
                     ActualDrawLocation += new Vector2(leftOverWidth / 2, 0);
                     ActualDrawLocation = ActualDrawLocation.ToPoint().ToVector2();
                     break;
                 case TextAnchor.Center:
-                    var leftover = CanvasBounds.Size - size.ToPoint();
+                    var leftover = GlobalBounds.Size - size.ToPoint();
                     var half = leftover.ToVector2() / 2;
-                    ActualDrawLocation = CanvasBounds.Location.ToVector2() + half.ToPoint().ToVector2();
+                    ActualDrawLocation = GlobalBounds.Location.ToVector2() + half.ToPoint().ToVector2();
                     break;
                 case TextAnchor.LeftBottom:
-                    var leftoverHeight = CanvasBounds.Size - size.ToPoint();
-                    ActualDrawLocation = CanvasBounds.Location.ToVector2() + leftoverHeight.ToVector2();
+                    var leftoverHeight = GlobalBounds.Size - size.ToPoint();
+                    ActualDrawLocation = GlobalBounds.Location.ToVector2() + leftoverHeight.ToVector2();
                     break;
                 case TextAnchor.CenterLeft:
-                    ActualDrawLocation = CanvasBounds.Location.ToVector2();
-                    var leftOverHeight = CanvasBounds.Height - size.Y;
+                    ActualDrawLocation = GlobalBounds.Location.ToVector2();
+                    var leftOverHeight = GlobalBounds.Height - size.Y;
                     ActualDrawLocation += new Vector2(0, leftOverHeight / 2);
                     ActualDrawLocation = ActualDrawLocation.ToPoint().ToVector2();
                     break;
@@ -81,7 +81,7 @@ namespace MGUI.Controls
                     var withSize = preResizeBounds;
                     withSize.Size = size.ToPoint();
                     Bounds = withSize;
-                    ActualDrawLocation = (Parent.CanvasBounds.Location + Bounds.Location).ToVector2();
+                    ActualDrawLocation = (Parent.GlobalBounds.Location + Bounds.Location).ToVector2();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

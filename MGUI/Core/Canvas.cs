@@ -1,6 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 
 namespace MGUI.Core
 {
@@ -9,16 +9,16 @@ namespace MGUI.Core
     /// </summary>
     public class Canvas
     {
-        public List<IControl> Children = new();
+        public List<IControl> Children { get; } = new();
         public Texture2D SpriteSheet { get; }
-        public Dictionary<string, (Rectangle sourceRect, int[] ninePatch)> SourceRectangles { get; } //Also contains nine patch information if relevant.
+        public Dictionary<string, (Rectangle sourceRect, int[]? ninePatch)> SourceRectangles { get; }
         public Dictionary<string, SpriteFont> SpriteFonts { get; }
         public Rectangle Bounds { get; set; }
 
         public RenderTools RenderTools { get; set; }
 
-        private readonly string defaultFont;
-        public SpriteFont DefaultFont => SpriteFonts[defaultFont];
+        private readonly string defaultFontName;
+        public SpriteFont DefaultFont => SpriteFonts[defaultFontName];
 
         /// <summary>
         /// The base point for all UI.
@@ -28,9 +28,9 @@ namespace MGUI.Core
         /// <param name="sourceRectangles">A Dictionary with names and source rectanges for UI textures.</param>
         /// <param name="spriteFonts">A dictionary with names for fonts and the SpriteFonts themselves</param>
         /// <param name="defaultFont">The name of the default SpriteFont to use for text</param>
-        public Canvas(Game game, Rectangle bounds, Texture2D spriteSheet, Dictionary<string, (Rectangle, int[])> sourceRectangles, Dictionary<string, SpriteFont> spriteFonts, string defaultFont)
+        public Canvas(Game game, Rectangle bounds, Texture2D spriteSheet, Dictionary<string, (Rectangle, int[]?)> sourceRectangles, Dictionary<string, SpriteFont> spriteFonts, string defaultFont)
         {
-            this.defaultFont = defaultFont;
+            this.defaultFontName = defaultFont;
             this.SpriteSheet = spriteSheet;
             this.SourceRectangles = sourceRectangles;
             this.Bounds = bounds;
@@ -58,30 +58,23 @@ namespace MGUI.Core
         /// <summary>
         /// Draws all children in the canvas recursively.
         /// </summary>
-        /// <param name="batcher"></param>
-        public void Draw(SpriteBatch batcher)
+        /// <param name="spriteBatch"></param>
+        public void Draw(SpriteBatch spriteBatch)
         {
-            RenderTools.Start(batcher);
+            RenderTools.Begin(spriteBatch);
 
             foreach (var child in Children)
             {
-                child.Draw(batcher);
+                child.Draw(spriteBatch);
             }
 
-            batcher.End();
+            RenderTools.End(spriteBatch);
         }
 
         /// <summary>
         /// Will invalidate all children.
         /// </summary>
-        public void Invalidate()
-        {
-            for (var i = 0; i < Children.Count; i++)
-            {
-                var child = Children[i];
-                child.Invalidate();
-            }
-        }
+        public void Invalidate() => Children.ForEach(x => x.Invalidate());
 
         /// <summary>
         /// Add a control to the canvas.
@@ -91,16 +84,13 @@ namespace MGUI.Core
         {
             control.Parent = null;
             Children.Add(control);
-
         }
 
         /// <summary>
         /// Remove a control from the canvas.
         /// </summary>
         /// <param name="control"></param>
-        public void Remove(IControl control)
-        {
-            Children.Remove(control);
-        }
+        public void Remove(IControl control) => Children.Remove(control);
+
     }
 }

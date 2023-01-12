@@ -33,7 +33,7 @@ namespace MGUI.Controls
 
         public override void Draw(SpriteBatch batcher)
         {
-            batcher.Draw(Canvas.SpriteSheet, CanvasBounds, sourceRect, Color);
+            batcher.Draw(Canvas.SpriteSheet, GlobalBounds, sourceRect, Color);
 
             base.Draw(batcher);
         }

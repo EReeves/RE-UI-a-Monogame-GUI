@@ -19,13 +19,13 @@ namespace MGUI.Core
 
         public bool Hide { get; set; } = false;
 
-        private bool invalidatedBounds = true;
-
         /// <summary>
         /// Draw children if outside of bounds.
         /// Disabling this introduces another draw call so best to use it only when needed.
         /// </summary>
         public bool DrawOverflow { get; set; } = true;
+
+        private bool invalidatedBounds = true;
 
         /// <summary>
         /// Used to cache nine patch information.
@@ -35,32 +35,28 @@ namespace MGUI.Core
         public override void Invalidate()
         {
             invalidatedBounds = true;
-
-            foreach (var child in Children)
-            {
-                child.Invalidate();
-            }
+            Children.ForEach(x => x.Invalidate());
         }
 
-        private Rectangle bounds;
+        private Rectangle localBounds;
         public override Rectangle Bounds
         {
             get
             {
                 invalidatedBounds = true;
-                return bounds;
+                return localBounds;
             }
-            set => bounds = value;
+            set => localBounds = value;
         }
 
         //Cache this.
         private Rectangle canvasBounds;
-        public override Rectangle CanvasBounds
+        public override Rectangle GlobalBounds
         {
             get
             {
                 if (invalidatedBounds)
-                    canvasBounds = base.CanvasBounds;
+                    canvasBounds = base.GlobalBounds;
 
                 invalidatedBounds = false;
                 return canvasBounds;
@@ -70,10 +66,10 @@ namespace MGUI.Core
         public override void Draw(SpriteBatch batcher)
         {
             if (Hide) return;
-            
+
             if (!DrawOverflow)
             {
-                Canvas.RenderTools.StartCull(batcher, CanvasBounds);
+                Canvas.RenderTools.StartCull(batcher, GlobalBounds);
                 base.Draw(batcher);
                 Canvas.RenderTools.EndCull(batcher);
             }

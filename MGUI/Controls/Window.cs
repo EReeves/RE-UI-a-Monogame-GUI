@@ -54,12 +54,12 @@ namespace MGUI.Controls
             }
             else
             {
-                BarRectangle = new Rectangle(CanvasBounds.X, CanvasBounds.Y, Bounds.Width, TitleBarHeight);
+                BarRectangle = new Rectangle(GlobalBounds.X, GlobalBounds.Y, Bounds.Width, TitleBarHeight);
             }
 
             //Cache nine patch
             var (sourceRect, ninePatch) = Canvas.SourceRectangles["windowBackground"];
-            NinePatchCache = RenderTools.CalculateNinePatch(sourceRect, CanvasBounds, ninePatch);
+            NinePatchCache = RenderTools.CalculateNinePatch(sourceRect, GlobalBounds, ninePatch);
         }
 
         public override void Update(GameTime gameTime)

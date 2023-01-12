@@ -29,7 +29,7 @@ namespace MGUI.Controls
             var source = Clicked
                 ? Canvas.SourceRectangles["checkboxclicked"].sourceRect
                 : Canvas.SourceRectangles["checkbox"].sourceRect;
-            batcher.Draw(Canvas.SpriteSheet, CanvasBounds, source, Color);
+            batcher.Draw(Canvas.SpriteSheet, GlobalBounds, source, Color);
         }
     }
 }
