@@ -10,10 +10,6 @@ namespace MGUI.Controls.Layout
         private int OuterPadding { get; set; } = 0;
         private int SidePadding { get; set; } = 0;
 
-
-
-
-
         public override void Invalidate()
         {
             var weightSum = 0;

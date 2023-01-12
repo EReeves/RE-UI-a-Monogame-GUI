@@ -13,10 +13,10 @@ namespace Game.Desktop
         private readonly GraphicsDeviceManager graphics;
 
         //MGUI
-        private Canvas canvas;
-        private SpriteBatch spriteBatch;
-        private Texture2D texture;
-        private Dictionary<string, SpriteFont> spriteFonts;
+        private Canvas? canvas;
+        private SpriteBatch? spriteBatch;
+        private Texture2D? texture;
+        private Dictionary<string, SpriteFont>? spriteFonts;
 
         public Game()
         {
@@ -47,7 +47,7 @@ namespace Game.Desktop
             texture = spriteSheet.Texture; //Load texture atlas
             var sourceRects = //Source rectangles and nine patch coordinates.
                 new
-                    Dictionary<string, (Rectangle, int[])>
+                    Dictionary<string, (Rectangle, int[]?)>
                     {
                         //texture name              //source rect                 //nine patch, defaults to 10,10,10,10 if null.
                         ["whiteTexture"] = (spriteSheet.Sprite("whitetexture").SourceRectangle, null),
@@ -107,7 +107,6 @@ namespace Game.Desktop
             };
             var horizontalLayout2 = new HorizontalLayout(verticalLayout)
             {
-                SidePadding = 10,
                 Weight = 1
             };
             var checkbox2= new Checkbox(horizontalLayout2)
@@ -144,8 +143,7 @@ namespace Game.Desktop
             var h = new HorizontalLayout(multilineWindpw)
             {
                 Bounds = new Rectangle(0, multilineWindpw.Bounds.Height - 80, multilineWindpw.Bounds.Width,80),
-                InnerPadding = 10,
-                SidePadding = 0
+                InnerPadding = 10
             };
             var i = new InputText(h)
             {
@@ -175,23 +173,23 @@ namespace Game.Desktop
 
         protected override void Update(GameTime gameTime)
         {
-            canvas.Update(gameTime);
+            canvas?.Update(gameTime);
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.DarkSlateGray);
-            
-            canvas.Draw(spriteBatch);
+
+            canvas?.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }
 
         protected override void UnloadContent()
         {
-            spriteFonts["arial"].Texture.Dispose();
-            texture.Dispose();
+            spriteFonts?["arial"]?.Texture.Dispose();
+            texture?.Dispose();
             
             base.UnloadContent();
         }

@@ -8,11 +8,11 @@ RE: Ui is a simple user interface library that aims to give MonoGame developers 
 - Easy to interface with any texture atlas implementation
 - Extensible
 
-Updates to RE: Ui may break your code until a stable version is established. I originally wrote this 4 years ago so it'll undergo some updates.
+Updates to RE: Ui may break your code until a stable version is established. I originally wrote this 4 years ago, so it'll undergo some updates.
 
 #  Quickstart
 
-1. Load in your textures and source rectanges, you can do this however you like. I use TexturePacker and a small library (which you can find in the [Sample Project](/Sample/Game.Desktop/Game.cs)).
+1. Load in your textures and source rectanges. You can do this however you like. Below, I use TexturePacker and a small library (which you can find in the [Sample Project](/Sample/Game.Desktop/Game.cs)).
 ```csharp 
 TexturePackerLoader.SpriteSheetLoader loader = new SpriteSheetLoader(Content);
 var spriteSheet = loader.Load("texture");
@@ -25,7 +25,7 @@ var screenBounds = new Rectangle(0, 0, 800, 600); //The size of your GUI. This i
 3. Load your source rectangles into a dictionary of type `Dictionary <string, (Rectangle, int[]?)>` where:
 - `string` is a label for the texture. See the [Sample Project](/Sample/Game.Desktop/Game.cs) for all defaults.
  - `Rectange` is the source rectangle for that texture.
- - `int[]`is an optional array of nine patch coordinates, in the order `Left`, `Top`, `Right` and `Bottom`. `null` defaults to `20,20,20,20`.
+ - `int[]?`is an optional array of nine patch coordinates used for rendering, in the order `Left`, `Top`, `Right` and `Bottom`. `null` defaults to `20,20,20,20`.
 ```csharp
 var sourceRects = new Dictionary <string, (Rectangle, int[])>
 {
@@ -34,7 +34,7 @@ var sourceRects = new Dictionary <string, (Rectangle, int[])>
     ["windowBackground"] = (spriteSheet.Sprite("floatingbackground").SourceRectangle, new[] {20,30,20,20})
 };
 ```
-4. Place your SpriteFonts into a dictionary.
+4. Place your SpriteFonts in a dictionary.
 ```csharp
 var spriteFonts = new Dictionary <string, SpriteFont> 
 {
