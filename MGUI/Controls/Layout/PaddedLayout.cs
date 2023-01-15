@@ -28,64 +28,29 @@ namespace MGUI.Controls.Layout
 
         public override void Invalidate()
         {
-            Bounds = Parent != null ? new Rectangle(Bounds.X, Bounds.Y, Parent.Bounds.Width, Parent.Bounds.Height) : Canvas.Bounds;
-
+            SizeToParent();
             AddPadding();
+            
             base.Invalidate();
         }
 
         //Add padding to all children.
         private void AddPadding()
         {
-            SizeToParent();
-
-            //Also make children this big.
-            foreach (var control in Children)
-            {
-                var bounds = control.Bounds;
-                bounds.Width = Bounds.Width;
-                bounds.Height = Bounds.Height;
-                bounds.Location = Point.Zero;
-                control.Bounds = bounds;
-
-            }
-
-            //Then add padding.
             var pad = PaddingExplicit;
             var padl = pad[0];
-            var padu = pad[1];
+            var padt = pad[1];
             var padr = pad[2];
             var padb = pad[3];
-            var offset = new Point(padl, padu);
-            var sizeOffset = new Point(padr, padb);
-            sizeOffset += offset; //we also have to take the left padding off the right/bottom.
 
-            foreach (var child in Children)
-            {
-                /*
-                //Left padding.
-                if (child.Bounds.X < padl)
-                    offset.X = padl - child.Bounds.X;
-                
-                //Top padding.
-                if (child.Bounds.Y < allSidePadding)
-                    offset.Y = padu - child.Bounds.Y;*/
-
-                var bounds = child.Bounds;
-                bounds.Location += offset;
-                bounds.Size -= sizeOffset;
-
-
-                child.Bounds = bounds;
-            }
+            var width = Parent!.Bounds.Width - padl - padr;
+            var height = Parent.Bounds.Height - padt - padb;
+            Bounds = new Rectangle(padl, padt, width, height);
         }
 
         public override void Draw(SpriteBatch batcher)
         {
-            foreach (var child in Children)
-            {
-                child.Draw(batcher);
-            }
+            base.Draw(batcher);
         }
 
         public PaddedLayout(Canvas canvas) : base(canvas)

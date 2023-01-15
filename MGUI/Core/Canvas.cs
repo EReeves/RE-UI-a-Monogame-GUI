@@ -74,7 +74,13 @@ namespace MGUI.Core
         /// <summary>
         /// Will invalidate all children.
         /// </summary>
-        public void Invalidate() => Children.ForEach(x => x.Invalidate());
+        public void Invalidate()
+        {
+            for (int i = Children.Count-1; i >= 0; i--)
+            {
+                Children[i].Invalidate();
+            }
+        }
 
         /// <summary>
         /// Add a control to the canvas.
@@ -90,7 +96,11 @@ namespace MGUI.Core
         /// Remove a control from the canvas.
         /// </summary>
         /// <param name="control"></param>
-        public void Remove(IControl control) => Children.Remove(control);
+        public void Remove(IControl control)
+        {
+            control.Parent = null;
+            Children.Remove(control);
+        }
 
     }
 }

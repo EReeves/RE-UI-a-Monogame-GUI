@@ -34,11 +34,15 @@ namespace MGUI.Core
 
         public override void Invalidate()
         {
+            if (Parent is AbsoluteControl)
+            {
+                SizeToParent();
+            }
             invalidatedBounds = true;
             Children.ForEach(x => x.Invalidate());
         }
 
-        private Rectangle localBounds;
+        private Rectangle localBounds = new Rectangle(0, 0, 50, 50);
         public override Rectangle Bounds
         {
             get

@@ -1,4 +1,5 @@
-﻿using MGUI.Core;
+﻿using System.Collections.Generic;
+using MGUI.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -9,10 +10,19 @@ namespace MGUI.Controls.Layout
         public int InnerPadding { get; set; } = 10;
         public int OuterPadding { get; set; } = 0;
 
+        private readonly List<IControl> subLayouts = new();
 
 
         public override void Invalidate()
         {
+            SizeToParent();
+
+
+            foreach (var layout in subLayouts)
+            {
+                layout.Children.ForEach(child => child.Parent = null);
+            }
+            subLayouts.Clear();
 
             var weightSum = 0;
             foreach (var child in Children)
@@ -30,14 +40,24 @@ namespace MGUI.Controls.Layout
             {
                 var child = Children[i];
                 var newHeight = heightPerWeight * child.Weight;
-                child.Bounds = new Rectangle(OuterPadding, y, Bounds.Width - OuterPadding * 2,
+
+
+                var bounds = new Rectangle(GlobalBounds.X + OuterPadding, GlobalBounds.Y + y, Bounds.Width - OuterPadding * 2,
                     newHeight);
+
+                var subLayout = new AbsoluteControl()
+                {
+                    Bounds = bounds
+                };
+                child.Parent = subLayout;
+
                 // child.Offset = new Point(CanvasBounds.X, CanvasBounds.Y);
                 if (i + 1 < Children.Count)
                     y += InnerPadding;
+
+                subLayouts.Add(subLayout);
                 y += newHeight;
             }
-
 
             base.Invalidate();
         }
@@ -47,6 +67,12 @@ namespace MGUI.Controls.Layout
             foreach (var control in Children)
             {
                 control.Draw(batcher);
+
+            }
+
+            foreach (var control in subLayouts)
+            {
+                Canvas.RenderTools.RenderOutline(batcher, control.GlobalBounds, Color.DarkRed);
             }
         }
 
