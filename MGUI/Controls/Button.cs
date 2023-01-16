@@ -11,7 +11,7 @@ namespace MGUI.Controls
     /// <summary>
     /// A basic button.
     /// </summary>
-    public class Button : PaddedControl
+    public class Button : PaddedLayout
     {
         public bool Clicked { get; set; } = false;
         private bool ClickedPrevious { get; set; } = false;

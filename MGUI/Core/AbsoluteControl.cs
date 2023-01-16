@@ -7,38 +7,23 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MGUI.Core;
 
-public class AbsoluteControl : IControl
+/// <summary>
+/// Stays absolute on Bounds no matter the parent. 
+/// </summary> 
+public class AbsoluteControl : BareControl
 {
-
-    void IControl.Invalidate()
+    public AbsoluteControl(Canvas canvas) : base(canvas)
     {
-
     }
 
-    void IControl.Add(IControl control)
+    public AbsoluteControl(IControl parent) : base(parent)
     {
-        throw new NotImplementedException();
     }
 
-    void IControl.Remove(IControl control)
+    public override void Invalidate()
     {
-        throw new NotImplementedException();
+        //Absolute. Don't invalidate.
     }
 
-    void IControl.Update(GameTime gameTime)
-    {
-
-    }
-
-    void IControl.Draw(SpriteBatch batcher)
-    {
-
-    }
-
-    public List<IControl> Children { get; set; } = new();
-    public IControl? Parent { get; set; }
-    public Rectangle Bounds { get; set; } = Rectangle.Empty;
-    public Rectangle GlobalBounds => this.Bounds;
-    public Canvas Canvas => throw new NotImplementedException();
-    public int Weight { get; set; } = 1;
+    public override Rectangle GlobalBounds => this.Bounds;
 }

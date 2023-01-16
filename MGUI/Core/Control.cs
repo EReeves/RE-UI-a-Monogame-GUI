@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 namespace MGUI.Core
 {
     /// <summary>
-    /// Adds caching and invalidation on top of the base control.
+    /// Adds caching, invalidation, and optional culling and hiding to BareControl.
     /// </summary>
-    public class Control : BaseControl
+    public class Control : BareControl
     {
         public Control(Canvas canvas) : base(canvas)
         {
@@ -17,19 +17,13 @@ namespace MGUI.Core
 
         }
 
-        public bool Hide { get; set; } = false;
-
         /// <summary>
         /// Draw children if outside of bounds.
         /// Disabling this introduces another draw call so best to use it only when needed.
         /// </summary>
         public bool DrawOverflow { get; set; } = true;
-
+        public bool Hide { get; set; } = false;
         private bool invalidatedBounds = true;
-
-        /// <summary>
-        /// Used to cache nine patch information.
-        /// </summary>
         protected (Rectangle[] SourcePatches, Rectangle[] DestinationPatches) NinePatchCache { get; set; }
 
         public override void Invalidate()
@@ -79,5 +73,6 @@ namespace MGUI.Core
             }
             else base.Draw(batcher);
         }
+
     }
 }

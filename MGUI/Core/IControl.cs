@@ -6,7 +6,7 @@ namespace MGUI.Core
 {
     public interface IControl
     {
-        List<IControl> Children { get; set; }
+        List<IControl> Children { get; }
         IControl? Parent { get; set; }
         /// <summary>
         /// Short for LocalBounds
@@ -28,5 +28,6 @@ namespace MGUI.Core
         //Update/Draw
         void Update(GameTime gameTime);
         void Draw(SpriteBatch batcher);
+
     }
 }

@@ -49,9 +49,9 @@ namespace MGUI.Core
         {
             Core.Utility.KeyboardInput.Update();
 
-            foreach (var child in Children)
+            for (int i = 0; i < Children.Count; i++)
             {
-                child.Update(time);
+                Children[i].Update(time);
             }
         }
 
@@ -63,9 +63,9 @@ namespace MGUI.Core
         {
             RenderTools.Begin(spriteBatch);
 
-            foreach (var child in Children)
+            for (int i = 0; i < Children.Count; i++)
             {
-                child.Draw(spriteBatch);
+                Children[i].Draw(spriteBatch);
             }
 
             RenderTools.End(spriteBatch);

@@ -20,7 +20,7 @@ namespace MGUI.Controls.Layout
 
             foreach (var layout in subLayouts)
             {
-                layout.Children.ForEach(child => child.Parent = null);
+                layout.Children.ForEach(child => layout.Remove(child));
             }
             subLayouts.Clear();
 
@@ -45,7 +45,7 @@ namespace MGUI.Controls.Layout
                 var bounds = new Rectangle(GlobalBounds.X + OuterPadding, GlobalBounds.Y + y, Bounds.Width - OuterPadding * 2,
                     newHeight);
 
-                var subLayout = new AbsoluteControl()
+                var subLayout = new AbsoluteControl(Canvas)
                 {
                     Bounds = bounds
                 };

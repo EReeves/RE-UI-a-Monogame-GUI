@@ -1,4 +1,5 @@
-﻿using MGUI.Core;
+﻿using MGUI.Controls.Layout;
+using MGUI.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
