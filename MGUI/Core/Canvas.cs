@@ -1,106 +1,88 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using MGUI.Core.Trait;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MGUI.Core
+namespace MGUI.Core;
+
+public class Canvas : IControl
 {
-    /// <summary>
-    /// The base point for all UI, handles updating and drawing at the top level.
-    /// </summary>
-    public class Canvas
+
+    public Texture2D SpriteSheetTexture { get; }
+    public Dictionary<string, (Rectangle sourceRect, int[]? ninePatch)> SourceRectangles { get; }
+    public RenderTools RenderTools { get; set; }
+
+
+
+    //INewControl Impl
+    public Canvas System => this;
+    public List<IControl> Children { get; } = new();
+    public IControl Parent { get; set; }
+    public Rectangle Bounds { get; set; }
+    public int Weight { get; set; }
+    public Rectangle GlobalBounds => Bounds;
+    public PaddingTrait Padding { get; set; } = new();
+
+    public Canvas(Game game, Rectangle bounds, Texture2D spriteSheetTexture, Dictionary<string, (Rectangle, int[]?)> sourceRectangles)
     {
-        public List<IControl> Children { get; } = new();
-        public Texture2D SpriteSheet { get; }
-        public Dictionary<string, (Rectangle sourceRect, int[]? ninePatch)> SourceRectangles { get; }
-        public Dictionary<string, SpriteFont> SpriteFonts { get; }
-        public Rectangle Bounds { get; set; }
+        SpriteSheetTexture = spriteSheetTexture;
+        SourceRectangles = sourceRectangles;
+        Bounds = bounds;
+        RenderTools = new RenderTools(this, game.GraphicsDevice, bounds);
+    }
 
-        public RenderTools RenderTools { get; set; }
-
-        private readonly string defaultFontName;
-        public SpriteFont DefaultFont => SpriteFonts[defaultFontName];
-
-        /// <summary>
-        /// The base point for all UI.
-        /// </summary>
-        /// <param name="bounds">The window bounds as a Rectangle</param>
-        /// <param name="spriteSheet">A spritesheet or atlas with all the textures used in UI.</param>
-        /// <param name="sourceRectangles">A Dictionary with names and source rectanges for UI textures.</param>
-        /// <param name="spriteFonts">A dictionary with names for fonts and the SpriteFonts themselves</param>
-        /// <param name="defaultFont">The name of the default SpriteFont to use for text</param>
-        public Canvas(Game game, Rectangle bounds, Texture2D spriteSheet, Dictionary<string, (Rectangle, int[]?)> sourceRectangles, Dictionary<string, SpriteFont> spriteFonts, string defaultFont)
+    public void Update(GameTime gameTime)
+    {
+        foreach (var control in Children)
         {
-            this.defaultFontName = defaultFont;
-            this.SpriteSheet = spriteSheet;
-            this.SourceRectangles = sourceRectangles;
-            this.Bounds = bounds;
-            this.SpriteFonts = spriteFonts;
+            RecursiveUpdate(gameTime, control);
+        }
+    }
 
-            RenderTools = new RenderTools(this, game.GraphicsDevice, bounds);
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        RenderTools.Begin(spriteBatch);
 
-            Core.Utility.KeyboardInput.Initialize(game, 350, 10);
+        foreach (var control in Children)
+        {
+            RecursiveDraw(spriteBatch, control);
         }
 
-        /// <summary>
-        /// Updates all children in the canvas recursively.
-        /// </summary>
-        /// <param name="time"></param>
-        public void Update(GameTime time)
+        RenderTools.End(spriteBatch);
+    }
+
+    private void RecursiveDraw(SpriteBatch spriteBatch, IControl control)
+    {
+        control.Draw(spriteBatch);
+
+        foreach (var child in control.Children)
         {
-            Core.Utility.KeyboardInput.Update();
-
-            for (int i = 0; i < Children.Count; i++)
-            {
-                Children[i].Update(time);
-            }
+            RecursiveDraw(spriteBatch, child);
         }
+    }
 
-        /// <summary>
-        /// Draws all children in the canvas recursively.
-        /// </summary>
-        /// <param name="spriteBatch"></param>
-        public void Draw(SpriteBatch spriteBatch)
+    private void RecursiveUpdate(GameTime gameTime, IControl control)
+    {
+        control.Update(gameTime);
+
+        foreach (var child in control.Children)
         {
-            RenderTools.Begin(spriteBatch);
-
-            for (int i = 0; i < Children.Count; i++)
-            {
-                Children[i].Draw(spriteBatch);
-            }
-
-            RenderTools.End(spriteBatch);
+            RecursiveUpdate(gameTime, child);
         }
+    }
 
-        /// <summary>
-        /// Will invalidate all children.
-        /// </summary>
-        public void Invalidate()
-        {
-            for (int i = Children.Count-1; i >= 0; i--)
-            {
-                Children[i].Invalidate();
-            }
-        }
+    public void Add(IControl control)
+    {
+        Children.Add(control);
+        control.Parent = this;
+    }
 
-        /// <summary>
-        /// Add a control to the canvas.
-        /// </summary>
-        /// <param name="control"></param>
-        public void Add(IControl control)
-        {
-            control.Parent = null;
-            Children.Add(control);
-        }
-
-        /// <summary>
-        /// Remove a control from the canvas.
-        /// </summary>
-        /// <param name="control"></param>
-        public void Remove(IControl control)
-        {
-            control.Parent = null;
-            Children.Remove(control);
-        }
-
+    public void Remove(IControl control)
+    {
+        Children.Add(control);
+        control.Parent = null;
     }
 }

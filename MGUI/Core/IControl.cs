@@ -1,33 +1,26 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using MGUI.Core.Trait;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MGUI.Core
+namespace MGUI.Core;
+
+public interface IControl
 {
-    public interface IControl
-    {
-        List<IControl> Children { get; }
-        IControl? Parent { get; set; }
-        /// <summary>
-        /// Short for LocalBounds
-        /// </summary>
-        Rectangle Bounds { get; set; }
-        Rectangle GlobalBounds { get; }
-        Canvas Canvas { get; }
+    Canvas System { get; }
+    List<IControl> Children { get; }
+    IControl Parent { get; set; }
+    Rectangle Bounds { get; set; }
+    Rectangle GlobalBounds { get; }
+    PaddingTrait Padding { get; set; }
 
-        //Weight
-        int Weight { get; set; }
+    //Weight
+    int Weight { get; set; }
 
-        //Invalidate
-        void Invalidate();
-
-        //Add/Remove
-        void Add(IControl control);
-        void Remove(IControl control);
-
-        //Update/Draw
-        void Update(GameTime gameTime);
-        void Draw(SpriteBatch batcher);
-
-    }
+    //Update/Draw
+    void Update(GameTime gameTime);
+    void Draw(SpriteBatch spriteBatch);
 }

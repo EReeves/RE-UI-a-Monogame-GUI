@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection.Metadata;
 using MGUI.Controls;
 using MGUI.Controls.Layout;
 using MGUI.Core;
@@ -13,7 +15,7 @@ namespace Game.Desktop
         private readonly GraphicsDeviceManager graphics;
 
         //MGUI
-        private Canvas? canvas;
+        private Canvas canvas;
         private SpriteBatch? spriteBatch;
         private Texture2D? texture;
         private Dictionary<string, SpriteFont>? spriteFonts;
@@ -52,8 +54,8 @@ namespace Game.Desktop
                     //texture name              //source rect                 //nine patch, defaults to 10,10,10,10 if null.
                     ["whiteTexture"] = (spriteSheet.Sprite("whitetexture").SourceRectangle, null),
                     ["background"] = (spriteSheet.Sprite("background").SourceRectangle, null),
-                    ["windowBackground"] = (spriteSheet.Sprite("floatingbackground").SourceRectangle,
-                            new[] { 20, 20, 20, 20 }),
+                    ["window"] = (spriteSheet.Sprite("floatingbackground").SourceRectangle,
+                            new[] { 20, 30, 20, 20 }),
                     ["corgi"] = (spriteSheet.Sprite("Corgi").SourceRectangle, null),
                     ["buttonup"] = (spriteSheet.Sprite("buttonup").SourceRectangle, new[] { 10, 10, 10, 10 }),
                     ["buttondown"] = (spriteSheet.Sprite("buttondown").SourceRectangle, null),
@@ -61,108 +63,34 @@ namespace Game.Desktop
                     ["checkbox"] = (spriteSheet.Sprite("checkbox").SourceRectangle, null),
                     ["checkboxclicked"] = (spriteSheet.Sprite("checkboxclicked").SourceRectangle, null)
                 };
-            spriteFonts = new Dictionary<string, SpriteFont>
-            {
-                ["arial"] = Content.Load<SpriteFont>("Arial 11")
-            };
 
-            var windowPadding = new[] { 12, 16, 12, 15 };
+            canvas = new Canvas(this, screenBounds, texture, sourceRects);
 
-            //Off we go!
-            canvas = new Canvas(this, screenBounds, texture, sourceRects, spriteFonts, "arial");
-
-            //Window.
             var window = new Window(canvas)
             {
-                TitleBarHeight = 20,
-                Bounds = new Rectangle(100, 100, 250, 400),
-                Color = Color.White,
-                PaddingExplicit = windowPadding
+                Bounds = new Rectangle(0, 0, 400, 600)
             };
 
-            //Give it a layout.
-            var verticalLayout = new VerticalLayout(window);
+            var vert = new VerticalLayout(canvas)
+            {
+                Bounds = new Rectangle(0, 0, Int32.MaxValue, Int32.MaxValue)
+            };
+            window.Add(vert);
 
-            //Add controls to our layout.
-
-            var blank = new Image(verticalLayout)
+            var inner = new Window(canvas)
             {
-                Weight = 4,
-                Texture = "corgi"
+                Bounds = new Rectangle(0, 0, 100, 100)
             };
-            var horizontalLayout = new HorizontalLayout(verticalLayout)
+            var inner2 = new Window(canvas)
             {
-                // OuterPadding =  50,
-                Weight = 1
-            };
-            var checkbox = new Checkbox(horizontalLayout)
-            {
-                Weight = 1,
-                Clicked = true
-            };
-            var label = new Label(horizontalLayout)
-            {
-                Weight = 4,
-                Text = "Checkbox",
-            };
-            var horizontalLayout2 = new HorizontalLayout(verticalLayout)
-            {
-                Weight = 1
-            };
-            var checkbox2 = new Checkbox(horizontalLayout2)
-            {
-                Weight = 1,
-
-            };
-            var label2 = new Label(horizontalLayout2)
-            {
-                Weight = 4,
-                Text = "Checkbox",
-            };
-            var inputText = new InputText(verticalLayout)
-            {
-                Weight = 1,
-            };
-            var button = new Button(verticalLayout)
-            {
-                Weight = 1,
-                Text = "Go!",
+                Bounds = new Rectangle(0, 0, 100, 100),
+                Weight = 2
             };
 
+            vert.Add(inner);
+            vert.Add(inner2);
 
-
-
-            var multilineWindow = new Window(canvas)
-            {
-                Bounds = new Rectangle(400, 100, 300, 200),
-                TitleBarHeight = 20,
-                PaddingExplicit = windowPadding
-            };
-            var mlabel = new MultiLabel(multilineWindow);
-
-            var h = new HorizontalLayout(multilineWindow)
-            {
-                Bounds = new Rectangle(0, multilineWindow.Bounds.Height - 80, multilineWindow.Bounds.Width, 80),
-                InnerPadding = 10
-            };
-            var i = new InputText(h)
-            {
-                Weight = 3
-            };
-            var b = new Button(h)
-            {
-                Weight = 1,
-                Text = "Send"
-            };
-
-            mlabel.Text.Add("Multiline text");
-            mlabel.Text.Add("Hello there");
-            mlabel.Text.Add("Hello there");
-            mlabel.Text.Add("Hello there");
-            mlabel.Text.Add("Hello there");
-
-            //Invalidae the whole UI and we're done.
-            canvas.Invalidate();
+            vert.LayoutChildren();
 
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -173,7 +101,7 @@ namespace Game.Desktop
 
         protected override void Update(GameTime gameTime)
         {
-            canvas?.Update(gameTime);
+            canvas.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -188,7 +116,6 @@ namespace Game.Desktop
 
         protected override void UnloadContent()
         {
-            spriteFonts?["arial"]?.Texture.Dispose();
             texture?.Dispose();
 
             base.UnloadContent();

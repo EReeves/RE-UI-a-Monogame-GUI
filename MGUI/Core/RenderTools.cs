@@ -10,7 +10,7 @@ namespace MGUI.Core
     /// </summary>
     public class RenderTools
     {
-        private readonly Canvas canvas;
+        private readonly Canvas system;
         private readonly Rectangle canvasBounds;
         public readonly RasterizerState RasterizerState = new() { ScissorTestEnable = false };
 
@@ -23,9 +23,9 @@ namespace MGUI.Core
         public Effect? Effect { get; set; } = null;
         public Matrix? Transform { get; set; }
 
-        public RenderTools(Canvas canvas, GraphicsDevice graphics, Rectangle canvasBounds)
+        public RenderTools(Canvas system, GraphicsDevice graphics, Rectangle canvasBounds)
         {
-            this.canvas = canvas;
+            this.system = system;
             this.canvasBounds = canvasBounds;
 
             GraphicsDevice = graphics;
@@ -65,8 +65,8 @@ namespace MGUI.Core
         /// <param name="color"></param>
         public void RenderOutline(SpriteBatch spriteBatch, Rectangle rectangle, Color color, int lineWidth = 1)
         {
-            var pointTexture = canvas.SpriteSheet;
-            var source = canvas.SourceRectangles["whiteTexture"].sourceRect;
+            var pointTexture = system.SpriteSheetTexture;
+            var source = system.SourceRectangles["whiteTexture"].sourceRect;
             spriteBatch.Draw(pointTexture, new Rectangle(rectangle.X, rectangle.Y, lineWidth, rectangle.Height), source, color);
             spriteBatch.Draw(pointTexture, new Rectangle(rectangle.X, rectangle.Y, rectangle.Width - lineWidth, lineWidth), source, color);
             spriteBatch.Draw(pointTexture, new Rectangle(rectangle.X + rectangle.Width - lineWidth, rectangle.Y, lineWidth, rectangle.Height), source, color);

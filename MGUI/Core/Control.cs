@@ -1,78 +1,62 @@
-﻿using Microsoft.Xna.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using MGUI.Core.Trait;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace MGUI.Core
+namespace MGUI.Core;
+
+public abstract class Control : IControl
 {
-    /// <summary>
-    /// Adds caching, invalidation, and optional culling and hiding to BareControl.
-    /// </summary>
-    public class Control : BareControl
+    public Canvas System { get; private set; }
+    public List<IControl> Children { get; } = new();
+
+    public Rectangle Bounds { get; set; }
+    public Rectangle GlobalBounds => GetGlobalBounds();
+    public int Weight { get; set; } = 1;
+    public IControl Parent { get; set; }
+    public PaddingTrait Padding { get; set; } = new();
+
+
+    public Control(Canvas system)
     {
-        public Control(Canvas canvas) : base(canvas)
-        {
-        }
-
-        public Control(IControl parent) : base(parent)
-        {
-
-        }
-
-        /// <summary>
-        /// Draw children if outside of bounds.
-        /// Disabling this introduces another draw call so best to use it only when needed.
-        /// </summary>
-        public bool DrawOverflow { get; set; } = true;
-        public bool Hide { get; set; } = false;
-        private bool invalidatedBounds = true;
-        protected (Rectangle[] SourcePatches, Rectangle[] DestinationPatches) NinePatchCache { get; set; }
-
-        public override void Invalidate()
-        {
-            if (Parent is AbsoluteControl)
-            {
-                SizeToParent();
-            }
-            invalidatedBounds = true;
-            Children.ForEach(x => x.Invalidate());
-        }
-
-        private Rectangle localBounds = new Rectangle(0, 0, 50, 50);
-        public override Rectangle Bounds
-        {
-            get
-            {
-                invalidatedBounds = true;
-                return localBounds;
-            }
-            set => localBounds = value;
-        }
-
-        //Cache this.
-        private Rectangle canvasBounds;
-        public override Rectangle GlobalBounds
-        {
-            get
-            {
-                if (invalidatedBounds)
-                    canvasBounds = base.GlobalBounds;
-
-                invalidatedBounds = false;
-                return canvasBounds;
-            }
-        }
-
-        public override void Draw(SpriteBatch batcher)
-        {
-            if (Hide) return;
-
-            if (!DrawOverflow)
-            {
-                Canvas.RenderTools.StartCull(batcher, GlobalBounds);
-                base.Draw(batcher);
-                Canvas.RenderTools.EndCull(batcher);
-            }
-            else base.Draw(batcher);
-        }
-
+        System = system;
+        system.Add(this);
     }
+
+    public abstract void Draw(SpriteBatch spriteBatch);
+    public abstract void Update(GameTime gameTime);
+
+
+    public void Add(Control control)
+    {
+        Children.Add(control);
+        control.Parent = this;
+    }
+
+    public void Remove(Control control)
+    {
+        Children.Remove(control);
+        control.Parent = null;
+    }
+
+    private Rectangle GetGlobalBounds()
+    {
+        return Parent != null ? GetParentPaddingOffsetBounds() : Bounds;
+    }
+
+    private Rectangle GetParentPaddingOffsetBounds()
+    {
+        var x = Parent.GlobalBounds.X + Bounds.X + Parent.Padding.Sides[0];
+        var y = Parent.GlobalBounds.Y + Bounds.Y + Parent.Padding.Sides[1];
+        var width = Math.Clamp(Bounds.Width, 0, Math.Abs(Parent.GlobalBounds.Width - Parent.Padding.Sides[2] - Parent.Padding.Sides[0]));
+        var height = Math.Clamp(Bounds.Height, 0, Math.Abs(Parent.GlobalBounds.Height - Parent.Padding.Sides[3] - Parent.Padding.Sides[1]));
+
+        return new Rectangle(x, y, width, height);
+    }
+
+
+
 }
