@@ -70,7 +70,6 @@ namespace Game.Desktop
             {
                 Bounds = new Rectangle(0, 0, 400, 600)
             };
-
             var vert = new VerticalLayout(canvas)
             {
                 Bounds = new Rectangle(0, 0, Int32.MaxValue, Int32.MaxValue)
@@ -86,7 +85,6 @@ namespace Game.Desktop
                 Bounds = new Rectangle(0, 0, 100, 100),
                 Weight = 2
             };
-
             vert.Add(inner);
             vert.Add(inner2);
 
@@ -94,8 +92,6 @@ namespace Game.Desktop
 
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-
             base.LoadContent();
         }
 

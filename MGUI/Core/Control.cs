@@ -8,21 +8,21 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MGUI.Core;
 
-public abstract class Control : IControl
+public abstract class Control
 {
-    public Canvas System { get; private set; }
-    public List<IControl> Children { get; } = new();
+    internal Control Parent { get; set; }
+    internal Canvas Canvas { get; set; }
+    internal List<Control> Children { get; } = new();
 
     public Rectangle Bounds { get; set; }
     public Rectangle GlobalBounds => GetGlobalBounds();
     public int Weight { get; set; } = 1;
-    public IControl Parent { get; set; }
     public PaddingTrait Padding { get; set; } = new();
 
 
     public Control(Canvas system)
     {
-        System = system;
+        Canvas = system;
         system.Add(this);
     }
 

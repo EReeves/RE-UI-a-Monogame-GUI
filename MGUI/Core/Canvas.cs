@@ -8,25 +8,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MGUI.Core;
 
-public class Canvas : IControl
+public class Canvas : Control
 {
-
     public Texture2D SpriteSheetTexture { get; }
     public Dictionary<string, (Rectangle sourceRect, int[]? ninePatch)> SourceRectangles { get; }
     public RenderTools RenderTools { get; set; }
 
-
-
     //INewControl Impl
-    public Canvas System => this;
-    public List<IControl> Children { get; } = new();
-    public IControl Parent { get; set; }
-    public Rectangle Bounds { get; set; }
-    public int Weight { get; set; }
-    public Rectangle GlobalBounds => Bounds;
-    public PaddingTrait Padding { get; set; } = new();
-
-    public Canvas(Game game, Rectangle bounds, Texture2D spriteSheetTexture, Dictionary<string, (Rectangle, int[]?)> sourceRectangles)
+    public Canvas(Game game, Rectangle bounds, Texture2D spriteSheetTexture, Dictionary<string, (Rectangle, int[]?)> sourceRectangles) : base(null)
     {
         SpriteSheetTexture = spriteSheetTexture;
         SourceRectangles = sourceRectangles;
@@ -34,7 +23,7 @@ public class Canvas : IControl
         RenderTools = new RenderTools(this, game.GraphicsDevice, bounds);
     }
 
-    public void Update(GameTime gameTime)
+    public override void Update(GameTime gameTime)
     {
         foreach (var control in Children)
         {
@@ -42,7 +31,7 @@ public class Canvas : IControl
         }
     }
 
-    public void Draw(SpriteBatch spriteBatch)
+    public override void Draw(SpriteBatch spriteBatch)
     {
         RenderTools.Begin(spriteBatch);
 
@@ -54,7 +43,7 @@ public class Canvas : IControl
         RenderTools.End(spriteBatch);
     }
 
-    private void RecursiveDraw(SpriteBatch spriteBatch, IControl control)
+    private void RecursiveDraw(SpriteBatch spriteBatch, Control control)
     {
         control.Draw(spriteBatch);
 
@@ -64,7 +53,7 @@ public class Canvas : IControl
         }
     }
 
-    private void RecursiveUpdate(GameTime gameTime, IControl control)
+    private void RecursiveUpdate(GameTime gameTime, Control control)
     {
         control.Update(gameTime);
 
@@ -74,15 +63,4 @@ public class Canvas : IControl
         }
     }
 
-    public void Add(IControl control)
-    {
-        Children.Add(control);
-        control.Parent = this;
-    }
-
-    public void Remove(IControl control)
-    {
-        Children.Add(control);
-        control.Parent = null;
-    }
 }
