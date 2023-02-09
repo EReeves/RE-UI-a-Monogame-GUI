@@ -8,15 +8,15 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace MGUI.Controls.Layout;
 
-public class VerticalLayout : Control
+public class VerticalLayout : Control, ILayout
 {
     public int InnerPadding { get; set; } = 3;
 
-    public VerticalLayout(Canvas system) : base(system)
+    public VerticalLayout(Canvas canvas) : base(canvas)
     {
     }
 
-    public void LayoutChildren()
+    private void LayoutChildren()
     {
         var weightSum = Children.Aggregate(0, (total, child) => total + child.Weight);
 
@@ -52,5 +52,10 @@ public class VerticalLayout : Control
     public override void Update(GameTime gameTime)
     {
 
+    }
+
+    public void Invalidate()
+    {
+        LayoutChildren();
     }
 }

@@ -10,9 +10,9 @@ namespace MGUI.Core;
 
 public abstract class Control
 {
-    internal Control Parent { get; set; }
-    internal Canvas Canvas { get; set; }
-    internal List<Control> Children { get; } = new();
+    public Control? Parent { get; set; }
+    public Canvas? Canvas { get; set; }
+    public List<Control> Children { get; } = new();
 
     public Rectangle Bounds { get; set; }
     public Rectangle GlobalBounds => GetGlobalBounds();
@@ -20,10 +20,9 @@ public abstract class Control
     public PaddingTrait Padding { get; set; } = new();
 
 
-    public Control(Canvas system)
+    public Control(Canvas canvas)
     {
-        Canvas = system;
-        system.Add(this);
+        Canvas = canvas;
     }
 
     public abstract void Draw(SpriteBatch spriteBatch);
@@ -49,7 +48,7 @@ public abstract class Control
 
     private Rectangle GetParentPaddingOffsetBounds()
     {
-        var x = Parent.GlobalBounds.X + Bounds.X + Parent.Padding.Sides[0];
+        var x = Parent!.GlobalBounds.X + Bounds.X + Parent.Padding.Sides[0];
         var y = Parent.GlobalBounds.Y + Bounds.Y + Parent.Padding.Sides[1];
         var width = Math.Clamp(Bounds.Width, 0, Math.Abs(Parent.GlobalBounds.Width - Parent.Padding.Sides[2] - Parent.Padding.Sides[0]));
         var height = Math.Clamp(Bounds.Height, 0, Math.Abs(Parent.GlobalBounds.Height - Parent.Padding.Sides[3] - Parent.Padding.Sides[1]));

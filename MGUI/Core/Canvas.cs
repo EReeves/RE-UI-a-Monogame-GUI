@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MGUI.Controls.Layout;
 using MGUI.Core.Trait;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MGUI.Core;
 
-public class Canvas : Control
+public class Canvas : Control, ILayout
 {
     public Texture2D SpriteSheetTexture { get; }
     public Dictionary<string, (Rectangle sourceRect, int[]? ninePatch)> SourceRectangles { get; }
@@ -20,7 +21,7 @@ public class Canvas : Control
         SpriteSheetTexture = spriteSheetTexture;
         SourceRectangles = sourceRectangles;
         Bounds = bounds;
-        RenderTools = new RenderTools(this, game.GraphicsDevice, bounds);
+        RenderTools = new RenderTools(this, game.GraphicsDevice);
     }
 
     public override void Update(GameTime gameTime)
@@ -33,14 +34,10 @@ public class Canvas : Control
 
     public override void Draw(SpriteBatch spriteBatch)
     {
-        RenderTools.Begin(spriteBatch);
-
         foreach (var control in Children)
         {
             RecursiveDraw(spriteBatch, control);
         }
-
-        RenderTools.End(spriteBatch);
     }
 
     private void RecursiveDraw(SpriteBatch spriteBatch, Control control)
@@ -60,6 +57,27 @@ public class Canvas : Control
         foreach (var child in control.Children)
         {
             RecursiveUpdate(gameTime, child);
+        }
+    }
+
+    public void Invalidate()
+    {
+        foreach (var child in Children)
+        {
+            RecursiveInvalidate(child);
+        }
+    }
+
+    private void RecursiveInvalidate(Control control)
+    {
+        if(control is ILayout layout)
+        {
+            layout.Invalidate();
+        }
+
+        foreach (var child in control.Children)
+        {
+            RecursiveInvalidate(child);
         }
     }
 

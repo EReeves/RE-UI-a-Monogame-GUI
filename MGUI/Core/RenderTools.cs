@@ -11,7 +11,6 @@ namespace MGUI.Core
     public class RenderTools
     {
         private readonly Canvas system;
-        private readonly Rectangle canvasBounds;
         public readonly RasterizerState RasterizerState = new() { ScissorTestEnable = false };
 
         //So drawing can be customized.
@@ -23,24 +22,12 @@ namespace MGUI.Core
         public Effect? Effect { get; set; } = null;
         public Matrix? Transform { get; set; }
 
-        public RenderTools(Canvas system, GraphicsDevice graphics, Rectangle canvasBounds)
+        public RenderTools(Canvas system, GraphicsDevice graphics)
         {
             this.system = system;
-            this.canvasBounds = canvasBounds;
 
             GraphicsDevice = graphics;
-            graphics.ScissorRectangle = canvasBounds;
-        }
-
-        public void Begin(SpriteBatch spriteBatch)
-        {
-            spriteBatch.GraphicsDevice.ScissorRectangle = canvasBounds;
-            spriteBatch.Begin(SpriteSortMode, BlendState, SamplerState, DepthStencilState, RasterizerState, Effect, Transform);
-        }
-
-        public void End(SpriteBatch spriteBatch)
-        {
-            spriteBatch.End();
+            
         }
 
         public void StartCull(SpriteBatch spriteBatch, Rectangle bounds)
@@ -50,11 +37,12 @@ namespace MGUI.Core
             spriteBatch.Begin(SpriteSortMode, BlendState, SamplerState, DepthStencilState, RasterizerState, Effect, Transform);
         }
 
-        public void EndCull(SpriteBatch spriteBatch)
+#pragma warning disable CA1822 // Mark members as static
+        public void EndCull(SpriteBatch spriteBatch) 
         {
             spriteBatch.End();
-            Begin(spriteBatch);
         }
+#pragma warning restore CA1822 
 
         /// <summary>
         /// Draws a rectangle outline

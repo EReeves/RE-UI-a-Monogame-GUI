@@ -11,9 +11,9 @@ namespace MGUI.Controls;
 
 public class Window : Control
 {
-    public Window(Canvas system) : base(system)
+    public Window(Canvas canvas) : base(canvas)
     {
-        Drawable = new DrawTrait(system)
+        Drawable = new DrawTrait(canvas)
         {
             NinePatchTexture = "window"
         };
@@ -23,6 +23,7 @@ public class Window : Control
 
     public int DragBarPadding { get; set; } = 20;
     private DrawTrait Drawable { get; set; }
+    public bool Hidden { get => Drawable.Hide; set { Drawable.Hide = value; } }
 
     public override void Draw(SpriteBatch spriteBatch)
     {

@@ -27,8 +27,8 @@ public class DrawTrait
 
     public void CacheNinePatch(Rectangle bounds)
     {
-        var source = system.SourceRectangles[NinePatchTexture];
-        ninepatchSourceDest = RenderTools.CalculateNinePatch(source.sourceRect, bounds, source.ninePatch);
+        var (sourceRect, ninePatch) = system.SourceRectangles[NinePatchTexture];
+        ninepatchSourceDest = RenderTools.CalculateNinePatch(sourceRect, bounds, ninePatch);
     }
 
     public void Draw(SpriteBatch spriteBatch, Rectangle bounds)
@@ -36,8 +36,8 @@ public class DrawTrait
 
         if (!Hide)
         {
-            var sourcedest = ninepatchSourceDest ??= RenderTools.CalculateNinePatch(system.SourceRectangles[NinePatchTexture].sourceRect, bounds, system.SourceRectangles[NinePatchTexture].ninePatch);
-            RenderTools.DrawNinePatch(spriteBatch, system.SpriteSheetTexture, sourcedest.source, sourcedest.dest, Color);
+            var (source, dest) = ninepatchSourceDest ??= RenderTools.CalculateNinePatch(system.SourceRectangles[NinePatchTexture].sourceRect, bounds, system.SourceRectangles[NinePatchTexture].ninePatch);
+            RenderTools.DrawNinePatch(spriteBatch, system.SpriteSheetTexture, source, dest, Color);
         }
 
         if (DrawDebug)
