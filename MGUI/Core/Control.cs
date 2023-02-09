@@ -11,7 +11,7 @@ namespace MGUI.Core;
 public abstract class Control
 {
     public Control? Parent { get; set; }
-    public Canvas? Canvas { get; set; }
+    public Canvas Canvas { get; set; }
     public List<Control> Children { get; } = new();
 
     public Rectangle Bounds { get; set; }
